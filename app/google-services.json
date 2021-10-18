@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "191146402153",
+    "project_id": "hellomyplant-f589e",
+    "storage_bucket": "hellomyplant-f589e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191146402153:android:166423087f38ff866dddf8",
+        "android_client_info": {
+          "package_name": "com.nahyun.HellomyPlant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "191146402153-jm3r9af2q2l920diacqfo8kndai6k8q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYQVLwaFB5k7TXiJjzF2kvQwudldH100o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "191146402153-jm3r9af2q2l920diacqfo8kndai6k8q2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191146402153:android:848f81fc0ae5c5c36dddf8",
+        "android_client_info": {
+          "package_name": "com.nahyun.helloplant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "191146402153-jm3r9af2q2l920diacqfo8kndai6k8q2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYQVLwaFB5k7TXiJjzF2kvQwudldH100o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "191146402153-jm3r9af2q2l920diacqfo8kndai6k8q2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
