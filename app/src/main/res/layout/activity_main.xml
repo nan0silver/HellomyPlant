@@ -23,8 +23,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.287" />
 
-    <ImageView
-        android:id="@+id/login_pic"
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/signInButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
@@ -43,5 +43,6 @@
         android:textColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_pic" />
+        app:layout_constraintTop_toBottomOf="@+id/signInButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
