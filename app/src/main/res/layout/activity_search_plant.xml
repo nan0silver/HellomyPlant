@@ -7,7 +7,7 @@
     tools:context=".searchPlant">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/topLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
@@ -19,14 +19,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/cameraImageview"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topLogo" />
+
     <ImageButton
         android:id="@+id/cameraButton"
         android:layout_width="171dp"
         android:layout_height="138dp"
+        android:layout_marginTop="376dp"
         android:scaleType="fitCenter"
-        android:layout_marginTop="200dp"
         android:src="@drawable/camerabutton_pic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/topLogo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
