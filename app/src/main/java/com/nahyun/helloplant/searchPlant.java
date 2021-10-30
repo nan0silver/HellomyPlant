@@ -1,6 +1,7 @@
 package com.nahyun.helloplant;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -12,6 +13,7 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -33,6 +36,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Base64;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static android.os.Environment.DIRECTORY_PICTURES;
 
@@ -105,7 +119,118 @@ public class searchPlant extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.searchImageButton).setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
+                String apiKey = "g5AkSeLBbiQjfWUK45AhmNu6e07gvLlCxXCzov0ZeEzOYq1uOK";
+
+                String [] flowers = new String[] {"test_image.jpeg"};
+
+                JSONObject data = new JSONObject();
+                try {
+                    data.put("api_key", apiKey);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                JSONArray images = new JSONArray();
+                for(String filename : flowers) {
+                    String fileData = null;
+                    try {
+                        fileData = base64EncodeFromFile(filename);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    images.put(fileData);
+                }
+
+                try {
+                    data.put("images", images);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                JSONArray modifiers = new JSONArray()
+                        .put("crops_fast")
+                        .put("similar_images");
+                try {
+                    data.put("modifiers", modifiers);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                // add language
+                try {
+                    data.put("plant_language", "en");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                // add details
+                JSONArray plantDetails = new JSONArray()
+                        .put("common_names")
+                        .put("url")
+                        .put("name_authority")
+                        .put("wiki_description")
+                        .put("taxonomy")
+                        .put("synonyms");
+                try {
+                    data.put("plant_details", plantDetails);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(data);
+//                try {
+//                    sendPostRequest("https://api.plant.id/v2/identify", data);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+                return;
+            }
+        });
     }
+
+
+    // plant.id api
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private String base64EncodeFromFile(String fileString) throws Exception {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.test_image);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String imageString = Base64.getEncoder().encodeToString(imageBytes);
+
+//        InputStream is = getAssets().open(fileString);
+//        byte[] imageBytes = new byte[(int)fileString.length()];
+//        is.read(imageBytes, 0, imageBytes.length);
+//        is.close();
+//        String imageStr = Base64.getEncoder().encodeToString(imageBytes);
+//
+        return imageString;
+    }
+    public static String sendPostRequest(String urlString, JSONObject data) throws Exception {
+        URL url = new URL(urlString);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+        con.setDoOutput(true);
+        con.setDoInput(true);
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json");
+
+        OutputStream os = con.getOutputStream();
+        os.write(data.toString().getBytes());
+        os.close();
+
+        InputStream is = con.getInputStream();
+//        String response = new String(is.readAllBytes());
+
+//        System.out.println("Response code : " + con.getResponseCode());
+//        System.out.println("Response : " + response);
+        con.disconnect();
+        return "no error";
+    }
+
+
 
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -181,7 +306,9 @@ public class searchPlant extends AppCompatActivity {
 
             ((ImageView)findViewById(R.id.cameraImageview)).setImageBitmap(rotate(bitmap, exifDegree));
         }
+
     }
+
 
     private  int exifOrientationToDegrees(int exifOrientation) {
         if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
@@ -215,4 +342,5 @@ public class searchPlant extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "권한이 거부되었습니다.", Toast.LENGTH_SHORT).show();
         }
     };
+
 }
