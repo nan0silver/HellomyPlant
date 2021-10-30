@@ -15,8 +15,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.gun0912.tedpermission.PermissionListener;
@@ -51,30 +53,55 @@ public class searchPlant extends AppCompatActivity {
 
         TedPermission.with(getApplicationContext())
                 .setPermissionListener(permissionListener)
-                .setRationaleMessage("카메라 권한이 필요합니다.")
-                .setDeniedMessage("카메라 권한을 거부하셨습니다.")
-                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .setRationaleMessage("사진 및 파일을 저장하기 위해 접근 권한이 필요합니다.")
+                .setDeniedMessage("[설정] > [권한] 에서 권한을 허용하실 수 있습니다.")
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
 
 
         findViewById(R.id.cameraButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (intent.resolveActivity(getPackageManager()) != null) {
-                    File photoFile = null;
-                    try {
-                        photoFile = createImageFile();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
 
-                    if (photoFile != null) {
-                        photoUri = FileProvider.getUriForFile(getApplicationContext(), getPackageName(), photoFile);
-                        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                final PopupMenu popupMenu = new PopupMenu(getApplicationContext(), v);
+                getMenuInflater().inflate(R.menu.camera_menu, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if (item.getItemId() == R.id.camera_menu) {
+                            //----connection with camera---//
+                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            if (intent.resolveActivity(getPackageManager()) != null) {
+                                File photoFile = null;
+                                try {
+                                    photoFile = createImageFile();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                if (photoFile != null) {
+                                    photoUri = FileProvider.getUriForFile(getApplicationContext(), getPackageName(), photoFile);
+                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+                                }
+                            }
+                        }
+                        else {
+                            //----connect with gallery----//
+                            Toast.makeText(searchPlant.this, "갤러리 선택", Toast.LENGTH_SHORT).show();
+
+                            Intent intent_gallary = new Intent(Intent.ACTION_PICK);
+                            intent_gallary.setType(MediaStore.Images.Media.CONTENT_TYPE);
+                            //startactivityforresult
+
+                        }
+
+                        return false;
                     }
-                }
+                });
+
+                popupMenu.show();
+
             }
         });
 
