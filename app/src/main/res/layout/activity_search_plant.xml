@@ -8,11 +8,11 @@
 
     <ImageView
         android:id="@+id/topLogo"
-        android:layout_width="237dp"
-        android:layout_height="49dp"
+        android:layout_width="278dp"
+        android:layout_height="63dp"
         android:layout_marginTop="36dp"
         android:contentDescription="@string/top_logo"
-        android:src="@drawable/toplogo"
+        android:src="@drawable/top_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -20,34 +20,57 @@
     <ImageView
         android:id="@+id/cameraImageview"
         android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="76dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/searchplant_black_stroke"
         android:contentDescription="@string/app_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
+        android:padding="2dp"
+        android:src="@drawable/searchplant_dafault_image"
+        app:layout_constraintEnd_toEndOf="@+id/topLogo"
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toStartOf="@+id/topLogo"
         app:layout_constraintTop_toBottomOf="@+id/topLogo" />
 
     <ImageButton
         android:id="@+id/cameraButton"
-        android:layout_width="171dp"
-        android:layout_height="138dp"
-        android:layout_marginTop="420dp"
+        android:layout_width="102dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
         android:contentDescription="@string/app_name"
         android:scaleType="fitCenter"
-        android:src="@drawable/camerabutton_pic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topLogo" />
+        android:src="@drawable/camera_button"
+        app:layout_constraintEnd_toStartOf="@+id/searchImageButton"
+        app:layout_constraintStart_toStartOf="@+id/cameraImageview"
+        app:layout_constraintTop_toBottomOf="@+id/cameraImageview" />
+
+    <ImageButton
+        android:id="@+id/searchImageButton"
+        android:layout_width="102dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/white"
+        android:scaleType="fitCenter"
+        android:src="@drawable/search_button"
+        app:layout_constraintEnd_toEndOf="@+id/cameraImageview"
+        app:layout_constraintStart_toEndOf="@+id/cameraButton"
+        app:layout_constraintTop_toBottomOf="@+id/cameraImageview" />
 
     <Button
-        android:id="@+id/searchImageButton"
-        android:layout_width="wrap_content"
+        android:id="@+id/searched_plant_button"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cameraButton" />
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/light_gray"
+        android:text="전에 검색했던 식물"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/searchImageButton"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/cameraButton"
+        app:layout_constraintTop_toBottomOf="@+id/searchImageButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
