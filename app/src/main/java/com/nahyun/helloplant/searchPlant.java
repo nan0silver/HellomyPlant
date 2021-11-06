@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -143,7 +144,7 @@ public class searchPlant extends AppCompatActivity {
                 for(String filename : flowers) {
                     String fileData = null;
                     try {
-                        fileData = base64EncodeFromFile(filename);
+                        fileData = base64EncodeFromFile();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -196,10 +197,15 @@ public class searchPlant extends AppCompatActivity {
 
     // plant.id api
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private String base64EncodeFromFile(String fileString) throws Exception {
+    private String base64EncodeFromFile() throws Exception {
+
+        ImageView imageView = findViewById(R.id.cameraImageview);
+
+        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.test_image);
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.test_image);
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageBytes = baos.toByteArray();
         String imageString = Base64.getEncoder().encodeToString(imageBytes);
@@ -240,9 +246,6 @@ public class searchPlant extends AppCompatActivity {
 //        con.disconnect();
 //        return "no error";
 //    }
-
-
-
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "myPLANT_" + timeStamp + "_";
@@ -255,7 +258,6 @@ public class searchPlant extends AppCompatActivity {
         imageFilePath = image.getAbsolutePath();
         return image;
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -341,7 +343,6 @@ public class searchPlant extends AppCompatActivity {
         }
 
     }
-
     private void set_gallery_Image() {
         ImageView imageView = findViewById(R.id.cameraImageview);
 
