@@ -7,6 +7,7 @@ import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -53,8 +54,10 @@ import static android.os.Environment.DIRECTORY_PICTURES;
 public class searchPlant extends AppCompatActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 672;
+    private static final int REQUEST_GALLERY = 682;
     private String imageFilePath;
     private Uri photoUri;
+    private File temp_gallery_File;
 
     private MediaScanner mMediaScanner;
 
@@ -106,7 +109,7 @@ public class searchPlant extends AppCompatActivity {
 
                             Intent intent_gallary = new Intent(Intent.ACTION_PICK);
                             intent_gallary.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                            //startactivityforresult
+                            startActivityForResult(intent_gallary, REQUEST_GALLERY);
 
                         }
 
@@ -306,7 +309,38 @@ public class searchPlant extends AppCompatActivity {
 
             ((ImageView)findViewById(R.id.cameraImageview)).setImageBitmap(rotate(bitmap, exifDegree));
         }
+        else if (requestCode == REQUEST_GALLERY && resultCode == RESULT_OK) {
+            Uri photo_gallery_Uri = data.getData();
+            Cursor cursor = null;
 
+            try {
+                String[] gal = {MediaStore.Images.Media.DATA};
+                assert photo_gallery_Uri != null;
+                cursor = getContentResolver().query(photo_gallery_Uri, gal, null, null, null);
+
+                assert cursor != null;
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+
+                temp_gallery_File = new File(cursor.getString(column_index));
+            }
+            finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+            set_gallery_Image();
+        }
+
+    }
+
+    private void set_gallery_Image() {
+        ImageView imageView = findViewById(R.id.cameraImageview);
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        Bitmap original_gallery_bitmap = BitmapFactory.decodeFile(temp_gallery_File.getAbsolutePath(), options);
+
+        imageView.setImageBitmap(original_gallery_bitmap);
     }
 
 
