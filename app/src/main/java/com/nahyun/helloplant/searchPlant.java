@@ -13,6 +13,7 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,6 +32,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.security.Permission;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -160,7 +163,7 @@ public class searchPlant extends AppCompatActivity {
 
                 // add language
                 try {
-                    data.put("plant_language", "en");
+                    data.put("plant_language", "ko");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -179,11 +182,9 @@ public class searchPlant extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 System.out.println(data);
-//                try {
-//                    sendPostRequest("https://api.plant.id/v2/identify", data);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+
+                new NetworkTask().execute(data);
+
                 return;
             }
         });
@@ -208,27 +209,34 @@ public class searchPlant extends AppCompatActivity {
 //
         return imageString;
     }
-    public static String sendPostRequest(String urlString, JSONObject data) throws Exception {
-        URL url = new URL(urlString);
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
-        con.setDoOutput(true);
-        con.setDoInput(true);
-        con.setRequestMethod("POST");
-        con.setRequestProperty("Content-Type", "application/json");
-
-        OutputStream os = con.getOutputStream();
-        os.write(data.toString().getBytes());
-        os.close();
-
-        InputStream is = con.getInputStream();
-//        String response = new String(is.readAllBytes());
-
+//    public static String sendPostRequest(String urlString, JSONObject data) throws Exception {
+//        URL url = new URL(urlString);
+//        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+//
+//        con.setDoOutput(true);
+//        con.setDoInput(true);
+//        con.setRequestMethod("POST");
+//        con.setRequestProperty("Content-Type", "application/json");
+//
+//
+//        OutputStream os = con.getOutputStream();
+//        os.write(data.toString().getBytes());
+//        os.close();
+//
+//        InputStream is = con.getInputStream();
+//        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+//        int read;
+//        byte[] byte_response = new byte[16384];
+//        while ((read = is.read(byte_response, 0, byte_response.length)) != -1) {
+//            buffer.write(byte_response, 0, read);
+//        }
+//        String response = new String(byte_response);
 //        System.out.println("Response code : " + con.getResponseCode());
 //        System.out.println("Response : " + response);
-        con.disconnect();
-        return "no error";
-    }
+//        is.close();
+//        con.disconnect();
+//        return "no error";
+//    }
 
 
 
@@ -343,4 +351,57 @@ public class searchPlant extends AppCompatActivity {
         }
     };
 
+}
+
+class NetworkTask extends AsyncTask<JSONObject, Void, String> {
+    private Exception exception;
+    protected String doInBackground(JSONObject... data) {
+        try{
+            URL url = new URL("https://api.plant.id/v2/identify");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json");
+
+
+            OutputStream os = con.getOutputStream();
+            os.write(data[0].toString().getBytes());
+            os.close();
+
+            InputStream is = con.getInputStream();
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            int read;
+            byte[] byte_response = new byte[16384];
+            while ((read = is.read(byte_response, 0, byte_response.length)) != -1) {
+                buffer.write(byte_response, 0, read);
+            }
+            String response = new String(byte_response);
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < response.length(); i++) {
+                if ('\\' == response.charAt(i) && 'u' == response.charAt(i + 1)) {
+                    Character r = (char) Integer.parseInt(response.substring(i + 2, i + 6), 16);
+                    sb.append(r);
+                    i += 5;
+                } else {
+                    sb.append(response.charAt(i));
+                }
+            }
+            System.out.println("Response code : " + con.getResponseCode());
+            System.out.println("Response : " + sb.toString());
+            is.close();
+            con.disconnect();
+            return "no error";
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+            return null;
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
