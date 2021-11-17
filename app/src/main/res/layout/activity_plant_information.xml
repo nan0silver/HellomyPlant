@@ -17,16 +17,86 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="268dp"
-        android:layout_height="252dp"
-        android:layout_marginTop="28dp"
-        app:layout_constraintEnd_toEndOf="@+id/topLogo"
-        app:layout_constraintHorizontal_bias="0.545"
-        app:layout_constraintStart_toStartOf="@+id/topLogo"
-        app:layout_constraintTop_toBottomOf="@+id/topLogo"
-        app:srcCompat="@drawable/test_image" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="398dp"
+        android:layout_height="500dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topLogo">
+
+        <ImageView
+            android:id="@+id/searching_plant_ImageView"
+            android:layout_width="278dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/searching_plant_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintVertical_weight="3"
+            app:srcCompat="@drawable/test_image" />
+
+        <EditText
+            android:id="@+id/searching_plant_name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/difficulty_star_ImageView"
+            app:layout_constraintEnd_toEndOf="@+id/searching_plant_ImageView"
+            app:layout_constraintStart_toStartOf="@+id/searching_plant_ImageView"
+            app:layout_constraintTop_toBottomOf="@+id/searching_plant_ImageView"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintVertical_weight="1" />
+
+        <ImageView
+            android:id="@+id/difficulty_star_ImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/addmyplantButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searching_plant_name"
+            app:layout_constraintVertical_weight="0.4"
+            app:srcCompat="@drawable/star_one" />
+
+        <Button
+            android:id="@+id/addmyplantButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="내 식물로 추가하기"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:backgroundTint="#95D784"
+            app:layout_constraintBottom_toBottomOf="@id/plant_information_RecyclerView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/difficulty_star_ImageView"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintVertical_weight="1" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/plant_information_RecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:scrollbarFadeDuration="0"
+            android:scrollbarSize="5dp"
+            android:scrollbarThumbVertical="@android:color/darker_gray"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addmyplantButton"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintVertical_weight="3" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

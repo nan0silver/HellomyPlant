@@ -189,7 +189,24 @@ public class searchPlant extends AppCompatActivity {
 
                 new NetworkTask().execute(data);
 
+
+
+
+                //----change page----//
+                Intent intent_goto_plantinformation_page = new Intent(searchPlant.this, PlantInformationActivity.class);
+                startActivity(intent_goto_plantinformation_page);
+
                 return;
+            }
+        });
+
+
+
+        findViewById(R.id.searched_plant_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_goto_searchedname_page = new Intent(searchPlant.this, SearhedNameActivity.class);
+                startActivity(intent_goto_searchedname_page);
             }
         });
     }
