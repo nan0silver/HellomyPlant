@@ -156,18 +156,10 @@ public class searchPlant extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                JSONArray modifiers = new JSONArray()
-                        .put("crops_fast")
-                        .put("similar_images");
-                try {
-                    data.put("modifiers", modifiers);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
 
                 // add language
                 try {
-                    data.put("plant_language", "ko");
+                    data.put("plant_language", "en");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -176,10 +168,7 @@ public class searchPlant extends AppCompatActivity {
                 JSONArray plantDetails = new JSONArray()
                         .put("common_names")
                         .put("url")
-                        .put("name_authority")
-                        .put("wiki_description")
-                        .put("taxonomy")
-                        .put("synonyms");
+                        .put("name_authority");
                 try {
                     data.put("plant_details", plantDetails);
                 } catch (JSONException e) {
@@ -222,47 +211,14 @@ public class searchPlant extends AppCompatActivity {
         Bitmap bitmap = drawable.getBitmap();
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.test_image);
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageBytes = baos.toByteArray();
         String imageString = Base64.getEncoder().encodeToString(imageBytes);
 
-//        InputStream is = getAssets().open(fileString);
-//        byte[] imageBytes = new byte[(int)fileString.length()];
-//        is.read(imageBytes, 0, imageBytes.length);
-//        is.close();
-//        String imageStr = Base64.getEncoder().encodeToString(imageBytes);
-//
+
         return imageString;
     }
-//    public static String sendPostRequest(String urlString, JSONObject data) throws Exception {
-//        URL url = new URL(urlString);
-//        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//
-//        con.setDoOutput(true);
-//        con.setDoInput(true);
-//        con.setRequestMethod("POST");
-//        con.setRequestProperty("Content-Type", "application/json");
-//
-//
-//        OutputStream os = con.getOutputStream();
-//        os.write(data.toString().getBytes());
-//        os.close();
-//
-//        InputStream is = con.getInputStream();
-//        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-//        int read;
-//        byte[] byte_response = new byte[16384];
-//        while ((read = is.read(byte_response, 0, byte_response.length)) != -1) {
-//            buffer.write(byte_response, 0, read);
-//        }
-//        String response = new String(byte_response);
-//        System.out.println("Response code : " + con.getResponseCode());
-//        System.out.println("Response : " + response);
-//        is.close();
-//        con.disconnect();
-//        return "no error";
-//    }
+
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "myPLANT_" + timeStamp + "_";
@@ -425,7 +381,7 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
             InputStream is = con.getInputStream();
             ByteArrayOutputStream buffer = new ByteArrayOutputStream();
             int read;
-            byte[] byte_response = new byte[16384];
+            byte[] byte_response = new byte[30000];
             while ((read = is.read(byte_response, 0, byte_response.length)) != -1) {
                 buffer.write(byte_response, 0, read);
             }
@@ -441,7 +397,29 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
                 }
             }
             System.out.println("Response code : " + con.getResponseCode());
-            System.out.println("Response : " + sb.toString());
+            String strData = sb.toString();
+            System.out.println("Response : " + strData);
+            JSONObject jsonObject = new JSONObject();
+            try{
+                jsonObject = new JSONObject(strData);
+                System.out.println("OBJECT : " +jsonObject.toString());
+            }catch(JSONException err){
+                System.out.println("Exception: " + err.toString());
+            }
+            JSONArray suggestions = jsonObject.getJSONArray("suggestions");
+            JSONObject firstSuggestions = suggestions.getJSONObject(0);
+            String probabilityString = firstSuggestions.getString("probability");
+            float probability = Float.parseFloat(probabilityString);
+            if(probability>0.5){
+                System.out.println("probability is bigger than 0.5");
+                JSONObject plant_details = firstSuggestions.getJSONObject("plant_details");
+                String scientific_name = plant_details.getString("scientific_name");
+                System.out.println(scientific_name);
+            }
+            else{
+                System.out.println("probability is too low");
+            }
+            System.out.println(probability);
             is.close();
             con.disconnect();
             return "no error";
@@ -452,6 +430,9 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
             e.printStackTrace();
             return null;
         } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (JSONException e) {
             e.printStackTrace();
             return null;
         }
