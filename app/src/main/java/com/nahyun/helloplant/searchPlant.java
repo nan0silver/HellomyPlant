@@ -7,6 +7,7 @@ import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -227,8 +228,6 @@ public class searchPlant extends AppCompatActivity {
             }
         });
     }
-
-
     // plant.id api
     @RequiresApi(api = Build.VERSION_CODES.O)
     private String base64EncodeFromFile() throws Exception {
@@ -246,7 +245,6 @@ public class searchPlant extends AppCompatActivity {
 
         return imageString;
     }
-
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "myPLANT_" + timeStamp + "_";
@@ -352,8 +350,6 @@ public class searchPlant extends AppCompatActivity {
 
         imageView.setImageBitmap(original_gallery_bitmap);
     }
-
-
     private  int exifOrientationToDegrees(int exifOrientation) {
         if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
             return 90;
@@ -368,13 +364,11 @@ public class searchPlant extends AppCompatActivity {
             return 0;
         }
     }
-
     private Bitmap rotate(Bitmap bitmap, float degree) {
         Matrix matrix = new Matrix();
         matrix.postRotate(degree);
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
-
     PermissionListener permissionListener = new PermissionListener() {
         @Override
         public void onPermissionGranted() {
@@ -386,11 +380,12 @@ public class searchPlant extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "권한이 거부되었습니다.", Toast.LENGTH_SHORT).show();
         }
     };
-
 }
 
 class NetworkTask extends AsyncTask<JSONObject, Void, String> {
     private Exception exception;
+
+    private String scientific_name;
     protected String doInBackground(JSONObject... data) {
         try{
             URL url = new URL("https://api.plant.id/v2/identify");
@@ -441,7 +436,7 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
             if(probability>0.5){
                 System.out.println("probability is bigger than 0.5");
                 JSONObject plant_details = firstSuggestions.getJSONObject("plant_details");
-                String scientific_name = plant_details.getString("scientific_name");
+                scientific_name = plant_details.getString("scientific_name");
                 System.out.println(scientific_name);
             }
             else{
@@ -450,7 +445,7 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
             System.out.println(probability);
             is.close();
             con.disconnect();
-            return "no error";
+            return scientific_name;
         } catch (ProtocolException e) {
             e.printStackTrace();
             return null;
@@ -464,5 +459,9 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
             e.printStackTrace();
             return null;
         }
+    }
+
+    protected void onPostExecute(String scientific_name){
+        
     }
 }
