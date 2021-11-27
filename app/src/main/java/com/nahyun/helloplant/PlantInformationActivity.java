@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -20,6 +22,13 @@ public class PlantInformationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_information);
+
+        TextView plant_name_TextView = (TextView)findViewById(R.id.searching_plant_name);
+        Intent intent_comefrom_searchplant_page = getIntent();
+
+        String plant_name = intent_comefrom_searchplant_page.getExtras().getString("test");
+        plant_name_TextView.setText(plant_name);
+
 
         plant_information_RecyclerView = (RecyclerView)findViewById(R.id.plant_information_RecyclerView);
         linearLayoutManager = new LinearLayoutManager(this);

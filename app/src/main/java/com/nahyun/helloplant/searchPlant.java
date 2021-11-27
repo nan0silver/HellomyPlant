@@ -6,12 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -19,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
@@ -78,6 +82,11 @@ public class searchPlant extends AppCompatActivity {
                 .setDeniedMessage("[설정] > [권한] 에서 권한을 허용하실 수 있습니다.")
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
+
+        //create loading page object
+        ProgressDialog customProgressDialog;
+        customProgressDialog = new ProgressDialog(this);
+        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
 
         findViewById(R.id.cameraButton).setOnClickListener(new View.OnClickListener() {
@@ -190,11 +199,30 @@ public class searchPlant extends AppCompatActivity {
                 new NetworkTask().execute(data);
 
 
+                //show loading page
+                customProgressDialog.show();
+
+
 
 
                 //----change page----//
+
                 Intent intent_goto_plantinformation_page = new Intent(searchPlant.this, PlantInformationActivity.class);
-                startActivity(intent_goto_plantinformation_page);
+
+
+                String test = "test data";
+
+                intent_goto_plantinformation_page.putExtra("test", test);
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(intent_goto_plantinformation_page);
+                    }
+                }, 3000);
+
+
 
                 return;
             }

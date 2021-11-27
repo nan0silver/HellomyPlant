@@ -39,11 +39,15 @@
             app:layout_constraintVertical_weight="3"
             app:srcCompat="@drawable/test_image" />
 
-        <EditText
+        <TextView
             android:id="@+id/searching_plant_name"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Plant name"
+            android:textSize="25sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/difficulty_star_ImageView"
             app:layout_constraintEnd_toEndOf="@+id/searching_plant_ImageView"
             app:layout_constraintStart_toStartOf="@+id/searching_plant_ImageView"
