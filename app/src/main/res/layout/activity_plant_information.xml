@@ -20,7 +20,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="398dp"
-        android:layout_height="500dp"
+        android:layout_height="530dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_weight="3"
+            app:layout_constraintVertical_weight="5"
             app:srcCompat="@drawable/test_image" />
 
         <TextView
@@ -87,7 +87,7 @@
             android:id="@+id/plant_information_RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="32dp"
             android:scrollbarFadeDuration="0"
             android:scrollbarSize="5dp"
             android:scrollbarThumbVertical="@android:color/darker_gray"
@@ -97,7 +97,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addmyplantButton"
             app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_weight="3" />
+            app:layout_constraintVertical_weight="4" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
