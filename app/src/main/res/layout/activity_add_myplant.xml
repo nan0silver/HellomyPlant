@@ -20,7 +20,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="398dp"
-        android:layout_height="530dp"
+        android:layout_height="550dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +56,7 @@
                 android:layout_marginTop="20dp"
                 android:textSize="18dp"
                 android:textStyle="bold"
+                android:layout_marginRight="10dp"
                 android:text="내 식물 이름 : "
                 android:textColor="@color/black" />
 
@@ -64,6 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:gravity="center"
                 android:hint="입력" />
 
         </LinearLayout>
@@ -82,7 +84,9 @@
                 android:id="@+id/set_wateringperiod_TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="물주기 기간       "
+                android:textSize="17dp"
+                android:text=" 물주기 기간 "
+                android:layout_marginRight="18dp"
                 android:textColor="@color/black"
                 android:padding="10dp"/>
 
@@ -95,14 +99,14 @@
                 android:id="@+id/set_wateringperiod_TextView_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="일   "
+                android:text="일"
                 android:textColor="@color/black"
                 android:padding="10dp"/>
             <Button
                 android:id="@+id/set_wateringperiod_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="초기화"
+                android:text="다시"
                 android:textColor="@color/black"
                 android:background="@drawable/round_button"/>
 
@@ -122,7 +126,9 @@
                 android:id="@+id/set_fertilizingperiod_TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="비료주기 기간   "
+                android:textSize="17dp"
+                android:text="비료주기 기간"
+                android:layout_marginRight="10dp"
                 android:textColor="@color/black"
                 android:padding="10dp"/>
 
@@ -135,14 +141,14 @@
                 android:id="@+id/set_fertilizingperiod_TextView_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="일   "
+                android:text="일"
                 android:textColor="@color/black"
                 android:padding="10dp"/>
             <Button
                 android:id="@+id/set_fertilizingperiod_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="초기화"
+                android:text="다시"
                 android:textColor="@color/black"
                 android:background="@drawable/round_button"/>
 
@@ -166,9 +172,11 @@
             android:layout_width="100dp"
             android:layout_height="0dp"
             android:text="추가하기"
+            android:textSize="16dp"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:background="@drawable/round_button"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/strong_round_button"
             app:layout_constraintStart_toStartOf="@id/add_myplant_TextView"
             app:layout_constraintEnd_toEndOf="@id/add_myplant_TextView"
             app:layout_constraintTop_toBottomOf="@id/add_myplant_TextView"

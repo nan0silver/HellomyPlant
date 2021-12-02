@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HelloPlant">
-        <activity android:name=".AddMyplantActivity"></activity>
+        <activity android:name=".ViewMyplantActivity"></activity>
+        <activity android:name=".AddMyplantActivity" />
         <activity android:name=".LoadingPageActivity" />
         <activity android:name=".SearhedNameActivity" />
         <activity android:name=".PlantInformationActivity" />

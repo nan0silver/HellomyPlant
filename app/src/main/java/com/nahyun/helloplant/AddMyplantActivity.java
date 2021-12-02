@@ -2,13 +2,17 @@ package com.nahyun.helloplant;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 public class AddMyplantActivity extends AppCompatActivity {
+
+    EditText PlantName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +59,18 @@ public class AddMyplantActivity extends AppCompatActivity {
             }
         });
 
+        PlantName = (EditText)findViewById(R.id.set_plantname_EditText);
 
+        findViewById(R.id.set_myplant_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_goto_viewmyplant_page = new Intent(AddMyplantActivity.this, ViewMyplantActivity.class);
+
+                intent_goto_viewmyplant_page.putExtra("PlantName", PlantName.getText().toString());
+
+                startActivity(intent_goto_viewmyplant_page);
+            }
+        });
 
 
     }
