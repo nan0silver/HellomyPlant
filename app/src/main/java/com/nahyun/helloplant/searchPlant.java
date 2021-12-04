@@ -53,6 +53,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
+import java.util.concurrent.ExecutionException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -185,8 +186,14 @@ public class searchPlant extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 System.out.println(data);
-
-                new NetworkTask().execute(data);
+                String scientific_name = "";
+                try {
+                    scientific_name = new NetworkTask().execute(data).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
 
                 //show loading page
@@ -199,10 +206,9 @@ public class searchPlant extends AppCompatActivity {
 
                 Intent intent_goto_plantinformation_page = new Intent(searchPlant.this, PlantInformationActivity.class);
 
+//                String test = "test data";
 
-                String test = "test data";
-
-                intent_goto_plantinformation_page.putExtra("test", test);
+                intent_goto_plantinformation_page.putExtra("test", scientific_name);
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -211,8 +217,6 @@ public class searchPlant extends AppCompatActivity {
                         startActivity(intent_goto_plantinformation_page);
                     }
                 }, 3000);
-
-
 
                 return;
             }
