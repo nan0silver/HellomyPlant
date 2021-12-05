@@ -34,11 +34,14 @@ import android.widget.Toast;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.security.Permission;
@@ -58,6 +61,21 @@ import java.util.concurrent.ExecutionException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import static android.os.Environment.DIRECTORY_PICTURES;
 
@@ -186,21 +204,42 @@ public class searchPlant extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 System.out.println(data);
-                String scientific_name = "";
+
+                String scientific_name = "Ficus elastica";
+
+                // plant.id api key limit
+//                try {
+//                    scientific_name = new NetworkTask().execute(data).get();
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+
+                String[] idAndName = new String[2];
                 try {
-                    scientific_name = new NetworkTask().execute(data).get();
+                    idAndName = new NongSaroGardenListTask().execute(scientific_name).get();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-
+                JSONObject plantDetailData = new JSONObject();
+                try {
+                    plantDetailData = new NongSaroGardenDetailTask().execute(idAndName[0]).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    plantDetailData.put("name", idAndName[1]);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 //show loading page
                 customProgressDialog.show();
-
-
-
 
                 //----change page----//
 
@@ -208,7 +247,7 @@ public class searchPlant extends AppCompatActivity {
 
 //                String test = "test data";
 
-                intent_goto_plantinformation_page.putExtra("test", scientific_name);
+                intent_goto_plantinformation_page.putExtra("plantDetailData", plantDetailData.toString());
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -400,7 +439,6 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
             con.setRequestMethod("POST");
             con.setRequestProperty("Content-Type", "application/json");
 
-
             OutputStream os = con.getOutputStream();
             os.write(data[0].toString().getBytes());
             os.close();
@@ -464,8 +502,153 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
             return null;
         }
     }
-
     protected void onPostExecute(String scientific_name){
         
+    }
+}
+
+class NongSaroGardenListTask extends AsyncTask<String, Void, String[]> {
+    protected String[] doInBackground(String... str){
+        String temp = "";
+        try{
+            URL url = new URL("http://api.nongsaro.go.kr/service/garden/gardenList?apiKey=202111223IVEFOUFEVGRCFNIGNVHBA&sType=sPlntbneNm&sText="+str);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            con.setRequestMethod("GET");
+
+            System.out.println("nongsaro request");
+            if (con.getResponseCode() == con.HTTP_OK) {
+                InputStreamReader tmp = new InputStreamReader(con.getInputStream(), "UTF-8");
+                BufferedReader reader = new BufferedReader(tmp);
+                StringBuffer buffer = new StringBuffer();
+                while ((temp = reader.readLine()) != null) {
+                    buffer.append(temp);
+                }
+                String receiveMsg = buffer.toString();
+                System.out.println("receiveMsg : " + receiveMsg);
+
+                reader.close();
+
+                DocumentBuilderFactory documentBuilderFactory =  DocumentBuilderFactory.newInstance();
+                DocumentBuilder documentBuilder = null;
+                Document document = null;
+                NodeList nodeList = null;
+                Node node = null;
+                Element element = null;
+                InputSource inputSource = new InputSource(new StringReader(receiveMsg));
+                documentBuilder = documentBuilderFactory.newDocumentBuilder();
+                document = documentBuilder.parse(inputSource);
+                XPathFactory xPathFactory = XPathFactory.newInstance();
+                XPath xPath = xPathFactory.newXPath();
+                XPathExpression xPathExpression = xPath.compile("//items/item");
+                nodeList = (NodeList) xPathExpression.evaluate(document, XPathConstants.NODESET);
+                NodeList child = nodeList.item(0).getChildNodes();
+                String[] nongsaroListResponse = new String[2];
+                node = child.item(0);
+                nongsaroListResponse[0] = node.getTextContent();
+//                System.out.println("현재 노드 값 : " + node.getTextContent());
+                node = child.item(1);
+                nongsaroListResponse[1] = node.getTextContent();
+//                System.out.println("현재 노드 값 : " + node.getTextContent());
+                return nongsaroListResponse;
+            } else {
+                System.out.println("결과"+ con.getResponseCode() + "Error");
+            }
+        } catch (MalformedURLException | ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+}
+class NongSaroGardenDetailTask extends AsyncTask<String,Void,JSONObject>{
+    JSONObject data = new JSONObject();
+    protected JSONObject doInBackground(String... id) {
+        String temp = "";
+        try{
+            URL url = new URL("http://api.nongsaro.go.kr/service/garden/gardenDtl?apiKey=202111223IVEFOUFEVGRCFNIGNVHBA&cntntsNo="+id);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+            con.setDoOutput(true);
+            con.setDoInput(true);
+            con.setRequestMethod("GET");
+
+            System.out.println("nongsaro detail request");
+            if (con.getResponseCode() == con.HTTP_OK) {
+                InputStreamReader tmp = new InputStreamReader(con.getInputStream(), "UTF-8");
+                BufferedReader reader = new BufferedReader(tmp);
+                StringBuffer buffer = new StringBuffer();
+                while ((temp = reader.readLine()) != null) {
+                    buffer.append(temp);
+                }
+                String receiveMsg = buffer.toString();
+                System.out.println("receiveMsg : " + receiveMsg);
+
+                reader.close();
+
+                DocumentBuilderFactory documentBuilderFactory =  DocumentBuilderFactory.newInstance();
+                DocumentBuilder documentBuilder = null;
+                Document document = null;
+                NodeList nodeList = null;
+                Node node = null;
+                Element element = null;
+                InputSource inputSource = new InputSource(new StringReader(receiveMsg));
+                documentBuilder = documentBuilderFactory.newDocumentBuilder();
+                document = documentBuilder.parse(inputSource);
+                XPathFactory xPathFactory = XPathFactory.newInstance();
+                XPath xPath = xPathFactory.newXPath();
+                XPathExpression xPathExpression = xPath.compile("//item");
+                nodeList = (NodeList) xPathExpression.evaluate(document, XPathConstants.NODESET);
+                NodeList child = nodeList.item(0).getChildNodes();
+                String[] nongsaroListResponse = new String[2];
+                node = child.item(0);
+                nongsaroListResponse[0] = node.getTextContent();
+
+                data.put("typename",child.item(25).getTextContent());
+                data.put("height",child.item(37).getTextContent());
+                data.put("width",child.item(39).getTextContent());
+                data.put("place",child.item(95).getTextContent());
+                data.put("smell",child.item(103).getTextContent());
+                data.put("grouthSpeed",child.item(49).getTextContent());
+                data.put("properTemperature",child.item(43).getTextContent());
+                data.put("pest",child.item(9).getTextContent());
+                data.put("fertilizer",child.item(35).getTextContent());
+                data.put("waterCycle",
+                        new String[]{
+                                child.item(129).getTextContent(),
+                                child.item(133).getTextContent(),
+                                child.item(125).getTextContent(),
+                                child.item(137).getTextContent()
+                            }
+                        );
+                data.put("manageLevel",child.item(81).getTextContent());
+                data.put("light",child.item(73).getTextContent());
+
+                return data;
+            } else {
+                System.out.println("결과"+ con.getResponseCode() + "Error");
+            }
+        } catch (MalformedURLException | ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
