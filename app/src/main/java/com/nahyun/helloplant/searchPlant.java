@@ -159,7 +159,8 @@ public class searchPlant extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                String apiKey = "g5AkSeLBbiQjfWUK45AhmNu6e07gvLlCxXCzov0ZeEzOYq1uOK";
+                String apiKey = "nQljT3UMscsIaE5YapywR1oTs96TrCzw2V9fdzqegI6j5mvxAw";
+//                String apiKey = "g5AkSeLBbiQjfWUK45AhmNu6e07gvLlCxXCzov0ZeEzOYq1uOK";
 
                 String [] flowers = new String[] {"test_image.jpeg"};
 
@@ -205,16 +206,15 @@ public class searchPlant extends AppCompatActivity {
                 }
                 System.out.println(data);
 
-                String scientific_name = "Ficus elastica";
+                String scientific_name = "";
 
-                // plant.id api key limit
-//                try {
-//                    scientific_name = new NetworkTask().execute(data).get();
-//                } catch (ExecutionException e) {
-//                    e.printStackTrace();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    scientific_name = new NetworkTask().execute(data).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 String[] idAndName = new String[2];
                 try {
@@ -224,20 +224,29 @@ public class searchPlant extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                for(int i = 0; i<idAndName.length; i++){
+                    System.out.println(idAndName[i]);
+                }
 
                 JSONObject plantDetailData = new JSONObject();
                 try {
-                    plantDetailData = new NongSaroGardenDetailTask().execute(idAndName[0]).get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    plantDetailData.put("name", idAndName[1]);
+                    plantDetailData.put("name","testName");
+                    plantDetailData.put("typeName","testType");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+//                try {
+//                    plantDetailData = new NongSaroGardenDetailTask().execute(idAndName[0]).get();
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                try {
+//                    plantDetailData.put("name", idAndName[1]);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
                 //show loading page
                 customProgressDialog.show();
 
@@ -566,6 +575,7 @@ class NongSaroGardenListTask extends AsyncTask<String, Void, String[]> {
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
+        System.out.println("nongsaroListError");
         return null;
     }
 }
@@ -649,6 +659,7 @@ class NongSaroGardenDetailTask extends AsyncTask<String,Void,JSONObject>{
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        System.out.println("nongsaroDetailError");
         return null;
     }
 }
