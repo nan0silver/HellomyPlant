@@ -256,7 +256,7 @@ public class searchPlant extends AppCompatActivity {
 
 //                String test = "test data";
 
-                intent_goto_plantinformation_page.putExtra("plantDetailData", plantDetailData.toString());
+//                intent_goto_plantinformation_page.putExtra("plantDetailData", plantDetailData.toString());
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
