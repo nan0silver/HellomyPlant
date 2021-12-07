@@ -229,26 +229,26 @@ public class searchPlant extends AppCompatActivity {
                 }
 
                 JSONObject plantDetailData = new JSONObject();
-                try {
+                /*try {
                     plantDetailData.put("name","testName");
                     plantDetailData.put("typeName","testType");
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }*/
+                try {
+                    plantDetailData = new NongSaroGardenDetailTask().execute(idAndName[0]).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-//                try {
-//                    plantDetailData = new NongSaroGardenDetailTask().execute(idAndName[0]).get();
-//                } catch (ExecutionException e) {
-//                    e.printStackTrace();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                try {
-//                    plantDetailData.put("name", idAndName[1]);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    plantDetailData.put("name", idAndName[1]);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 //show loading page
-                customProgressDialog.show();
+                //customProgressDialog.show();
 
                 //----change page----//
 
@@ -512,7 +512,7 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
         }
     }
     protected void onPostExecute(String scientific_name){
-        
+
     }
 }
 
@@ -520,8 +520,7 @@ class NongSaroGardenListTask extends AsyncTask<String, Void, String[]> {
     protected String[] doInBackground(String... str){
         String temp = "";
         try{
-            URL url = new URL("http://api.nongsaro.go.kr/service/garden/gardenList?apiKey=202111223IVEFOUFEVGRCFNIGNVHBA&sType=sPlntbneNm&sText="+str);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            URL url = new URL("http://api.nongsaro.go.kr/service/garden/gardenList?apiKey=202111223IVEFOUFEVGRCFNIGNVHBA&sType=sPlntbneNm&sText=Ficus elastica");            HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setDoOutput(true);
             con.setDoInput(true);
             con.setRequestMethod("GET");
@@ -584,7 +583,8 @@ class NongSaroGardenDetailTask extends AsyncTask<String,Void,JSONObject>{
     protected JSONObject doInBackground(String... id) {
         String temp = "";
         try{
-            URL url = new URL("http://api.nongsaro.go.kr/service/garden/gardenDtl?apiKey=202111223IVEFOUFEVGRCFNIGNVHBA&cntntsNo="+id);
+            URL url = new URL("http://api.nongsaro.go.kr/service/garden/gardenDtl?apiKey=202111223IVEFOUFEVGRCFNIGNVHBA&cntntsNo=13337");
+
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
 
             con.setDoOutput(true);
@@ -618,34 +618,37 @@ class NongSaroGardenDetailTask extends AsyncTask<String,Void,JSONObject>{
                 XPathExpression xPathExpression = xPath.compile("//item");
                 nodeList = (NodeList) xPathExpression.evaluate(document, XPathConstants.NODESET);
                 NodeList child = nodeList.item(0).getChildNodes();
-                String[] nongsaroListResponse = new String[2];
+//                String[] nongsaroListResponse = new String[2];
                 node = child.item(0);
-                nongsaroListResponse[0] = node.getTextContent();
+//                nongsaroListResponse[0] = node.getTextContent();
 
-                data.put("typename",child.item(25).getTextContent());
-                data.put("height",child.item(37).getTextContent());
-                data.put("width",child.item(39).getTextContent());
-                data.put("place",child.item(95).getTextContent());
-                data.put("smell",child.item(103).getTextContent());
-                data.put("grouthSpeed",child.item(49).getTextContent());
-                data.put("properTemperature",child.item(43).getTextContent());
-                data.put("pest",child.item(9).getTextContent());
-                data.put("fertilizer",child.item(35).getTextContent());
+                data.put("typename",child.item(25).getTextContent().substring(17));
+                System.out.println("typename : " + child.item(25).getTextContent().substring(17));
+                data.put("height",child.item(37).getTextContent().substring(17));
+                data.put("width",child.item(39).getTextContent().substring(17));
+                data.put("place",child.item(95).getTextContent().substring(17));
+                data.put("smell",child.item(103).getTextContent().substring(17));
+                data.put("grouthSpeed",child.item(49).getTextContent().substring(17));
+                data.put("properTemperature",child.item(43).getTextContent().substring(17));
+                data.put("pest",child.item(9).getTextContent().substring(17));
+                data.put("fertilizer",child.item(35).getTextContent().substring(17));
                 data.put("waterCycle",
                         new String[]{
-                                child.item(129).getTextContent(),
-                                child.item(133).getTextContent(),
-                                child.item(125).getTextContent(),
-                                child.item(137).getTextContent()
+                                child.item(129).getTextContent().substring(17),
+                                child.item(133).getTextContent().substring(17),
+                                child.item(125).getTextContent().substring(17),
+                                child.item(137).getTextContent().substring(17)
                             }
                         );
-                data.put("manageLevel",child.item(81).getTextContent());
-                data.put("light",child.item(73).getTextContent());
+                data.put("manageLevel",child.item(81).getTextContent().substring(17));
+                data.put("light",child.item(73).getTextContent().substring(17));
 
                 return data;
             } else {
                 System.out.println("결과"+ con.getResponseCode() + "Error");
             }
+            System.out.println("data length : "+data.length());
+            System.out.println("type name data : " + data.get("typename"));
         } catch (MalformedURLException | ProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
