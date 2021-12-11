@@ -641,13 +641,10 @@ class NongSaroGardenDetailTask extends AsyncTask<String,Void,JSONObject>{
                 data.put("properTemperature", child.item(21).getTextContent());
                 data.put("pest", child.item(4).getTextContent());
                 data.put("fertilizer", child.item(17).getTextContent());
-                data.put("watercycle",
-                        new String[]{
-                                child.item(62).getTextContent(),
-                                child.item(66).getTextContent(),
-                                child.item(64).getTextContent(),
-                                child.item(68).getTextContent(),
-                        });
+                data.put("watercycleSpring",child.item(62).getTextContent());
+                data.put("watercycleSummer",child.item(62).getTextContent());
+                data.put("watercycleFall",child.item(62).getTextContent());
+                data.put("watercycleWinter",child.item(62).getTextContent());
                 data.put("manageLevel", child.item(40).getTextContent());
                 data.put("light", child.item(36).getTextContent());
                 data.put("poison", child.item(54).getTextContent());

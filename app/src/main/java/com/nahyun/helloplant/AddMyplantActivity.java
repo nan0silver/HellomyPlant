@@ -10,6 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class AddMyplantActivity extends AppCompatActivity {
 
     EditText PlantName;
@@ -19,13 +22,45 @@ public class AddMyplantActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_myplant);
 
+
+        Intent intent_comefrom_plantinfomation_page = getIntent();
+        JSONObject plantDetailData = new JSONObject();
+        String jsonString =
+                intent_comefrom_plantinfomation_page.getExtras().getString("plantDetailData");
+        try {
+            plantDetailData = new JSONObject(jsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
         //==== watering spinner code =====//
+        String wateringInfomation = "";
+        try {
+            wateringInfomation = (String)plantDetailData.get("watercycleWinter");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        int wateringCycle = 0;
+        System.out.println(wateringInfomation);
+        if(wateringInfomation.charAt(0)=='항'){
+            wateringCycle = 0;
+        } else if(wateringInfomation.charAt(0)=='흙'){
+            wateringCycle = 6;
+        } else if(wateringInfomation.charAt(0)=='토'){
+            wateringCycle = 13;
+        }else{
+            wateringCycle = 29;
+        }
+
         Spinner spinner_watering = findViewById(R.id.set_wateringperiod_Spinner);
 
         ArrayAdapter arrayAdapter_watering = ArrayAdapter.createFromResource(this, R.array.watering_array, android.R.layout.simple_spinner_dropdown_item);
         arrayAdapter_watering.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner_watering.setAdapter(arrayAdapter_watering);
+
+        spinner_watering.setSelection(wateringCycle);
 
         spinner_watering.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

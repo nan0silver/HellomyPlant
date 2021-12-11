@@ -128,6 +128,7 @@ public class PlantInformationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent_goto_addmyplant_page = new Intent(PlantInformationActivity.this, AddMyplantActivity.class);
+                intent_goto_addmyplant_page.putExtra("plantDetailData", jsonString);
                 startActivity(intent_goto_addmyplant_page);
             }
         });
