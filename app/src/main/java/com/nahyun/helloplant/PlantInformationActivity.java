@@ -40,6 +40,7 @@ public class PlantInformationActivity extends AppCompatActivity {
 
         TextView plant_name_TextView = (TextView)findViewById(R.id.searching_plant_name);
         Intent intent_comefrom_searchplant_page = getIntent();
+
         byte[] byteArray_imageBitmap = getIntent().getByteArrayExtra("image_bitmap");
         Bitmap get_image;
         get_image = BitmapFactory.decodeByteArray(byteArray_imageBitmap, 0, byteArray_imageBitmap.length);
@@ -129,6 +130,7 @@ public class PlantInformationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent_goto_addmyplant_page = new Intent(PlantInformationActivity.this, AddMyplantActivity.class);
                 intent_goto_addmyplant_page.putExtra("plantDetailData", jsonString);
+                intent_goto_addmyplant_page.putExtra("image_bitmap_to_addmyplant", byteArray_imageBitmap);
                 startActivity(intent_goto_addmyplant_page);
             }
         });
