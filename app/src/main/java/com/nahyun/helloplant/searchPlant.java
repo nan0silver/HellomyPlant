@@ -206,15 +206,15 @@ public class searchPlant extends AppCompatActivity {
                 }
                 System.out.println(data);
 
-                String scientific_name = "Ficus elastica";
+                String scientific_name = "";
 
-//                try {
-//                    scientific_name = new NetworkTask().execute(data).get();
-//                } catch (ExecutionException e) {
-//                    e.printStackTrace();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    scientific_name = new NetworkTask().execute(data).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 String[] idAndName = new String[2];
                 try {
