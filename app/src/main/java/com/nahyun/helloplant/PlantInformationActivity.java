@@ -99,6 +99,31 @@ public class PlantInformationActivity extends AppCompatActivity {
 
         //plantInformationAdapter.notifyDataSetChanged();
 
+        String manageLevel = "";
+
+        ImageView star_ImageView = (ImageView)findViewById(R.id.difficulty_star_ImageView);
+        try {
+            manageLevel = (String)plantDetailData.get("manageLevel");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if(manageLevel.equals("경험자")){
+            // 별 3
+            star_ImageView.setImageResource(R.drawable.star_three);
+        }
+        else if(manageLevel.equals("초보자")){
+            // 별 1
+            star_ImageView.setImageResource(R.drawable.star_one);
+        }
+        else if(manageLevel.equals("전문가")){
+            // 별 5
+            star_ImageView.setImageResource(R.drawable.star_five);
+        }
+        else{
+            // 별 2
+            star_ImageView.setImageResource(R.drawable.star_two);
+        }
+
         findViewById(R.id.addmyplantButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_weight="5"
+            app:layout_constraintVertical_weight="4"
             app:srcCompat="@drawable/test_image" />
 
         <TextView
@@ -66,7 +66,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searching_plant_name"
             app:layout_constraintVertical_weight="0.4"
-            app:srcCompat="@drawable/star_one" />
+            app:srcCompat="@drawable/star_two" />
 
         <Button
             android:id="@+id/addmyplantButton"
@@ -85,6 +85,7 @@
             app:layout_constraintVertical_weight="1" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:background="@color/sub_green"
             android:id="@+id/plant_information_RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -98,7 +99,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/addmyplantButton"
             app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_weight="4" />
+            app:layout_constraintVertical_weight="5" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
