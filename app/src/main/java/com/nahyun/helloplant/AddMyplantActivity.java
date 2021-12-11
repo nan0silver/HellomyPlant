@@ -38,7 +38,7 @@ public class AddMyplantActivity extends AppCompatActivity {
 
             }
         });
-
+       
         //==== fertilizing spinner code ====//
         Spinner spinner_fertilizing = findViewById(R.id.set_fertilizingperiod_Spinner);
 

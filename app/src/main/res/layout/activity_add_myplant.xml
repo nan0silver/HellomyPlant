@@ -66,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
+                android:maxLength="8"
                 android:hint="입력" />
 
         </LinearLayout>

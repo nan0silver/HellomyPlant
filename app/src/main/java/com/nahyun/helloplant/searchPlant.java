@@ -250,6 +250,20 @@ public class searchPlant extends AppCompatActivity {
 
                 intent_goto_plantinformation_page.putExtra("plantDetailData", plantDetailData.toString());
 
+                //put Imageview image to intent
+                ImageView selected_Image_View = (ImageView)findViewById(R.id.cameraImageview);
+                BitmapDrawable selected_image_drawable = (BitmapDrawable)selected_Image_View.getDrawable();
+                Bitmap selected_image_bitmap = selected_image_drawable.getBitmap();
+
+
+                ByteArrayOutputStream stream_change = new ByteArrayOutputStream();
+                selected_image_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream_change);
+                byte[] byteArray_result = stream_change.toByteArray();
+
+                intent_goto_plantinformation_page.putExtra("image_bitmap", byteArray_result);
+
+
+
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -333,12 +347,12 @@ public class searchPlant extends AppCompatActivity {
             File file = new File(strFolderName);
             if (!file.exists()) file.mkdir();
 
-            File f = new File(strFolderName + "/" + filename + ".png");
-            result = f.getPath();
+            File set_filename = new File(strFolderName + "/" + filename + ".png");
+            result = set_filename.getPath();
 
             FileOutputStream fileOutputStream = null;
             try {
-                fileOutputStream = new FileOutputStream(f);
+                fileOutputStream = new FileOutputStream(set_filename);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 result = "Save Error FileOutputStream";
@@ -394,6 +408,7 @@ public class searchPlant extends AppCompatActivity {
 
         imageView.setImageBitmap(original_gallery_bitmap);
     }
+
     private  int exifOrientationToDegrees(int exifOrientation) {
         if (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90) {
             return 90;
@@ -408,11 +423,13 @@ public class searchPlant extends AppCompatActivity {
             return 0;
         }
     }
+
     private Bitmap rotate(Bitmap bitmap, float degree) {
         Matrix matrix = new Matrix();
         matrix.postRotate(degree);
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
+
     PermissionListener permissionListener = new PermissionListener() {
         @Override
         public void onPermissionGranted() {

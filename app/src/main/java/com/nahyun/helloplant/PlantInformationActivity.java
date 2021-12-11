@@ -5,9 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,6 +40,11 @@ public class PlantInformationActivity extends AppCompatActivity {
 
         TextView plant_name_TextView = (TextView)findViewById(R.id.searching_plant_name);
         Intent intent_comefrom_searchplant_page = getIntent();
+        byte[] byteArray_imageBitmap = getIntent().getByteArrayExtra("image_bitmap");
+        Bitmap get_image;
+        get_image = BitmapFactory.decodeByteArray(byteArray_imageBitmap, 0, byteArray_imageBitmap.length);
+        ImageView plant_ImageView = (ImageView)findViewById(R.id.searching_plant_ImageView);
+        plant_ImageView.setImageBitmap(get_image);
 
         String plant_name = "";
         JSONObject plantDetailData = new JSONObject();
@@ -75,7 +84,7 @@ public class PlantInformationActivity extends AppCompatActivity {
          place = new PlantInformationData("배치 장소", ((String)plantDetailData.get("place")).replace(",","\n"));
          smell = new PlantInformationData("식물 냄새", (String)plantDetailData.get("smell"));
          speed = new PlantInformationData("생장 속도", (String)plantDetailData.get("growthSpeed"));
-         temperature = new PlantInformationData("적정 온도", (String)plantDetailData.get("familyName"));
+         temperature = new PlantInformationData("적정 온도", (String)plantDetailData.get("properTemperature"));
          pest = new PlantInformationData(" 병해충 ", (String)plantDetailData.get("pest"));
         } catch (JSONException e) {
             e.printStackTrace();
