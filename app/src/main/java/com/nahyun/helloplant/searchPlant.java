@@ -206,15 +206,15 @@ public class searchPlant extends AppCompatActivity {
                 }
                 System.out.println(data);
 
-                String scientific_name = "";
+                String scientific_name = "Ficus elastica";
 
-                try {
-                    scientific_name = new NetworkTask().execute(data).get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    scientific_name = new NetworkTask().execute(data).get();
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
 
                 String[] idAndName = new String[2];
                 try {
@@ -229,12 +229,6 @@ public class searchPlant extends AppCompatActivity {
                 }
 
                 JSONObject plantDetailData = new JSONObject();
-                /*try {
-                    plantDetailData.put("name","testName");
-                    plantDetailData.put("typeName","testType");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }*/
                 try {
                     plantDetailData = new NongSaroGardenDetailTask().execute(idAndName[0]).get();
                 } catch (ExecutionException e) {
@@ -254,9 +248,7 @@ public class searchPlant extends AppCompatActivity {
 
                 Intent intent_goto_plantinformation_page = new Intent(searchPlant.this, PlantInformationActivity.class);
 
-//                String test = "test data";
-
-//                intent_goto_plantinformation_page.putExtra("plantDetailData", plantDetailData.toString());
+                intent_goto_plantinformation_page.putExtra("plantDetailData", plantDetailData.toString());
 
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -519,13 +511,14 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
 class NongSaroGardenListTask extends AsyncTask<String, Void, String[]> {
     protected String[] doInBackground(String... str){
         String temp = "";
+        System.out.println("input scientific name in list : " + str[0]);
         try{
-            URL url = new URL("http://api.nongsaro.go.kr/service/garden/gardenList?apiKey=202111223IVEFOUFEVGRCFNIGNVHBA&sType=sPlntbneNm&sText=Ficus elastica");            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            URL url = new URL("http://api.nongsaro.go.kr/service/garden/gardenList?apiKey=202111223IVEFOUFEVGRCFNIGNVHBA&sType=sPlntbneNm&sText="+str[0]);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setDoOutput(true);
             con.setDoInput(true);
             con.setRequestMethod("GET");
 
-            System.out.println("nongsaro request");
             if (con.getResponseCode() == con.HTTP_OK) {
                 InputStreamReader tmp = new InputStreamReader(con.getInputStream(), "UTF-8");
                 BufferedReader reader = new BufferedReader(tmp);
@@ -534,7 +527,7 @@ class NongSaroGardenListTask extends AsyncTask<String, Void, String[]> {
                     buffer.append(temp);
                 }
                 String receiveMsg = buffer.toString();
-                System.out.println("receiveMsg : " + receiveMsg);
+                System.out.println("receiveMsg from nongsaro list api : " + receiveMsg);
 
                 reader.close();
 
@@ -583,15 +576,13 @@ class NongSaroGardenDetailTask extends AsyncTask<String,Void,JSONObject>{
     protected JSONObject doInBackground(String... id) {
         String temp = "";
         try{
-            URL url = new URL("http://api.nongsaro.go.kr/service/garden/gardenDtl?apiKey=202111223IVEFOUFEVGRCFNIGNVHBA&cntntsNo=13337");
-
+            System.out.println("input id in nongsaro detail : " + id[0]);
+            URL url = new URL("http://api.nongsaro.go.kr/service/garden/gardenDtl?apiKey=202111223IVEFOUFEVGRCFNIGNVHBA&cntntsNo="+id[0]);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
             con.setDoOutput(true);
             con.setDoInput(true);
             con.setRequestMethod("GET");
 
-            System.out.println("nongsaro detail request");
             if (con.getResponseCode() == con.HTTP_OK) {
                 InputStreamReader tmp = new InputStreamReader(con.getInputStream(), "UTF-8");
                 BufferedReader reader = new BufferedReader(tmp);
@@ -600,7 +591,7 @@ class NongSaroGardenDetailTask extends AsyncTask<String,Void,JSONObject>{
                     buffer.append(temp);
                 }
                 String receiveMsg = buffer.toString();
-                System.out.println("receiveMsg : " + receiveMsg);
+                System.out.println("receiveMsg from nongsaro detail api : " + receiveMsg);
 
                 reader.close();
 
@@ -621,34 +612,32 @@ class NongSaroGardenDetailTask extends AsyncTask<String,Void,JSONObject>{
 //                String[] nongsaroListResponse = new String[2];
                 node = child.item(0);
 //                nongsaroListResponse[0] = node.getTextContent();
-
-                data.put("typename",child.item(25).getTextContent().substring(17));
-                System.out.println("typename : " + child.item(25).getTextContent().substring(17));
-                data.put("height",child.item(37).getTextContent().substring(17));
-                data.put("width",child.item(39).getTextContent().substring(17));
-                data.put("place",child.item(95).getTextContent().substring(17));
-                data.put("smell",child.item(103).getTextContent().substring(17));
-                data.put("grouthSpeed",child.item(49).getTextContent().substring(17));
-                data.put("properTemperature",child.item(43).getTextContent().substring(17));
-                data.put("pest",child.item(9).getTextContent().substring(17));
-                data.put("fertilizer",child.item(35).getTextContent().substring(17));
-                data.put("waterCycle",
+//                for (int i = 0; i<child.getLength(); i++){
+//                    System.out.println(i);
+//                    System.out.println(child.item(i).getTextContent());
+//                }
+                data.put("familyName", child.item(12).getTextContent());
+                data.put("height", child.item(19).getTextContent());
+                data.put("place", child.item(47).getTextContent());
+                data.put("smell", child.item(51).getTextContent());
+                data.put("growthSpeed", child.item(24).getTextContent());
+                data.put("properTemperature", child.item(21).getTextContent());
+                data.put("pest", child.item(4).getTextContent());
+                data.put("fertilizer", child.item(17).getTextContent());
+                data.put("watercycle",
                         new String[]{
-                                child.item(129).getTextContent().substring(17),
-                                child.item(133).getTextContent().substring(17),
-                                child.item(125).getTextContent().substring(17),
-                                child.item(137).getTextContent().substring(17)
-                            }
-                        );
-                data.put("manageLevel",child.item(81).getTextContent().substring(17));
-                data.put("light",child.item(73).getTextContent().substring(17));
-
+                                child.item(62).getTextContent(),
+                                child.item(66).getTextContent(),
+                                child.item(64).getTextContent(),
+                                child.item(68).getTextContent(),
+                        });
+                data.put("manageLevel", child.item(40).getTextContent());
+                data.put("light", child.item(36).getTextContent());
+                data.put("poison", child.item(54).getTextContent());
                 return data;
             } else {
                 System.out.println("결과"+ con.getResponseCode() + "Error");
             }
-            System.out.println("data length : "+data.length());
-            System.out.println("type name data : " + data.get("typename"));
         } catch (MalformedURLException | ProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {

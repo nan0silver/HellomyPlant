@@ -39,19 +39,18 @@ public class PlantInformationActivity extends AppCompatActivity {
 
         String plant_name = "";
         JSONObject plantDetailData = new JSONObject();
-//        String jsonString =
-
-//                intent_comefrom_searchplant_page.getExtras().getString("plantDetailData");
-//        try {
-//            plantDetailData = new JSONObject(jsonString);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            plant_name_TextView.setText((String)plantDetailData.get("name"));
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        String jsonString =
+                intent_comefrom_searchplant_page.getExtras().getString("plantDetailData");
+        try {
+            plantDetailData = new JSONObject(jsonString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            plant_name_TextView.setText((String)plantDetailData.get("name"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
         plant_information_RecyclerView = (RecyclerView)findViewById(R.id.plant_information_RecyclerView);
@@ -64,15 +63,25 @@ public class PlantInformationActivity extends AppCompatActivity {
         plant_information_RecyclerView.setAdapter(plantInformationAdapter);
 
         PlantInformationData familyname = null;
-        familyname = new PlantInformationData("식물 과명", "뽕나무과");
-        //        PlantInformationData height = new PlantInformationData("성장 높이", "높이");
-        PlantInformationData place = new PlantInformationData("배치 장소", "거실 창측 (실내깊이 150~300cm),발코니 내측 (실내깊이 50~150cm),발코니 창측 (실내깊이 0~50cm)");
-        PlantInformationData smell = new PlantInformationData("식물 냄새", "거의 없음");
-        PlantInformationData speed = new PlantInformationData("생장 속도", "빠름");
-        PlantInformationData temperature = new PlantInformationData("최저 온도", "21~25℃");
-        PlantInformationData pest = new PlantInformationData(" 병해충 ", "응애,깍지벌레");
+        PlantInformationData height = null;
+        PlantInformationData place = null;
+        PlantInformationData smell = null;
+        PlantInformationData speed = null;
+        PlantInformationData temperature = null;
+        PlantInformationData pest = null;
+        try {
+            familyname = new PlantInformationData("식물 과명", (String)plantDetailData.get("familyName"));
+         height = new PlantInformationData("성장 높이", (String)plantDetailData.get("height"));
+         place = new PlantInformationData("배치 장소", ((String)plantDetailData.get("place")).replace(",","\n"));
+         smell = new PlantInformationData("식물 냄새", (String)plantDetailData.get("smell"));
+         speed = new PlantInformationData("생장 속도", (String)plantDetailData.get("growthSpeed"));
+         temperature = new PlantInformationData("적정 온도", (String)plantDetailData.get("familyName"));
+         pest = new PlantInformationData(" 병해충 ", (String)plantDetailData.get("pest"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         arrayList.add(familyname);
-//        arrayList.add(height);
+        arrayList.add(height);
         arrayList.add(place);
         arrayList.add(smell);
         arrayList.add(speed);
