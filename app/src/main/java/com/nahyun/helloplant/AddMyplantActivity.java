@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,6 +77,9 @@ public class AddMyplantActivity extends AppCompatActivity {
         spinner_watering.setAdapter(arrayAdapter_watering);
 
         spinner_watering.setSelection(wateringCycle);
+
+        TextView searched_wateringperiod_TextView = (TextView)findViewById(R.id.searched_wateringperiod_TextView);
+        searched_wateringperiod_TextView.setText(String.valueOf(wateringCycle+1));
 
         spinner_watering.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
