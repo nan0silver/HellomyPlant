@@ -217,30 +217,47 @@ public class searchPlant extends AppCompatActivity {
                 }
 
                 String[] idAndName = new String[2];
-                try {
-                    idAndName = new NongSaroGardenListTask().execute(scientific_name).get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                if(scientific_name.equals("network error")){
+                    Toast.makeText(getApplicationContext(),"네트워크 에러!", Toast.LENGTH_SHORT).show();
                 }
-                for(int i = 0; i<idAndName.length; i++){
-                    System.out.println(idAndName[i]);
+                else if(!scientific_name.equals("not plant")){
+                    try {
+                        idAndName = new NongSaroGardenListTask().execute(scientific_name).get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    for(int i = 0; i<idAndName.length; i++){
+                        System.out.println(idAndName[i]);
+                    }
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"식물이 아닙니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                JSONObject plantDetailData = new JSONObject();
+                if(idAndName[0].equals("noData")){
+                    Toast.makeText(getApplicationContext(), "식물 정보가 없습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if(idAndName[0].equals("listerror")){
+                    Toast.makeText(getApplicationContext(), "네트워크에 에러가 있습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }else{
+                    try {
+                        plantDetailData = new NongSaroGardenDetailTask().execute(idAndName[0]).get();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        plantDetailData.put("name", idAndName[1]);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
-                JSONObject plantDetailData = new JSONObject();
-                try {
-                    plantDetailData = new NongSaroGardenDetailTask().execute(idAndName[0]).get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    plantDetailData.put("name", idAndName[1]);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 //show loading page
                 //customProgressDialog.show();
 
@@ -446,7 +463,7 @@ public class searchPlant extends AppCompatActivity {
 class NetworkTask extends AsyncTask<JSONObject, Void, String> {
     private Exception exception;
 
-    private String scientific_name;
+    private String scientific_name = "not plant";
     protected String doInBackground(JSONObject... data) {
         try{
             URL url = new URL("https://api.plant.id/v2/identify");
@@ -508,16 +525,15 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
             return scientific_name;
         } catch (ProtocolException e) {
             e.printStackTrace();
-            return null;
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            return null;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
+        }
+        finally{
+            return "network error";
         }
     }
     protected void onPostExecute(String scientific_name){
@@ -529,6 +545,7 @@ class NongSaroGardenListTask extends AsyncTask<String, Void, String[]> {
     protected String[] doInBackground(String... str){
         String temp = "";
         System.out.println("input scientific name in list : " + str[0]);
+        String[] nongsaroListResponse = new String[]{"error","error"};
         try{
             URL url = new URL("http://api.nongsaro.go.kr/service/garden/gardenList?apiKey=202111223IVEFOUFEVGRCFNIGNVHBA&sType=sPlntbneNm&sText="+str[0]);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -537,6 +554,7 @@ class NongSaroGardenListTask extends AsyncTask<String, Void, String[]> {
             con.setRequestMethod("GET");
 
             if (con.getResponseCode() == con.HTTP_OK) {
+                nongsaroListResponse = new String[]{"noData","noData"};
                 InputStreamReader tmp = new InputStreamReader(con.getInputStream(), "UTF-8");
                 BufferedReader reader = new BufferedReader(tmp);
                 StringBuffer buffer = new StringBuffer();
@@ -562,14 +580,12 @@ class NongSaroGardenListTask extends AsyncTask<String, Void, String[]> {
                 XPathExpression xPathExpression = xPath.compile("//items/item");
                 nodeList = (NodeList) xPathExpression.evaluate(document, XPathConstants.NODESET);
                 NodeList child = nodeList.item(0).getChildNodes();
-                String[] nongsaroListResponse = new String[2];
                 node = child.item(0);
                 nongsaroListResponse[0] = node.getTextContent();
 //                System.out.println("현재 노드 값 : " + node.getTextContent());
                 node = child.item(1);
                 nongsaroListResponse[1] = node.getTextContent();
 //                System.out.println("현재 노드 값 : " + node.getTextContent());
-                return nongsaroListResponse;
             } else {
                 System.out.println("결과"+ con.getResponseCode() + "Error");
             }
@@ -584,8 +600,9 @@ class NongSaroGardenListTask extends AsyncTask<String, Void, String[]> {
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
-        System.out.println("nongsaroListError");
-        return null;
+        finally {
+            return nongsaroListResponse;
+        }
     }
 }
 class NongSaroGardenDetailTask extends AsyncTask<String,Void,JSONObject>{
