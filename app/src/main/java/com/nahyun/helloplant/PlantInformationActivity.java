@@ -79,8 +79,30 @@ public class PlantInformationActivity extends AppCompatActivity {
         PlantInformationData speed = null;
         PlantInformationData temperature = null;
         PlantInformationData pest = null;
+        PlantInformationData waterCycle = null;
+        String wateringInfomation = "";
+        try {
+            wateringInfomation = (String)plantDetailData.get("watercycleWinter");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        int wateringCycle = 0;
+
+        System.out.println(wateringInfomation);
+
+        if(wateringInfomation.charAt(0)=='항'){
+            wateringCycle = 0;
+        } else if(wateringInfomation.charAt(0)=='흙'){
+            wateringCycle = 6;
+        } else if(wateringInfomation.charAt(0)=='토'){
+            wateringCycle = 13;
+        }else{
+            wateringCycle = 29;
+        }
+        String water = Integer.toString(wateringCycle) + " 일";
         try {
             familyname = new PlantInformationData("식물 과명", (String)plantDetailData.get("familyName"));
+            waterCycle = new PlantInformationData("물 주기", water);
          height = new PlantInformationData("성장 높이", (String)plantDetailData.get("height"));
          place = new PlantInformationData("배치 장소", ((String)plantDetailData.get("place")).replace(",","\n"));
          smell = new PlantInformationData("식물 냄새", (String)plantDetailData.get("smell"));
@@ -91,6 +113,7 @@ public class PlantInformationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         arrayList.add(familyname);
+        arrayList.add(waterCycle);
         arrayList.add(height);
         arrayList.add(place);
         arrayList.add(smell);
