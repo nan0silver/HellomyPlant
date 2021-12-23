@@ -80,6 +80,9 @@ public class PlantInformationActivity extends AppCompatActivity {
         PlantInformationData temperature = null;
         PlantInformationData pest = null;
         PlantInformationData waterCycle = null;
+        PlantInformationData waterdrop = null;
+        PlantInformationData light = null;
+
         String wateringInfomation = "";
         try {
             wateringInfomation = (String)plantDetailData.get("watercycleWinter");
@@ -87,22 +90,28 @@ public class PlantInformationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         int wateringCycle = 0;
+        String wateringdrop = "";
 
         System.out.println(wateringInfomation);
 
         if(wateringInfomation.charAt(0)=='항'){
             wateringCycle = 0;
+            wateringdrop = "흙이 흠뻑 젖도록";
         } else if(wateringInfomation.charAt(0)=='흙'){
             wateringCycle = 6;
+            wateringdrop = "흙이 촉촉하게";
         } else if(wateringInfomation.charAt(0)=='토'){
             wateringCycle = 13;
+            wateringdrop = "흙이 적당히 젖도록";
         }else{
             wateringCycle = 29;
+            wateringdrop = "흙이 적당히 젖도록";
         }
         String water = Integer.toString(wateringCycle) + " 일";
         try {
             familyname = new PlantInformationData("식물 과명", (String)plantDetailData.get("familyName"));
-            waterCycle = new PlantInformationData("물 주기", water);
+            waterCycle = new PlantInformationData(" 물 주기 ", water);
+            waterdrop = new PlantInformationData(" 물의 양 ", wateringdrop);
          height = new PlantInformationData("성장 높이", (String)plantDetailData.get("height"));
          place = new PlantInformationData("배치 장소", ((String)plantDetailData.get("place")).replace(",","\n"));
          smell = new PlantInformationData("식물 냄새", (String)plantDetailData.get("smell"));
