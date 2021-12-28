@@ -532,9 +532,9 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        finally{
-            return "network error";
-        }
+        return "network error";
+
+
     }
     protected void onPostExecute(String scientific_name){
 
@@ -600,9 +600,7 @@ class NongSaroGardenListTask extends AsyncTask<String, Void, String[]> {
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
-        finally {
-            return nongsaroListResponse;
-        }
+        return nongsaroListResponse;
     }
 }
 class NongSaroGardenDetailTask extends AsyncTask<String,Void,JSONObject>{
