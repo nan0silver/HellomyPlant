@@ -1,5 +1,6 @@
 package com.nahyun.helloplant;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -58,6 +60,7 @@ import java.net.URL;
 import java.util.Base64;
 import java.util.concurrent.ExecutionException;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,7 +82,7 @@ import javax.xml.xpath.XPathFactory;
 
 import static android.os.Environment.DIRECTORY_PICTURES;
 
-public class searchPlant extends AppCompatActivity {
+public class searchPlant extends BottomNavigationActivity {
 
     private static final int REQUEST_IMAGE_CAPTURE = 672;
     private static final int REQUEST_GALLERY = 682;
@@ -93,6 +96,31 @@ public class searchPlant extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_plant);
+
+        BottomNavigationView navigation = (BottomNavigationView)findViewById(R.id.navigation);
+        navigation.setSelectedItemId(R.id.action_camera);
+        navigation.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_calendar:
+                        Toast.makeText(searchPlant.this, "캘린더로 이동", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_camera:
+                        break;
+                    case R.id.action_home:
+                        Toast.makeText(searchPlant.this, "내 식물 리스트로 이동", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_ranking:
+                        Toast.makeText(searchPlant.this, "랭킹 페이지로 이동", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_talk:
+                        Toast.makeText(searchPlant.this, "게시판으로 이동", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return false;
+            }
+        });
 
         mMediaScanner = MediaScanner.getInstance(getApplicationContext());
 
@@ -218,7 +246,7 @@ public class searchPlant extends AppCompatActivity {
 
                 String[] idAndName = new String[2];
                 if(scientific_name.equals("network error")){
-                    Toast.makeText(getApplicationContext(),"네트워크 에러!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"네트워크에 에러가 있습니다. 확인해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else if(!scientific_name.equals("not plant")){
                     try {
@@ -233,7 +261,7 @@ public class searchPlant extends AppCompatActivity {
                     }
                 }
                 else {
-                    Toast.makeText(getApplicationContext(),"식물이 아닙니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"식물이 아닙니다. 정확한 식물 사진을 넣어주세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 JSONObject plantDetailData = new JSONObject();
@@ -303,6 +331,17 @@ public class searchPlant extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    int getContentViewId() {
+        return R.layout.activity_search_plant;
+    }
+
+    @Override
+    int getNavigationMenuItemId() {
+        return R.id.action_camera;
+    }
+
     // plant.id api
     @RequiresApi(api = Build.VERSION_CODES.O)
     private String base64EncodeFromFile() throws Exception {

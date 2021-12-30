@@ -1,5 +1,6 @@
 package com.nahyun.helloplant;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,11 +11,16 @@ import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,7 +32,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class PlantInformationActivity extends AppCompatActivity {
+public class PlantInformationActivity extends BottomNavigationActivity {
 
     private ArrayList<PlantInformationData> arrayList;
     private PlantInformationAdapter plantInformationAdapter;
@@ -37,6 +43,31 @@ public class PlantInformationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_information);
+
+        BottomNavigationView navigation = (BottomNavigationView)findViewById(R.id.navigation);
+        navigation.setSelectedItemId(R.id.action_camera);
+        navigation.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_calendar:
+                        Toast.makeText(PlantInformationActivity.this, "캘린더로 이동", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_camera:
+                        break;
+                    case R.id.action_home:
+                        Toast.makeText(PlantInformationActivity.this, "내 식물 리스트로 이동", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_ranking:
+                        Toast.makeText(PlantInformationActivity.this, "랭킹 페이지로 이동", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_talk:
+                        Toast.makeText(PlantInformationActivity.this, "게시판으로 이동", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return false;
+            }
+        });
 
         TextView plant_name_TextView = (TextView)findViewById(R.id.searching_plant_name);
         Intent intent_comefrom_searchplant_page = getIntent();
@@ -95,16 +126,16 @@ public class PlantInformationActivity extends AppCompatActivity {
         System.out.println(wateringInfomation);
 
         if(wateringInfomation.charAt(0)=='항'){
-            wateringCycle = 0;
+            wateringCycle = 1;
             wateringdrop = "흙이 흠뻑 젖도록";
         } else if(wateringInfomation.charAt(0)=='흙'){
-            wateringCycle = 6;
+            wateringCycle = 7;
             wateringdrop = "흙이 촉촉하게";
         } else if(wateringInfomation.charAt(0)=='토'){
-            wateringCycle = 13;
+            wateringCycle = 14;
             wateringdrop = "흙이 적당히 젖도록";
         }else{
-            wateringCycle = 29;
+            wateringCycle = 30;
             wateringdrop = "흙이 적당히 젖도록";
         }
         String water = Integer.toString(wateringCycle) + " 일";
@@ -112,6 +143,7 @@ public class PlantInformationActivity extends AppCompatActivity {
             familyname = new PlantInformationData("식물 과명", (String)plantDetailData.get("familyName"));
             waterCycle = new PlantInformationData(" 물 주기 ", water);
             waterdrop = new PlantInformationData(" 물의 양 ", wateringdrop);
+            light = new PlantInformationData("햇빛의 양", (String)plantDetailData.get("light"));
          height = new PlantInformationData("성장 높이", (String)plantDetailData.get("height"));
          place = new PlantInformationData("배치 장소", ((String)plantDetailData.get("place")).replace(",","\n"));
          smell = new PlantInformationData("식물 냄새", (String)plantDetailData.get("smell"));
@@ -123,6 +155,8 @@ public class PlantInformationActivity extends AppCompatActivity {
         }
         arrayList.add(familyname);
         arrayList.add(waterCycle);
+        arrayList.add(waterdrop);
+        arrayList.add(light);
         arrayList.add(height);
         arrayList.add(place);
         arrayList.add(smell);
@@ -166,5 +200,15 @@ public class PlantInformationActivity extends AppCompatActivity {
                 startActivity(intent_goto_addmyplant_page);
             }
         });
+    }
+
+    @Override
+    int getContentViewId() {
+        return R.layout.activity_search_plant;
+    }
+
+    @Override
+    int getNavigationMenuItemId() {
+        return R.id.action_camera;
     }
 }

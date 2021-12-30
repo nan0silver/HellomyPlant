@@ -1,16 +1,23 @@
 package com.nahyun.helloplant;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class ViewMyplantActivity extends AppCompatActivity {
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.jetbrains.annotations.NotNull;
+
+public class ViewMyplantActivity extends BottomNavigationActivity {
 
     TextView PlantName;
 
@@ -18,6 +25,31 @@ public class ViewMyplantActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_myplant);
+
+        BottomNavigationView navigation = (BottomNavigationView)findViewById(R.id.navigation);
+        navigation.setSelectedItemId(R.id.action_camera);
+        navigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_calendar:
+                        Toast.makeText(ViewMyplantActivity.this, "캘린더로 이동", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_camera:
+                        break;
+                    case R.id.action_home:
+                        Toast.makeText(ViewMyplantActivity.this, "내 식물 리스트로 이동", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_ranking:
+                        Toast.makeText(ViewMyplantActivity.this, "랭킹 페이지로 이동", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_talk:
+                        Toast.makeText(ViewMyplantActivity.this, "게시판으로 이동", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return false;
+            }
+        });
 
         Intent intent_comefrom_addmyplant_page = getIntent();
         String PlantName_string = intent_comefrom_addmyplant_page.getExtras().getString("PlantName");
@@ -59,5 +91,15 @@ public class ViewMyplantActivity extends AppCompatActivity {
                 startActivity(intent_modify_page);
             }
         });
+    }
+
+    @Override
+    int getContentViewId() {
+        return R.layout.activity_search_plant;
+    }
+
+    @Override
+    int getNavigationMenuItemId() {
+        return R.id.action_camera;
     }
 }
