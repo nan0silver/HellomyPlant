@@ -103,9 +103,6 @@ public class searchPlant extends BottomNavigationActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_calendar:
-                        Toast.makeText(searchPlant.this, "캘린더로 이동", Toast.LENGTH_SHORT).show();
-                        break;
                     case R.id.action_camera:
                         break;
                     case R.id.action_home:

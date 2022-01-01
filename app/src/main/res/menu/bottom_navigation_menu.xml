@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_calendar"
+        android:id="@+id/action_home"
         android:enabled="true"
-        android:icon="@drawable/bottom_calendar"
-        android:title="달력"
+        android:icon="@drawable/bottom_home"
+        android:title="내 식물"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_camera"
@@ -13,12 +13,7 @@
         android:icon="@drawable/bottom_camera"
         android:title="사진 검색"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/action_home"
-        android:enabled="true"
-        android:icon="@drawable/bottom_home"
-        android:title="내 식물"
-        app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/action_ranking"
         android:enabled="true"

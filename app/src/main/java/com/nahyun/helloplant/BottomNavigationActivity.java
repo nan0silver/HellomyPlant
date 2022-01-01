@@ -41,10 +41,7 @@ public abstract class BottomNavigationActivity extends AppCompatActivity impleme
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         navigationView.postDelayed(() -> {
             int itemId = item.getItemId();
-            if (itemId == R.id.action_calendar) {
-                //startActivity(new Intent(this, HomeActivity.class));
-                Toast.makeText(BottomNavigationActivity.this, "캘린더로 이동", Toast.LENGTH_SHORT).show();
-            } else if (itemId == R.id.action_camera) {
+            if (itemId == R.id.action_camera) {
                 startActivity(new Intent(BottomNavigationActivity.this, searchPlant.class));
             } else if (itemId == R.id.action_home) {
                 //startActivity(new Intent(this, NotificationsActivity.class));

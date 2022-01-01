@@ -25,9 +25,6 @@ public class SearhedNameActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.action_calendar:
-                        Toast.makeText(SearhedNameActivity.this, "캘린더로 이동", Toast.LENGTH_SHORT).show();
-                        break;
                     case R.id.action_camera:
                         Intent SN_intent_camera = new Intent(SearhedNameActivity.this, searchPlant.class);
                         startActivity(SN_intent_camera);

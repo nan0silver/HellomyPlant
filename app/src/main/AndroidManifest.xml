@@ -16,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HelloPlant"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ViewMyplantActivity"></activity>
+        <activity android:name=".MyplantListActivity"></activity>
+        <activity android:name=".SignupActivity" />
+        <activity android:name=".ViewMyplantActivity" />
         <activity android:name=".AddMyplantActivity" />
         <activity android:name=".LoadingPageActivity" />
         <activity android:name=".SearhedNameActivity" />
