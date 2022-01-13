@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearhedNameActivity">
+    tools:context=".NoticeBoardActivity">
 
     <ImageView
         android:id="@+id/topLogo"
@@ -17,21 +17,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/noticeboard_TextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:scrollbarFadeDuration="0"
-        android:scrollbarSize="5dp"
-        android:scrollbarThumbVertical="@android:color/darker_gray"
-        android:scrollbars="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="식물 정보 게시판"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="25dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topLogo" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topLogo"/>
+
+    <TextView
+        android:id="@+id/noticeboard_sub_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사진 속 식물의 정보를 아신다면 정보를 기입해주세요!"
+        android:textColor="@color/black"
+        android:background="#D3ED9D"
+        android:padding="8dp"
+        android:textSize="15dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/noticeboard_TextView"/>
 
     <include
         layout="@layout/bottom_navigation_layout"
@@ -39,8 +50,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

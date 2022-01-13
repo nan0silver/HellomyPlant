@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public abstract class BottomNavigationActivity extends AppCompatActivity implements BottomNavigationView.OnItemSelectedListener {
+public abstract class BottomNavigationActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     protected BottomNavigationView navigationView;
 
@@ -20,7 +20,8 @@ public abstract class BottomNavigationActivity extends AppCompatActivity impleme
             setContentView(getContentViewId());
 
             navigationView = findViewById(R.id.navigation);
-            navigationView.setOnItemSelectedListener(this);
+            navigationView.setOnNavigationItemSelectedListener(this);
+            navigationView.bringToFront();
     }
 
 
@@ -43,15 +44,16 @@ public abstract class BottomNavigationActivity extends AppCompatActivity impleme
             int itemId = item.getItemId();
             if (itemId == R.id.action_camera) {
                 startActivity(new Intent(BottomNavigationActivity.this, searchPlant.class));
+                overridePendingTransition(0,0);
             } else if (itemId == R.id.action_home) {
-                //startActivity(new Intent(this, NotificationsActivity.class));
-                Toast.makeText(BottomNavigationActivity.this, "내 식물 리스트로 이동", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(BottomNavigationActivity.this, MyplantListActivity.class));
+                overridePendingTransition(0,0);
             } else if (itemId == R.id.action_ranking) {
-                //startActivity(new Intent(this, MoreActivity.class));
-                Toast.makeText(BottomNavigationActivity.this, "랭킹 페이지로 이동", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(BottomNavigationActivity.this, RankingListActivity.class));
+                overridePendingTransition(0,0);
             } else if (itemId == R.id.action_talk) {
-                //startActivity(new Intent(this, MoreActivity.class));
-                Toast.makeText(BottomNavigationActivity.this, "게시판으로 이동", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(BottomNavigationActivity.this, NoticeBoardActivity.class));
+                overridePendingTransition(0,0);
             }
             finish();
         }, 300);

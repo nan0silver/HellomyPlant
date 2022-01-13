@@ -35,13 +35,22 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
                     case R.id.action_camera:
                         break;
                     case R.id.action_home:
-                        Toast.makeText(ViewMyplantActivity.this, "내 식물 리스트로 이동", Toast.LENGTH_SHORT).show();
+                        Intent VM_intent_home = new Intent(ViewMyplantActivity.this, MyplantListActivity.class);
+                        VM_intent_home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(VM_intent_home);
+                        overridePendingTransition(0,0);
                         break;
                     case R.id.action_ranking:
-                        Toast.makeText(ViewMyplantActivity.this, "랭킹 페이지로 이동", Toast.LENGTH_SHORT).show();
+                        Intent VM_intent_ranking = new Intent(ViewMyplantActivity.this, RankingListActivity.class);
+                        VM_intent_ranking.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(VM_intent_ranking);
+                        overridePendingTransition(0,0);
                         break;
                     case R.id.action_talk:
-                        Toast.makeText(ViewMyplantActivity.this, "게시판으로 이동", Toast.LENGTH_SHORT).show();
+                        Intent VM_intent_talk = new Intent(ViewMyplantActivity.this, NoticeBoardActivity.class);
+                        VM_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(VM_intent_talk);
+                        overridePendingTransition(0,0);
                         break;
                 }
                 return false;

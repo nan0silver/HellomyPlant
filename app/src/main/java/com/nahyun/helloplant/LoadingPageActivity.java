@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.Window;
 
-/*
+
 public class LoadingPageActivity extends AppCompatActivity {
 
     @Override
@@ -17,7 +17,7 @@ public class LoadingPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading_page);
 
-        Loadingstart();
+        //Loadingstart();
     }
     private void Loadingstart() {
         Handler handler = new Handler();
@@ -31,9 +31,9 @@ public class LoadingPageActivity extends AppCompatActivity {
             }
         }, 2000);
     }
-}*/
+}
 
-public class LoadingPageActivity extends Dialog {
+/*public class LoadingPageActivity extends Dialog {
 
     public LoadingPageActivity(Context context) {
 
@@ -42,4 +42,4 @@ public class LoadingPageActivity extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_loading_page);
     }
-}
+}*/
