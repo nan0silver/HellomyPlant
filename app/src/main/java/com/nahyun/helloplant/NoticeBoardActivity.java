@@ -2,17 +2,30 @@ package com.nahyun.helloplant;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 public class NoticeBoardActivity extends AppCompatActivity {
+
+    private ArrayList<NoticeBoardData> nb_arrayList;
+    private NoticeBoardAdapter noticeBoardAdapter;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,5 +63,33 @@ public class NoticeBoardActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        recyclerView = (RecyclerView)findViewById(R.id.noticeboard_RecyclerView);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+
+        nb_arrayList = new ArrayList<>();
+        noticeBoardAdapter = new NoticeBoardAdapter(nb_arrayList);
+        noticeBoardAdapter.setOnItemClickListener(new NoticeBoardAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                String p = Integer.toString(position);
+                Toast.makeText(NoticeBoardActivity.this, p, Toast.LENGTH_SHORT).show();
+            }
+        });
+        recyclerView.setAdapter(noticeBoardAdapter);
+
+        NoticeBoardData sample1 = null;
+
+        Bitmap sample1_image = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.test_image);
+        sample1 = new NoticeBoardData(sample1_image, "test");
+
+        nb_arrayList.add(sample1);
+        nb_arrayList.add(sample1);
+        nb_arrayList.add(sample1);
+        nb_arrayList.add(sample1);
+        nb_arrayList.add(sample1);
+
+
+
     }
 }
