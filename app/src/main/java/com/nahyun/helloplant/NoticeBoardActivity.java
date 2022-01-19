@@ -73,7 +73,10 @@ public class NoticeBoardActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View v, int position) {
                 String p = Integer.toString(position);
-                Toast.makeText(NoticeBoardActivity.this, p, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(NoticeBoardActivity.this, p, Toast.LENGTH_SHORT).show();
+                //여기서 Toast를 삭제하고 startActivity를 실행, activity 이름은 position기반
+                Intent intent_goto_saveinformation = new Intent(NoticeBoardActivity.this, SaveInformationActivity.class);
+                startActivity(intent_goto_saveinformation);
             }
         });
         recyclerView.setAdapter(noticeBoardAdapter);

@@ -16,24 +16,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HelloPlant"
         android:usesCleartextTraffic="true">
-        <activity android:name=".NoticeBoardActivity"
-            android:taskAffinity="com.task.talk"/>
-        <activity android:name=".RankingListActivity"
-            android:taskAffinity="com.task.ranking"/>
-        <activity android:name=".MyplantListActivity"
-            android:taskAffinity="com.task.home"/>
+        <activity android:name=".SaveInformationActivity"></activity>
+        <activity
+            android:name=".NoticeBoardActivity"
+            android:taskAffinity="com.task.talk" />
+        <activity
+            android:name=".RankingListActivity"
+            android:taskAffinity="com.task.ranking" />
+        <activity
+            android:name=".MyplantListActivity"
+            android:taskAffinity="com.task.home" />
         <activity android:name=".SignupActivity" />
-        <activity android:name=".ViewMyplantActivity"
-            android:taskAffinity="com.task.camera"/>
-        <activity android:name=".AddMyplantActivity"
-            android:taskAffinity="com.task.camera"/>
+        <activity
+            android:name=".ViewMyplantActivity"
+            android:taskAffinity="com.task.camera" />
+        <activity
+            android:name=".AddMyplantActivity"
+            android:taskAffinity="com.task.camera" />
         <activity android:name=".LoadingPageActivity" />
-        <activity android:name=".SearhedNameActivity"
-            android:taskAffinity="com.task.camera"/>
-        <activity android:name=".PlantInformationActivity"
-            android:taskAffinity="com.task.camera"/>
-        <activity android:name=".searchPlant"
-            android:taskAffinity="com.task.camera"/>
+        <activity
+            android:name=".SearhedNameActivity"
+            android:taskAffinity="com.task.camera" />
+        <activity
+            android:name=".PlantInformationActivity"
+            android:taskAffinity="com.task.camera" />
+        <activity
+            android:name=".searchPlant"
+            android:taskAffinity="com.task.camera" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
