@@ -327,8 +327,6 @@ public class searchPlant extends BottomNavigationActivity {
             }
         });
 
-
-
         findViewById(R.id.searched_plant_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -3,12 +3,25 @@ package com.nahyun.helloplant;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -23,14 +36,38 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
+
+    public EditText login_email, login_passwd;
+    public Button login_Button, signup_Button;
+    public static String email, passwd;
+    static RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button signup_Button = findViewById(R.id.signup_Button);
+        login_email = (EditText)findViewById(R.id.login_email_EditText);
+        login_passwd = (EditText)findViewById(R.id.login_passwd_EditText);
+
+
+        signup_Button = findViewById(R.id.signup_Button);
         signup_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,17 +76,54 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button login_button = findViewById(R.id.login_button);
-        login_button.setOnClickListener(new View.OnClickListener() {
+        //=====LOG IN=====//
+        login_Button = findViewById(R.id.login_Button);
+        login_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //change myplant list page later.
-                Intent goto_main_page = new Intent(MainActivity.this, searchPlant.class);
-                startActivity(goto_main_page);
+                email = login_email.getText().toString();
+                passwd = login_passwd.getText().toString();
+
+                makeRequest();
+
             }
         });
 
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(getApplicationContext());
+        }
     }
 
+    public void makeRequest() {
+        String url = String.format("http://18.116.203.236:1234/user/login?email=" + email
+        + "&password=" + passwd);
+
+        StringRequest request = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MainActivity.this, "아이디나 비밀번호를 확인해주세요.\n회원가입이 필요하면 가입해주세요", Toast.LENGTH_SHORT).show();
+                        System.out.println("error = " +error.getMessage() );
+                    }
+                }) {
+
+            protected Map<String, String> getParms() throws AuthFailureError
+            {
+                Map<String, String> params = new HashMap<String, String>();
+                return params;
+            }
+        };
+
+        request.setShouldCache(false);
+        requestQueue.add(request);
+    }
 
 }
+
