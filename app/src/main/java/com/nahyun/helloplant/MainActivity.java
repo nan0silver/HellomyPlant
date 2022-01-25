@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -51,7 +53,10 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class MainActivity extends AppCompatActivity {
+
+    public String login_url = "http://18.116.203.236:1234/user/login?email=";
 
     public EditText login_email, login_passwd;
     public Button login_Button, signup_Button;
@@ -86,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 passwd = login_passwd.getText().toString();
 
                 makeRequest();
-
             }
         });
 
@@ -96,14 +100,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void makeRequest() {
-        String url = String.format("http://18.116.203.236:1234/user/login?email=" + email
-        + "&password=" + passwd);
+        String url = String.format(login_url + email + "&password=" + passwd);
 
         StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
                         Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
+                        JSONObject jsonObject_response = null;
+                        try {
+                            jsonObject_response = new JSONObject(response);
+
+                            SharedPreferences sharedPreferences = getSharedPreferences("login token", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("accessToken", jsonObject_response.getString("accessToken"));
+                            editor.commit();
+                            System.out.println("accessToken is saved");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                        Intent intent_goto_myplantlist = new Intent(MainActivity.this, MyplantListActivity.class);
+                        startActivity(intent_goto_myplantlist);
                     }
                 },
                 new Response.ErrorListener() {
