@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         login_email = (EditText)findViewById(R.id.login_email_EditText);
         login_passwd = (EditText)findViewById(R.id.login_passwd_EditText);
 
-
         signup_Button = findViewById(R.id.signup_Button);
         signup_Button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         login_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //change myplant list page later.
+
                 email = login_email.getText().toString();
                 passwd = login_passwd.getText().toString();
 
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
 
-                        Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "로그인이 되었습니다.", Toast.LENGTH_SHORT).show();
                         JSONObject jsonObject_response = null;
                         try {
                             jsonObject_response = new JSONObject(response);
@@ -120,8 +119,6 @@ public class MainActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
 
                         Intent intent_goto_myplantlist = new Intent(MainActivity.this, MyplantListActivity.class);
                         startActivity(intent_goto_myplantlist);

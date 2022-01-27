@@ -190,13 +190,7 @@
                 android:text="일"
                 android:textColor="@color/black"
                 android:padding="10dp"/>
-            <Button
-                android:id="@+id/set_fertilizingperiod_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="다시"
-                android:textColor="@color/black"
-                android:background="@drawable/round_button"/>
+
 
         </LinearLayout>
 

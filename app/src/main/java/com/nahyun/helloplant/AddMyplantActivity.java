@@ -69,10 +69,12 @@ public class AddMyplantActivity extends BottomNavigationActivity {
         JSONObject plantDetailData = new JSONObject();
         String jsonString =
                 intent_comefrom_plantinfomation_page.getExtras().getString("plantDetailData");
-        try {
-            plantDetailData = new JSONObject(jsonString);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (jsonString != null) {
+            try {
+                plantDetailData = new JSONObject(jsonString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         ImageView plant_ImageView = (ImageView)findViewById(R.id.searching_plant_ImageView);
@@ -93,18 +95,24 @@ public class AddMyplantActivity extends BottomNavigationActivity {
 
         System.out.println(wateringInfomation);
 
-        if(wateringInfomation.charAt(0)=='항'){
+        try {
+            if (wateringInfomation.charAt(0) == '항') {
+                wateringCycle = 0;
+                waterdrop = "4";
+            } else if (wateringInfomation.charAt(0) == '흙') {
+                wateringCycle = 6;
+                waterdrop = "3";
+            } else if (wateringInfomation.charAt(0) == '토') {
+                wateringCycle = 13;
+                waterdrop = "2";
+            } else {
+                wateringCycle = 29;
+                waterdrop = "2";
+            }
+        }catch (StringIndexOutOfBoundsException e){
+            e.printStackTrace();
+            waterdrop = "2";
             wateringCycle = 0;
-            waterdrop = "4";
-        } else if(wateringInfomation.charAt(0)=='흙'){
-            wateringCycle = 6;
-            waterdrop = "3";
-        } else if(wateringInfomation.charAt(0)=='토'){
-            wateringCycle = 13;
-            waterdrop = "2";
-        }else{
-            wateringCycle = 29;
-            waterdrop = "2";
         }
 
         Spinner spinner_watering = findViewById(R.id.set_wateringperiod_Spinner);
@@ -183,7 +191,6 @@ public class AddMyplantActivity extends BottomNavigationActivity {
                 spinner_watering.setSelection(finalWateringCycle);
             }
         });
-
 
     }
 
