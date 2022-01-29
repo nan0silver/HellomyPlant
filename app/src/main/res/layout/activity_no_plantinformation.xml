@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlantInformationActivity">
+    tools:context=".NoPlantinformationActivity">
 
     <ImageView
         android:id="@+id/topLogo"
@@ -20,102 +20,84 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="398dp"
-        android:layout_height="560dp"
+        android:layout_height="550dp"
         android:layout_marginTop="16dp"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topLogo">
 
         <ImageView
-            android:id="@+id/searching_plant_ImageView"
-            android:layout_width="wrap_content"
+            android:id="@+id/searching_noinfo_plant_ImageView"
+            android:layout_width="380dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/searching_plant_name"
+            app:layout_constraintBottom_toTopOf="@+id/searching_noinfo_plant_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_weight="4"
+            app:layout_constraintVertical_weight="2"
             app:srcCompat="@drawable/test_image" />
 
         <TextView
-            android:id="@+id/searching_plant_name"
+            android:id="@+id/searching_noinfo_plant_name"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
             android:gravity="center"
             android:text="Plant name"
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/difficulty_star_layout"
+            app:layout_constraintBottom_toTopOf="@+id/addmyplantButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searching_plant_ImageView"
+            app:layout_constraintTop_toBottomOf="@+id/searching_noinfo_plant_ImageView"
             app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_weight="1" />
-
-        <LinearLayout
-            android:id="@+id/difficulty_star_layout"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="center_horizontal"
-            app:layout_constraintBottom_toTopOf="@id/addmyplantButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searching_plant_name"
-            app:layout_constraintVertical_weight="0.5" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="관리 난이도 :   "
-                android:textColor="@color/black"
-                android:padding="3dp"/>
-
-            <ImageView
-                android:id="@+id/difficulty_star_ImageView"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                app:layout_constraintVertical_weight="0.4"
-                app:srcCompat="@drawable/star_two" />
-        </LinearLayout>
+            app:layout_constraintVertical_weight="0.5" />
 
         <Button
             android:id="@+id/addmyplantButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="내 식물로 추가하기"
             android:textColor="#000000"
             android:textStyle="bold"
             app:backgroundTint="#95D784"
-            app:layout_constraintBottom_toBottomOf="@id/plant_information_RecyclerView"
+            app:layout_constraintBottom_toTopOf="@+id/searching_noinfo_TextView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/difficulty_star_layout"
+            app:layout_constraintTop_toBottomOf="@+id/searching_noinfo_plant_name"
             app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_weight="1" />
+            app:layout_constraintVertical_weight="0.6" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/plant_information_RecyclerView"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/searching_noinfo_TextView"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            android:background="#D7F5F9"
-            android:scrollbarFadeDuration="0"
-            android:scrollbarSize="5dp"
-            android:scrollbarThumbVertical="@android:color/darker_gray"
-            android:scrollbars="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="10dp"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:text="현재 Hello my plant가 이 식물의 정보를 \n가지고 있지 않습니다.\n\n식물 정보 게시판에 올려 정보를 요청하길 원한다면 밑의 버튼을 눌러주세요."
+            app:layout_constraintStart_toStartOf="@+id/searching_noinfo_plant_ImageView"
+            app:layout_constraintEnd_toEndOf="@+id/searching_noinfo_plant_ImageView"
             app:layout_constraintTop_toBottomOf="@+id/addmyplantButton"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_weight="5" />
+            app:layout_constraintBottom_toTopOf="@+id/asking_plantinformation_Button"
+            app:layout_constraintVertical_weight="1"/>
+
+        <Button
+            android:id="@+id/asking_plantinformation_Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="정보 요청하기"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/skyblue_rec_button"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searching_noinfo_TextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_weight="1"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -129,6 +111,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

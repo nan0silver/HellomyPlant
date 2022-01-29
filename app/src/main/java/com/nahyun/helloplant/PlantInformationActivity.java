@@ -131,19 +131,27 @@ public class PlantInformationActivity extends BottomNavigationActivity {
 
         System.out.println(wateringInfomation);
 
-        if(wateringInfomation.charAt(0)=='항'){
-            wateringCycle = 1;
-            wateringdrop = "흙이 흠뻑 젖도록";
-        } else if(wateringInfomation.charAt(0)=='흙'){
-            wateringCycle = 7;
-            wateringdrop = "흙이 촉촉하게";
-        } else if(wateringInfomation.charAt(0)=='토'){
-            wateringCycle = 14;
-            wateringdrop = "흙이 적당히 젖도록";
-        }else{
-            wateringCycle = 30;
-            wateringdrop = "흙이 적당히 젖도록";
+        try {
+            if (wateringInfomation.charAt(0) == '항') {
+                wateringCycle = 1;
+                wateringdrop = "흙이 흠뻑 젖도록";
+            } else if (wateringInfomation.charAt(0) == '흙') {
+                wateringCycle = 7;
+                wateringdrop = "흙이 촉촉하게";
+            } else if (wateringInfomation.charAt(0) == '토') {
+                wateringCycle = 14;
+                wateringdrop = "흙이 적당히 젖도록";
+            } else {
+                wateringCycle = 30;
+                wateringdrop = "흙이 적당히 젖도록";
+            }
         }
+        catch (StringIndexOutOfBoundsException e){
+            e.printStackTrace();
+            wateringdrop = "정보가 없습니다.";
+            System.out.println("There is no watering information for this plant.");
+        }
+
         String water = Integer.toString(wateringCycle) + " 일";
         try {
             familyname = new PlantInformationData("식물 과명", (String)plantDetailData.get("familyName"));

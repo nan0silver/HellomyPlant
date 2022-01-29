@@ -90,6 +90,7 @@ public class searchPlant extends BottomNavigationActivity {
     private Uri photoUri;
     private File temp_gallery_File;
 
+
     private MediaScanner mMediaScanner;
 
     @Override
@@ -189,12 +190,13 @@ public class searchPlant extends BottomNavigationActivity {
             }
         });
 
+
         findViewById(R.id.searchImageButton).setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                String apiKey = "nQljT3UMscsIaE5YapywR1oTs96TrCzw2V9fdzqegI6j5mvxAw";
-//                String apiKey = "g5AkSeLBbiQjfWUK45AhmNu6e07gvLlCxXCzov0ZeEzOYq1uOK";
+//                String apiKey = "nQljT3UMscsIaE5YapywR1oTs96TrCzw2V9fdzqegI6j5mvxAw";
+                String apiKey = "g5AkSeLBbiQjfWUK45AhmNu6e07gvLlCxXCzov0ZeEzOYq1uOK";
 
                 String [] flowers = new String[] {"test_image.jpeg"};
 
@@ -272,6 +274,19 @@ public class searchPlant extends BottomNavigationActivity {
                 }
                 JSONObject plantDetailData = new JSONObject();
                 if(idAndName[0].equals("noData")){
+                    Intent intent_goto_noinfo_page = new Intent(searchPlant.this, NoPlantinformationActivity.class);
+                    intent_goto_noinfo_page.putExtra("ScientificName", scientific_name);
+
+                    ImageView selected_Image_View = (ImageView)findViewById(R.id.cameraImageview);
+                    BitmapDrawable selected_image_drawable = (BitmapDrawable)selected_Image_View.getDrawable();
+                    Bitmap selected_image_bitmap = Bitmap.createScaledBitmap(selected_image_drawable.getBitmap(), 300, 400, true);
+                    ByteArrayOutputStream stream_change = new ByteArrayOutputStream();
+                    selected_image_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream_change);
+                    byte[] byteArray_result = stream_change.toByteArray();
+                    intent_goto_noinfo_page.putExtra("PlantImage",  byteArray_result);
+
+                    startActivity(intent_goto_noinfo_page);
+
                     Toast.makeText(getApplicationContext(), "식물 정보가 없습니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }else if(idAndName[0].equals("listerror")){
@@ -304,13 +319,10 @@ public class searchPlant extends BottomNavigationActivity {
                 //put Imageview image to intent
                 ImageView selected_Image_View = (ImageView)findViewById(R.id.cameraImageview);
                 BitmapDrawable selected_image_drawable = (BitmapDrawable)selected_Image_View.getDrawable();
-                Bitmap selected_image_bitmap = selected_image_drawable.getBitmap();
-
-
+                Bitmap selected_image_bitmap = Bitmap.createScaledBitmap(selected_image_drawable.getBitmap(), 300, 400, true);
                 ByteArrayOutputStream stream_change = new ByteArrayOutputStream();
-                selected_image_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream_change);
+                selected_image_bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream_change);
                 byte[] byteArray_result = stream_change.toByteArray();
-
                 intent_goto_plantinformation_page.putExtra("image_bitmap", byteArray_result);
 
 
@@ -326,8 +338,6 @@ public class searchPlant extends BottomNavigationActivity {
                 return;
             }
         });
-
-
 
         findViewById(R.id.searched_plant_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -377,6 +387,30 @@ public class searchPlant extends BottomNavigationActivity {
         imageFilePath = image.getAbsolutePath();
         return image;
     }
+
+    public Bitmap resizing_image(Bitmap bitmap, int targetWidth, int targetHeight) {
+        BitmapFactory.Options bf_options = new BitmapFactory.Options();
+        bf_options.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(imageFilePath, bf_options);
+
+        int photoWidth = bf_options.outWidth;
+        int photoHeight = bf_options.outHeight;
+
+        if(targetHeight <= 0) {
+            targetHeight = (targetWidth * photoHeight) / photoWidth;
+        }
+
+        int scaleFactor = 1;
+        if (photoWidth > targetWidth) {
+            scaleFactor = Math.min(photoWidth / targetWidth, photoHeight / targetHeight);
+        }
+
+        bf_options.inJustDecodeBounds = false;
+        bf_options.inSampleSize = scaleFactor;
+
+        return BitmapFactory.decodeFile(imageFilePath, bf_options);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -492,6 +526,7 @@ public class searchPlant extends BottomNavigationActivity {
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
+
     PermissionListener permissionListener = new PermissionListener() {
         @Override
         public void onPermissionGranted() {
@@ -560,6 +595,7 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
                 JSONObject plant_details = firstSuggestions.getJSONObject("plant_details");
                 scientific_name = plant_details.getString("scientific_name");
                 System.out.println(scientific_name);
+
             }
             else{
                 System.out.println("probability is too low");
@@ -584,6 +620,7 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
     protected void onPostExecute(String scientific_name){
 
     }
+
 }
 
 class NongSaroGardenListTask extends AsyncTask<String, Void, String[]> {
@@ -624,13 +661,18 @@ class NongSaroGardenListTask extends AsyncTask<String, Void, String[]> {
                 XPath xPath = xPathFactory.newXPath();
                 XPathExpression xPathExpression = xPath.compile("//items/item");
                 nodeList = (NodeList) xPathExpression.evaluate(document, XPathConstants.NODESET);
-                NodeList child = nodeList.item(0).getChildNodes();
-                node = child.item(0);
-                nongsaroListResponse[0] = node.getTextContent();
+                if (nodeList.item(0) != null) {
+                    NodeList child = nodeList.item(0).getChildNodes();
+                    node = child.item(0);
+                    nongsaroListResponse[0] = node.getTextContent();
 //                System.out.println("현재 노드 값 : " + node.getTextContent());
-                node = child.item(1);
-                nongsaroListResponse[1] = node.getTextContent();
+                    node = child.item(1);
+                    nongsaroListResponse[1] = node.getTextContent();
 //                System.out.println("현재 노드 값 : " + node.getTextContent());
+                }
+                else {
+                    System.out.println("내가 맞음");
+                }
             } else {
                 System.out.println("결과"+ con.getResponseCode() + "Error");
             }
