@@ -3,6 +3,8 @@ package com.nahyun.helloplant;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,8 +12,10 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -75,6 +79,20 @@ public class NoPlantinformationActivity extends AppCompatActivity {
 
                 intent_goto_addmyplant.putExtra("image_bitmap_to_addmyplant", byteArray_imageBitmap);
                 startActivity(intent_goto_addmyplant);
+            }
+        });
+
+        //plant name copy code
+        ImageButton copy_Button = (ImageButton)findViewById(R.id.searching_plant_name_copy_Button);
+        copy_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ClipboardManager clipboardManager = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("plant_name",scientific_name);
+                clipboardManager.setPrimaryClip(clipData);
+
+                Toast.makeText(NoPlantinformationActivity.this, "식물 이름이 복사되었습니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }

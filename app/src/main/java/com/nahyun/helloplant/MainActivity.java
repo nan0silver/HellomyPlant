@@ -56,7 +56,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    public String login_url = "http://18.116.203.236:1234/user/login?email=";
+    public String login_url = "http://18.116.203.236:1234/user/login";
 
     public EditText login_email, login_passwd;
     public Button login_Button, signup_Button;
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 email = login_email.getText().toString();
                 passwd = login_passwd.getText().toString();
 
-                makeRequest();
+                makeRequest(email, passwd);
             }
         });
 
@@ -98,10 +98,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void makeRequest() {
-        String url = String.format(login_url + email + "&password=" + passwd);
+    public void makeRequest(String email, String passwd) {
+        String url = String.format(login_url);
 
-        StringRequest request = new StringRequest(Request.Method.GET, url,
+        requestQueue = Volley.newRequestQueue(MainActivity.this);
+
+        StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -132,9 +134,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }) {
 
-            protected Map<String, String> getParms() throws AuthFailureError
+            protected Map<String, String> getParams() throws AuthFailureError
             {
                 Map<String, String> params = new HashMap<String, String>();
+                params.put("email", email);
+                params.put("password", passwd);
+
+                System.out.println("Email = " + email + " password = " + passwd);
                 return params;
             }
         };

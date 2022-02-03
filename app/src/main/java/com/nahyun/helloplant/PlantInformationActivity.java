@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -212,6 +215,20 @@ public class PlantInformationActivity extends BottomNavigationActivity {
                 intent_goto_addmyplant_page.putExtra("plantDetailData", jsonString);
                 intent_goto_addmyplant_page.putExtra("image_bitmap_to_addmyplant", byteArray_imageBitmap);
                 startActivity(intent_goto_addmyplant_page);
+            }
+        });
+
+        //plant name copy code
+        ImageButton copy_Button = (ImageButton)findViewById(R.id.searching_plant_name_copy_Button);
+        copy_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ClipboardManager clipboardManager = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("plant_name",plant_name_TextView.getText().toString());
+                clipboardManager.setPrimaryClip(clipData);
+
+                Toast.makeText(PlantInformationActivity.this, "식물 이름이 복사되었습니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }

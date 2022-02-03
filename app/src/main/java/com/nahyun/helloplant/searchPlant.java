@@ -411,6 +411,7 @@ public class searchPlant extends BottomNavigationActivity {
         return BitmapFactory.decodeFile(imageFilePath, bf_options);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -492,15 +493,21 @@ public class searchPlant extends BottomNavigationActivity {
                     cursor.close();
                 }
             }
-            set_gallery_Image();
+            try {
+                set_gallery_Image(photo_gallery_Uri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
-    private void set_gallery_Image() {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void set_gallery_Image(Uri uri) throws IOException {
         ImageView imageView = findViewById(R.id.cameraImageview);
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         Bitmap original_gallery_bitmap = BitmapFactory.decodeFile(temp_gallery_File.getAbsolutePath(), options);
+        //rotate_gallery_Image(uri, original_gallery_bitmap);
 
         imageView.setImageBitmap(original_gallery_bitmap);
     }
@@ -524,6 +531,26 @@ public class searchPlant extends BottomNavigationActivity {
         Matrix matrix = new Matrix();
         matrix.postRotate(degree);
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private Bitmap rotate_gallery_Image(Uri uri, Bitmap bitmap) throws IOException {
+        InputStream in = getContentResolver().openInputStream(uri);
+        ExifInterface exifInterface = new ExifInterface(in);
+        in.close();
+
+        int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+        Matrix matrix = new Matrix();
+        if(orientation == ExifInterface.ORIENTATION_ROTATE_90) {
+            matrix.postRotate(90);
+        }
+        else if(orientation == ExifInterface.ORIENTATION_ROTATE_180) {
+            matrix.postRotate(180);
+        }
+        else if(orientation == ExifInterface.ORIENTATION_ROTATE_270) {
+            matrix.postRotate(270);
+        }
+        return Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(), matrix, true);
     }
 
 
