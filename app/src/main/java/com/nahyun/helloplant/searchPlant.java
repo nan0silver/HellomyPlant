@@ -28,10 +28,14 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -89,6 +93,7 @@ public class searchPlant extends BottomNavigationActivity {
     private String imageFilePath;
     private Uri photoUri;
     private File temp_gallery_File;
+    private int mDegree;
 
 
     private MediaScanner mMediaScanner;
@@ -142,7 +147,6 @@ public class searchPlant extends BottomNavigationActivity {
         ProgressDialog customProgressDialog;
         customProgressDialog = new ProgressDialog(this);
         customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
 
         findViewById(R.id.cameraButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -346,6 +350,20 @@ public class searchPlant extends BottomNavigationActivity {
                 startActivity(intent_goto_searchedname_page);
             }
         });
+
+        ImageButton rotate_image_Button = (ImageButton)findViewById(R.id.searching_plant_rotate_Button);
+        rotate_image_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDegree += 90;
+                ImageView rotate_ImageView = (ImageView)findViewById(R.id.cameraImageview);
+                BitmapDrawable drawable = (BitmapDrawable)rotate_ImageView.getDrawable();
+                Bitmap bitmap = drawable.getBitmap();
+                rotate_ImageView.setImageBitmap(rotate(bitmap, mDegree));
+
+                Toast.makeText(searchPlant.this, "이미지가 회전되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -471,7 +489,10 @@ public class searchPlant extends BottomNavigationActivity {
                 result = "File close Error";
             }
 
-            ((ImageView)findViewById(R.id.cameraImageview)).setImageBitmap(rotate(bitmap, exifDegree));
+            //((ImageView)findViewById(R.id.cameraImageview)).setImageBitmap(rotate(bitmap, exifDegree));
+            ImageView cameraImageview = (ImageView)findViewById(R.id.cameraImageview);
+            Glide.with(getApplicationContext()).asBitmap().load(rotate(bitmap, exifDegree))
+                    .into(cameraImageview);
         }
         else if (requestCode == REQUEST_GALLERY && resultCode == RESULT_OK) {
             Uri photo_gallery_Uri = data.getData();
@@ -509,7 +530,10 @@ public class searchPlant extends BottomNavigationActivity {
         Bitmap original_gallery_bitmap = BitmapFactory.decodeFile(temp_gallery_File.getAbsolutePath(), options);
         //rotate_gallery_Image(uri, original_gallery_bitmap);
 
-        imageView.setImageBitmap(original_gallery_bitmap);
+        //imageView.setImageBitmap(original_gallery_bitmap);
+        ImageView cameraImageview = (ImageView)findViewById(R.id.cameraImageview);
+        Glide.with(getApplicationContext()).asBitmap().load(original_gallery_bitmap)
+                .into(cameraImageview);
     }
 
     private  int exifOrientationToDegrees(int exifOrientation) {
