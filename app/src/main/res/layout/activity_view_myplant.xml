@@ -213,7 +213,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintVertical_weight="0.9"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/view_bottom_TextView"
             app:layout_constraintTop_toBottomOf="@id/view_myplant_LinearLayout"
             app:layout_constraintStart_toStartOf="@id/view_myplant_LinearLayout"
             app:layout_constraintEnd_toEndOf="@id/view_myplant_LinearLayout"
@@ -231,15 +231,27 @@
                 android:background="@drawable/strong_round_button"/>
 
             <Button
-                android:id="@+id/view_goto_myplantlist_Button"
+                android:id="@+id/view_delete_myplant_Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="내 식물리스트로 가기"
+                android:background="@drawable/strong_round_button"
+                android:text="내 식물 삭제하기"
                 android:textColor="@color/black"
-                android:textStyle="bold"
-                android:background="@drawable/strong_round_button"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/view_bottom_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="홈 버튼을 눌러 myplant 리스트로 가면 확인하실 수 있습니다."
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@+id/view_myplant_buttons_LinearLayout"
+            app:layout_constraintEnd_toEndOf="@+id/view_myplant_buttons_LinearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/view_myplant_buttons_LinearLayout"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
