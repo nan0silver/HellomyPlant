@@ -97,6 +97,14 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
                 startActivity(intent_modify_page);
             }
         });
+
+        findViewById(R.id.view_goto_myplantlist_Button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_goto_myplantlist_page = new Intent(ViewMyplantActivity.this, MyplantListActivity.class);
+                startActivity(intent_comefrom_addmyplant_page);
+            }
+        });
     }
 
     @Override
