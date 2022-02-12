@@ -1,0 +1,73 @@
+search plant 
+    -> plant information 
+        - image (Byte array)
+        - plant detail data (string)
+            - name
+            - family name
+            - height
+            - place
+            - smell
+            - growth speed
+            - proper temperture
+            - pest
+            - fertilizer
+            - water cycle spring, summer, fall, winter
+            - manage level
+            - light
+            - poison
+
+plant information  
+    <- search plant 
+        - image (Byte array)
+        - plant detail data (string)
+
+    -> add myPlant
+        - plant detail data (string)
+        - image (Byte array)
+
+add myPlant
+    <= plant information
+        - plant detail data (string)
+        - image (Byte array)
+
+    -> view myPlant
+        - plant detail data (add below datas)
+            - plant nickname (string)
+            - water drop (string) //물의 양
+            - watering period (string)
+            - fertilizing period (string)
+        - image (Byte array)
+
+vidw myPlant
+    <= add myPlant
+        - plant detail data (+ alpa)
+        - image (Byte array)
+        
+
+    -> add u-myPlant
+        - plant detail data (+ alpa)
+
+
+PlantDetailData
+    - searchPlant.java
+        data.put("familyName", child.item(12).getTextContent());
+        data.put("height", child.item(19).getTextContent());
+        data.put("place", child.item(47).getTextContent());
+        data.put("smell", child.item(51).getTextContent());
+        data.put("growthSpeed", child.item(24).getTextContent());
+        data.put("properTemperature", child.item(21).getTextContent());
+        data.put("pest", child.item(4).getTextContent());
+        data.put("fertilizer", child.item(17).getTextContent());
+        data.put("watercycleSpring",child.item(62).getTextContent());
+        data.put("watercycleSummer",child.item(62).getTextContent());
+        data.put("watercycleFall",child.item(62).getTextContent());
+        data.put("watercycleWinter",child.item(62).getTextContent());
+        data.put("manageLevel", child.item(40).getTextContent());
+        data.put("light", child.item(36).getTextContent());
+        data.put("poison", child.item(54).getTextContent());
+
+    - AddMyplantActivity.java
+        plantDetailData.put("plantNickname", PlantNickName.getText().toString());
+        plantDetailData.put("waterDrop", waterdrop);
+        plantDetailData.put("wateringPeriod", wateringPeriod_string);
+        plantDetailData.put("fertilizingPeriod", fertilizingPeriod_string);
