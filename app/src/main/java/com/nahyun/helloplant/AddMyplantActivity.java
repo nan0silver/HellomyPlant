@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,14 +20,36 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.AbstractMap;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+
+import static com.nahyun.helloplant.SignupActivity.email;
+
 public class AddMyplantActivity extends BottomNavigationActivity {
 
-    EditText PlantName;
+    EditText PlantNickName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,24 +185,48 @@ public class AddMyplantActivity extends BottomNavigationActivity {
             }
         });
 
-        PlantName = (EditText)findViewById(R.id.set_plantname_EditText);
+        PlantNickName = (EditText)findViewById(R.id.set_plantnickname_EditText);
+
+        try {
+            plantDetailData.put("plantNickname", PlantNickName.getText().toString());
+            plantDetailData.put("waterDrop", waterdrop);
+
+            String wateringPeriod_string = spinner_watering.getSelectedItem().toString();
+            plantDetailData.put("wateringPeriod", wateringPeriod_string);
+
+            String fertilizingPeriod_string = spinner_fertilizing.getSelectedItem().toString();
+            plantDetailData.put("fertilizingPeriod", fertilizingPeriod_string);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         String finalWaterdrop = waterdrop;
+        JSONObject finalPlantDetailData = plantDetailData;
+
         findViewById(R.id.set_myplant_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent_goto_viewmyplant_page = new Intent(AddMyplantActivity.this, ViewMyplantActivity.class);
 
-                intent_goto_viewmyplant_page.putExtra("PlantName", PlantName.getText().toString());
+                intent_goto_viewmyplant_page.putExtra("PlantNickName", PlantNickName.getText().toString());
                 intent_goto_viewmyplant_page.putExtra("WaterDrop", finalWaterdrop);
 
                 String wateringPeriod_string = spinner_watering.getSelectedItem().toString();
                 intent_goto_viewmyplant_page.putExtra("WateringPeriod", wateringPeriod_string);
-
                 String fertilizingPeriod_string = spinner_fertilizing.getSelectedItem().toString();
                 intent_goto_viewmyplant_page.putExtra("FertilizingPeriod", fertilizingPeriod_string);
 
+                intent_goto_viewmyplant_page.putExtra("plantDetailData", finalPlantDetailData.toString());
                 intent_goto_viewmyplant_page.putExtra("image_bitmap_to_viewmyplant", byteArray_imageBitmap_addmyplant);
+
+                String name = "";
+                try {
+                    name = finalPlantDetailData.get("name").toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                AddMyplant_post(name, wateringPeriod_string, fertilizingPeriod_string, PlantNickName.getText().toString(), new String(byteArray_imageBitmap_addmyplant));
 
                 startActivity(intent_goto_viewmyplant_page);
             }
@@ -204,5 +252,82 @@ public class AddMyplantActivity extends BottomNavigationActivity {
         return R.id.action_camera;
     }
 
+    public void AddMyplant_post(String scientific_name, String water_cycle, String fertilizer_cycle, String nickname, String image) {
+
+        SharedPreferences sharedPreferences = getSharedPreferences("login token", MODE_PRIVATE);
+        String token = sharedPreferences.getString("accessToken", "");
+        System.out.println(token);
+
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+            @Override
+            public okhttp3.@NotNull Response intercept(@NotNull Chain chain) throws IOException {
+                Request newRequest = chain.request().newBuilder()
+                        .addHeader("Authorization", "Bearer " + token).build();
+                return chain.proceed(newRequest);
+            }
+        }).build();
+
+        retrofit2.Retrofit retrofit = new retrofit2.Retrofit.Builder()
+                .client(client)
+                .baseUrl("http://18.116.203.236:1234/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitInterface service = retrofit.create(RetrofitInterface.class);
+
+        //RetrofitPostData post = new RetrofitPostData(scientific_name, water_cycle, fertilizer_cycle, nickname, "testtest");
+
+        Map <String, String> map = new HashMap<>();
+        map.put("scientific_name", scientific_name);
+        map.put("water_cycle", water_cycle);
+        map.put("fertilizer_cycle", fertilizer_cycle);
+        map.put("nickname", nickname);
+        map.put("image", "testtest");
+
+        System.out.println("scientific_name = " + scientific_name + " water_cycle = " + water_cycle + " fertilizer_cycle = " + fertilizer_cycle
+        + " nickname = " + nickname + " image = " + image );
+
+
+        Call<RetrofitPostData> call_post = service.postFunc(email, map);
+        call_post.enqueue(new Callback<RetrofitPostData>() {
+            @Override
+            public void onResponse(Call<RetrofitPostData> call, Response<RetrofitPostData> response) {
+                if(response.isSuccessful()) {
+
+                    response.body();
+                    String after_scientific_name = response.body().getNewPlant().getScientificName();
+                    String after_water_cycle = response.body().getNewPlant().getWaterCycle();
+                    String after_fertilizer_cycle = response.body().getNewPlant().getFertilizerCycle();
+                    String after_nickname = response.body().getNewPlant().getNickname();
+                    String after_image = response.body().getNewPlant().getImage();
+                    String after_id = response.body().getNewPlant().getId();
+                    String after_createdAt = response.body().getNewPlant().getCreatedAt();
+                    String after_updatedAt = response.body().getNewPlant().getUpdatedAt();
+
+                    Log.v("AddMyplantActivity", "scientific_name = " + after_scientific_name
+                            + "\nwater_cycle = " + after_water_cycle
+                            +"\nfertilizer_cycle = " + after_fertilizer_cycle
+                            +"\nnickname = " + after_nickname
+                            +"\nimage = " + after_image
+                            +"\nid = " + after_id
+                            +"\ncreatedAt = " + after_createdAt
+                            +"\nupdatedAt = " + after_updatedAt
+                            + "\ncode = " + String.valueOf(response.code()));
+                    Toast.makeText(AddMyplantActivity.this, "내 식물이 등록되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Log.v("AddMyplantActivity", "error = " + String.valueOf(response.code()));
+                    Toast.makeText(AddMyplantActivity.this, "error : " + String.valueOf(response.code()) + "\n 내 식물 등록에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RetrofitPostData> call, Throwable t) {
+                Log.v("AddMyplantActivity", "Fail");
+                Toast.makeText(AddMyplantActivity.this, "응답에 실패했습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 }
+

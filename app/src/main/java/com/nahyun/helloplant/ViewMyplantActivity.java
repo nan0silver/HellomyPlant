@@ -16,10 +16,12 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ViewMyplantActivity extends BottomNavigationActivity {
 
-    TextView PlantName;
+    TextView PlantNickName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +60,40 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
         });
 
         Intent intent_comefrom_addmyplant_page = getIntent();
-        String PlantName_string = intent_comefrom_addmyplant_page.getExtras().getString("PlantName");
+
+        JSONObject plantDetailData = new JSONObject();
+        String jsonString =
+                intent_comefrom_addmyplant_page.getExtras().getString("plantDetailData");
+        if (jsonString != null) {
+            try {
+                plantDetailData = new JSONObject(jsonString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String PlantNickName_string = intent_comefrom_addmyplant_page.getExtras().getString("PlantNickName");
         String WaterDrop_string = intent_comefrom_addmyplant_page.getExtras().getString("WaterDrop");
         String WaterPeriod_String = intent_comefrom_addmyplant_page.getExtras().getString("WateringPeriod");
         String FertilizingPeriod_String = intent_comefrom_addmyplant_page.getExtras().getString("FertilizingPeriod");
 
-        PlantName = (TextView)findViewById(R.id.myplant_name_TextView);
-        PlantName.setText(PlantName_string);
+        /*String PlantNickName_string = null;
+        String WaterDrop_string = null;
+        String WaterPeriod_String = null;
+        String FertilizingPeriod_String = null;
+
+        try {
+            PlantNickName_string = plantDetailData.getString("plantNickname");
+            WaterDrop_string = plantDetailData.getString("waterDrop");
+            WaterPeriod_String = plantDetailData.getString("wateringPeriod");
+            FertilizingPeriod_String = plantDetailData.getString("fertilizingPeriod");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }*/
+
+
+        PlantNickName = (TextView)findViewById(R.id.myplant_nickname_TextView);
+        PlantNickName.setText(PlantNickName_string);
 
         ImageView waterdrop_ImageView = (ImageView)findViewById(R.id.waterdrop_ImageView);
         if(WaterDrop_string.equals("4")) {
@@ -94,6 +123,8 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
             @Override
             public void onClick(View v) {
                 Intent intent_modify_page = new Intent(ViewMyplantActivity.this, AddMyplantActivity.class);
+                intent_modify_page.putExtra("plantDetailData", jsonString);
+                intent_modify_page.putExtra("image_bitmap_to_addmyplant", byteArray_imageBitmap_viewmyplant);
                 startActivity(intent_modify_page);
             }
         });

@@ -61,7 +61,7 @@
                 android:textColor="@color/black" />
 
             <EditText
-                android:id="@+id/set_plantname_EditText"
+                android:id="@+id/set_plantnickname_EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
