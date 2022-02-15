@@ -275,14 +275,12 @@ public class AddMyplantActivity extends BottomNavigationActivity {
 
         RetrofitInterface service = retrofit.create(RetrofitInterface.class);
 
-        //RetrofitPostData post = new RetrofitPostData(scientific_name, water_cycle, fertilizer_cycle, nickname, "testtest");
-
         Map <String, String> map = new HashMap<>();
         map.put("scientific_name", scientific_name);
         map.put("water_cycle", water_cycle);
         map.put("fertilizer_cycle", fertilizer_cycle);
         map.put("nickname", nickname);
-        map.put("image", "testtest");
+        map.put("image", image);
 
         System.out.println("scientific_name = " + scientific_name + " water_cycle = " + water_cycle + " fertilizer_cycle = " + fertilizer_cycle
         + " nickname = " + nickname + " image = " + image );

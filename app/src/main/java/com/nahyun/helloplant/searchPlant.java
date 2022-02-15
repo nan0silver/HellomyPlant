@@ -196,6 +196,7 @@ public class searchPlant extends BottomNavigationActivity {
 
 
         findViewById(R.id.searchImageButton).setOnClickListener(new View.OnClickListener() {
+            int resize_width = 300;
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
@@ -283,7 +284,11 @@ public class searchPlant extends BottomNavigationActivity {
 
                     ImageView selected_Image_View = (ImageView)findViewById(R.id.cameraImageview);
                     BitmapDrawable selected_image_drawable = (BitmapDrawable)selected_Image_View.getDrawable();
-                    Bitmap selected_image_bitmap = Bitmap.createScaledBitmap(selected_image_drawable.getBitmap(), 300, 400, true);
+                    int height = selected_image_drawable.getBitmap().getHeight();
+                    int width = selected_image_drawable.getBitmap().getWidth();
+                    resize_width = 400/height*width;
+                    System.out.println(resize_width);
+                    Bitmap selected_image_bitmap = Bitmap.createScaledBitmap(selected_image_drawable.getBitmap(), resize_width, 400, true);
                     ByteArrayOutputStream stream_change = new ByteArrayOutputStream();
                     selected_image_bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream_change);
                     byte[] byteArray_result = stream_change.toByteArray();
@@ -323,7 +328,13 @@ public class searchPlant extends BottomNavigationActivity {
                 //put Imageview image to intent
                 ImageView selected_Image_View = (ImageView)findViewById(R.id.cameraImageview);
                 BitmapDrawable selected_image_drawable = (BitmapDrawable)selected_Image_View.getDrawable();
-                Bitmap selected_image_bitmap = Bitmap.createScaledBitmap(selected_image_drawable.getBitmap(), 300, 400, true);
+                int height = selected_image_drawable.getBitmap().getHeight();
+                int width = selected_image_drawable.getBitmap().getWidth();
+                System.out.println("height = " + height + " width = " + width);
+                resize_width = 400*width/height;
+                System.out.println("resize_width = " + resize_width);
+                if (resize_width <= 0) resize_width = 300;
+                Bitmap selected_image_bitmap = Bitmap.createScaledBitmap(selected_image_drawable.getBitmap(), resize_width , 400, true);
                 ByteArrayOutputStream stream_change = new ByteArrayOutputStream();
                 selected_image_bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream_change);
                 byte[] byteArray_result = stream_change.toByteArray();
