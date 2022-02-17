@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,7 +46,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 
-import static com.nahyun.helloplant.SignupActivity.email;
+import static com.nahyun.helloplant.MainActivity.email;
 
 public class AddMyplantActivity extends BottomNavigationActivity {
 
@@ -163,8 +164,6 @@ public class AddMyplantActivity extends BottomNavigationActivity {
             }
         });
 
-
-
         //==== fertilizing spinner code ====//
         Spinner spinner_fertilizing = findViewById(R.id.set_fertilizingperiod_Spinner);
 
@@ -226,7 +225,9 @@ public class AddMyplantActivity extends BottomNavigationActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                AddMyplant_post(name, wateringPeriod_string, fertilizingPeriod_string, PlantNickName.getText().toString(), new String(byteArray_imageBitmap_addmyplant));
+
+                String image_string = Base64.encodeToString(byteArray_imageBitmap_addmyplant, Base64.DEFAULT);
+                AddMyplant_post(name, wateringPeriod_string, fertilizingPeriod_string, PlantNickName.getText().toString(), image_string);
 
                 startActivity(intent_goto_viewmyplant_page);
             }
@@ -287,6 +288,7 @@ public class AddMyplantActivity extends BottomNavigationActivity {
 
 
         Call<RetrofitPostData> call_post = service.postFunc(email, map);
+        System.out.println("addmyplant email = " + email);
         call_post.enqueue(new Callback<RetrofitPostData>() {
             @Override
             public void onResponse(Call<RetrofitPostData> call, Response<RetrofitPostData> response) {

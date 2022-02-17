@@ -1,6 +1,8 @@
 package com.nahyun.helloplant;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 
 public class MyplantListData {
 
@@ -10,6 +12,8 @@ public class MyplantListData {
     private String myplant_list_fertilizer;
 
     public MyplantListData(Bitmap image, String name, String water, String fertilizer) {
+
+
         this.myplant_list_image = image;
         this.myplant_list_name = name;
         this.myplant_list_water = water;

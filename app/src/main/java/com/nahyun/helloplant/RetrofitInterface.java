@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
@@ -18,7 +19,7 @@ import retrofit2.http.Query;
 
 public interface RetrofitInterface {
     @GET("myplant/list")
-    Call<DataClass> getFunc(@Query("email") String email);
+    Call<RetrofitGetData> getFunc(@Query("email") String email);
 
     @FormUrlEncoded
     @POST("myplant")

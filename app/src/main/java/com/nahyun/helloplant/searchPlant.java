@@ -286,7 +286,7 @@ public class searchPlant extends BottomNavigationActivity {
                     BitmapDrawable selected_image_drawable = (BitmapDrawable)selected_Image_View.getDrawable();
                     int height = selected_image_drawable.getBitmap().getHeight();
                     int width = selected_image_drawable.getBitmap().getWidth();
-                    resize_width = 400/height*width;
+                    resize_width = 400*width/height;
                     System.out.println(resize_width);
                     Bitmap selected_image_bitmap = Bitmap.createScaledBitmap(selected_image_drawable.getBitmap(), resize_width, 400, true);
                     ByteArrayOutputStream stream_change = new ByteArrayOutputStream();
