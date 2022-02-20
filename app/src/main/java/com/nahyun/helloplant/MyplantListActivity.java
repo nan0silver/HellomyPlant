@@ -178,10 +178,13 @@ public class MyplantListActivity extends BottomNavigationActivity {
                         String after_water_cycle = plant.getMyPlant().getWaterCycle();
                         String after_fertilizer_cycle = plant.getMyPlant().getFertilizerCycle();
 
-
-                        byte[] byte_array_image = after_image.getBytes();
-                        Bitmap after_image_bitmap;
-                        after_image_bitmap = BitmapFactory.decodeByteArray(byte_array_image, 0, byte_array_image.length);
+                        Bitmap after_image_bitmap = null;
+                        try {
+                        byte[] byte_array_image = Base64.decode(after_image, Base64.DEFAULT);
+                        after_image_bitmap = BitmapFactory.decodeByteArray(byte_array_image, 0, byte_array_image.length);}
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
                         mld1 = new MyplantListData(after_image_bitmap, after_name, after_water_cycle, after_fertilizer_cycle);
 
@@ -210,11 +213,11 @@ public class MyplantListActivity extends BottomNavigationActivity {
 
 
         Bitmap sample1_image = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.test_image);
-        /*sample1 = new MyplantListData(sample1_image, "test", null, null);
+        sample1 = new MyplantListData(sample1_image, "test", null, null);
 
 
         mp_arrayList.add(sample1);
-        mp_arrayList.add(sample1);*/
+        //mp_arrayList.add(sample1);
         System.out.println("mp_arrayList second : " + mp_arrayList.size());
 
         //test//

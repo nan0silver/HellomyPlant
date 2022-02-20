@@ -313,6 +313,7 @@ public class AddMyplantActivity extends BottomNavigationActivity {
                             +"\ncreatedAt = " + after_createdAt
                             +"\nupdatedAt = " + after_updatedAt
                             + "\ncode = " + String.valueOf(response.code()));
+
                     Toast.makeText(AddMyplantActivity.this, "내 식물이 등록되었습니다.", Toast.LENGTH_SHORT).show();
                 }
                 else {
