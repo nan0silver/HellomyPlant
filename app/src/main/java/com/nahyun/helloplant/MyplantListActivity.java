@@ -77,12 +77,12 @@ public class MyplantListActivity extends BottomNavigationActivity {
             }
         });
 
+        mp_arrayList = new ArrayList<>();
         //====recycler View code====//
         recyclerView = (RecyclerView)findViewById(R.id.myplant_list_RecyclerView);
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        mp_arrayList = new ArrayList<>();
         System.out.println("mp_arrayList first : " + mp_arrayList.size());
 
         myplantListAdapter = new MyplantListAdapter(mp_arrayList);
@@ -114,7 +114,7 @@ public class MyplantListActivity extends BottomNavigationActivity {
         Call<RetrofitGetData> call_get = service.getFunc(email);
         System.out.println("myplantlist email = " + email);
 
-        /*call_get.enqueue(new Callback<RetrofitGetData>() {
+        call_get.enqueue(new Callback<RetrofitGetData>() {
             @Override
             public void onResponse(Call<RetrofitGetData> call, Response<RetrofitGetData> response) {
                 if (response.isSuccessful()) {
@@ -131,14 +131,18 @@ public class MyplantListActivity extends BottomNavigationActivity {
                         String after_water_cycle = plant.getMyPlant().getWaterCycle();
                         String after_fertilizer_cycle = plant.getMyPlant().getFertilizerCycle();
 
-                        byte[] byte_array_image = after_image.getBytes();
-                        Bitmap after_image_bitmap;
-                        after_image_bitmap = BitmapFactory.decodeByteArray(byte_array_image, 0, byte_array_image.length);
+                        Bitmap after_image_bitmap = null;
+                        try {
+                            byte[] byte_array_image = Base64.decode(after_image, Base64.DEFAULT);
+                            after_image_bitmap = BitmapFactory.decodeByteArray(byte_array_image, 0, byte_array_image.length);}
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
-                        mld1 = new MyplantListData(after_image_bitmap, after_name, after_water_cycle, after_fertilizer_cycle);
+                        mld1 = new MyplantListData(after_image_bitmap, after_name, after_water_cycle, after_fertilizer_cycle, after_id);
 
-                        //mp_arrayList.add(mld1);
                         add_arraylist(mld1);
+
 
                         System.out.println("goooood!!! \nafter_id = " + after_id + " after_image = " + after_image + " after_name = " + after_name
                         + " after_water_cycle = " + after_water_cycle + " after_fertilizer_cycle = " + after_fertilizer_cycle);
@@ -147,6 +151,8 @@ public class MyplantListActivity extends BottomNavigationActivity {
                     Log.v("MyplantListActivity", "code = " + String.valueOf(response.code()));
                     Toast.makeText(MyplantListActivity.this, "code = " + String.valueOf(response.code()) + "\nmyplant list를 불러오는데 성공하였습니다.", Toast.LENGTH_SHORT).show();
 
+                    myplantListAdapter.updateMyplantListItems(mp_arrayList);
+                    System.out.println("update " + mp_arrayList);
                 }
                 else {
                     Log.v("MyplantListActivity", "error = " + String.valueOf(response.code()));
@@ -159,9 +165,10 @@ public class MyplantListActivity extends BottomNavigationActivity {
                 Log.v("MyplantListActivity", "Fail");
                 Toast.makeText(MyplantListActivity.this, "응답에 실패했습니다.", Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
 
-        new Thread(new Runnable() {
+
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -186,7 +193,7 @@ public class MyplantListActivity extends BottomNavigationActivity {
                             e.printStackTrace();
                         }
 
-                        mld1 = new MyplantListData(after_image_bitmap, after_name, after_water_cycle, after_fertilizer_cycle);
+                        mld1 = new MyplantListData(after_image_bitmap, after_name, after_water_cycle, after_fertilizer_cycle, after_id);
 
                         add_arraylist(mld1);
 
@@ -197,34 +204,25 @@ public class MyplantListActivity extends BottomNavigationActivity {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        }).start();*/
 
-        System.out.println("Thread is done");
-
-        try {
-            Thread.sleep(2500);
+        /*try {
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
 
-        System.out.println("Sleep is done");
+
         //==== add list to recycler view =====//
         MyplantListData sample1 = null;
 
 
         Bitmap sample1_image = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.test_image);
-        sample1 = new MyplantListData(sample1_image, "test", null, null);
-
+        sample1 = new MyplantListData(sample1_image, "test", null, null, "123456");
 
         mp_arrayList.add(sample1);
-        //mp_arrayList.add(sample1);
         System.out.println("mp_arrayList second : " + mp_arrayList.size());
 
-        //test//
-        /*MyplantListData sample2 = null;
-        sample2 = new MyplantListData(sample1_image, "test2", null, null);
-        mp_arrayList.add(sample2);*/
-       // mp_arrayList.add(sample1);
     }
 
     @Override
@@ -243,5 +241,6 @@ public class MyplantListActivity extends BottomNavigationActivity {
         mp_arrayList.add(myplantListData);
         System.out.println("mp_arrayList third : " + mp_arrayList.size());
         System.out.println("myplantListData = " + myplantListData);
+
     }
 }

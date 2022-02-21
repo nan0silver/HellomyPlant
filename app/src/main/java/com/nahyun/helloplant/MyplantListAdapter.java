@@ -17,18 +17,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyplantListAdapter extends RecyclerView.Adapter<MyplantListAdapter.CustomViewHolder_myplant_list> {
 
-    private ArrayList<MyplantListData> myplant_list_arrayList;
+    private List<MyplantListData> myplant_list_arrayList = new ArrayList<>();
 
     public MyplantListAdapter(ArrayList<MyplantListData> arrayList) {
-        this.myplant_list_arrayList = arrayList;
+        this.myplant_list_arrayList.addAll(arrayList);
     }
 
     @NonNull
@@ -87,6 +89,22 @@ public class MyplantListAdapter extends RecyclerView.Adapter<MyplantListAdapter.
             this.myplant_list_fertilizer_imageview = (ImageView) itemView.findViewById(R.id.myplant_list_fertilizer_imageView);
 
         }
+    }
+
+    public void updateMyplantListItems(List<MyplantListData> myplants) {
+        final MyplantListDiffCallback myplantListDiffCallback = new MyplantListDiffCallback(this.myplant_list_arrayList, myplants);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(myplantListDiffCallback);
+
+
+        System.out.println("old : " + this.myplant_list_arrayList);
+        System.out.println("new : " + myplants);
+
+        this.myplant_list_arrayList.clear();
+        this.myplant_list_arrayList.addAll(myplants);
+        diffResult.dispatchUpdatesTo(this);
+
+        System.out.println("updateMyplantListItems");
+
     }
 
 }
