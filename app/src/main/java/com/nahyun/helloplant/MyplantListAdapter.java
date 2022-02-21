@@ -28,6 +28,14 @@ import java.util.List;
 public class MyplantListAdapter extends RecyclerView.Adapter<MyplantListAdapter.CustomViewHolder_myplant_list> {
 
     private List<MyplantListData> myplant_list_arrayList = new ArrayList<>();
+    private MyplantListAdapter.OnItemClickListener itemClickListener = null;
+
+    public void setOnItemClickListener(MyplantListAdapter.OnItemClickListener listener) {
+        this.itemClickListener = listener;
+    }
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position);
+    }
 
     public MyplantListAdapter(ArrayList<MyplantListData> arrayList) {
         this.myplant_list_arrayList.addAll(arrayList);
@@ -88,6 +96,17 @@ public class MyplantListAdapter extends RecyclerView.Adapter<MyplantListAdapter.
             this.myplant_list_water_imageview = (ImageView) itemView.findViewById(R.id.myplant_list_water_imageView);
             this.myplant_list_fertilizer_imageview = (ImageView) itemView.findViewById(R.id.myplant_list_fertilizer_imageView);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAbsoluteAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (itemClickListener != null) itemClickListener.onItemClick(v, pos);
+
+                        notifyItemChanged(pos);
+                    }
+                }
+            });
         }
     }
 

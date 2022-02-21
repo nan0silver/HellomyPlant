@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -86,6 +87,16 @@ public class MyplantListActivity extends BottomNavigationActivity {
         System.out.println("mp_arrayList first : " + mp_arrayList.size());
 
         myplantListAdapter = new MyplantListAdapter(mp_arrayList);
+        myplantListAdapter.setOnItemClickListener(new MyplantListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                String p = Integer.toString(position);
+                Toast.makeText(MyplantListActivity.this, p, Toast.LENGTH_SHORT).show();
+                //여기서 Toast를 삭제하고 startActivity를 실행, activity 이름은 position기반
+                //Intent intent_goto_saveinformation = new Intent(NoticeBoardActivity.this, SaveInformationActivity.class);
+                //startActivity(intent_goto_saveinformation);
+            }
+        });
         recyclerView.setAdapter(myplantListAdapter);
 
 
@@ -204,9 +215,8 @@ public class MyplantListActivity extends BottomNavigationActivity {
                     e.printStackTrace();
                 }
             }
-        }).start();*/
-
-        /*try {
+        }).start();
+        try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -216,12 +226,13 @@ public class MyplantListActivity extends BottomNavigationActivity {
         //==== add list to recycler view =====//
         MyplantListData sample1 = null;
 
-
         Bitmap sample1_image = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.test_image);
         sample1 = new MyplantListData(sample1_image, "test", null, null, "123456");
 
         mp_arrayList.add(sample1);
         System.out.println("mp_arrayList second : " + mp_arrayList.size());
+
+
 
     }
 
