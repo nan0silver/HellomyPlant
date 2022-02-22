@@ -26,7 +26,7 @@ plant information
         - image (Byte array)
 
 add myPlant
-    <= plant information
+    <- plant information
         - plant detail data (string)
         - image (Byte array)
 
@@ -36,10 +36,11 @@ add myPlant
             - water drop (string) //물의 양
             - watering period (string)
             - fertilizing period (string)
+            - light (string)
         - image (Byte array)
 
-vidw myPlant
-    <= add myPlant
+view myPlant
+    <- add myPlant
         - plant detail data (+ alpa)
         - image (Byte array)
         

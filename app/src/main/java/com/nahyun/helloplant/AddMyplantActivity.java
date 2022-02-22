@@ -104,8 +104,10 @@ public class AddMyplantActivity extends BottomNavigationActivity {
 
         //==== watering spinner code =====//
         String wateringInfomation = "";
+        String light = "";
         try {
             wateringInfomation = (String)plantDetailData.get("watercycleWinter");
+            light = (String)plantDetailData.get("light");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -113,6 +115,7 @@ public class AddMyplantActivity extends BottomNavigationActivity {
         String waterdrop = "";
 
         System.out.println(wateringInfomation);
+        System.out.println(light);
 
         try {
             if (wateringInfomation.charAt(0) == '항') {
@@ -196,6 +199,7 @@ public class AddMyplantActivity extends BottomNavigationActivity {
 
         String finalWaterdrop = waterdrop;
         JSONObject finalPlantDetailData = plantDetailData;
+        String finalLight = light;
 
         findViewById(R.id.set_myplant_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,6 +216,7 @@ public class AddMyplantActivity extends BottomNavigationActivity {
 
                 intent_goto_viewmyplant_page.putExtra("plantDetailData", finalPlantDetailData.toString());
                 intent_goto_viewmyplant_page.putExtra("image_bitmap_to_viewmyplant", byteArray_imageBitmap_addmyplant);
+                intent_goto_viewmyplant_page.putExtra("light", finalLight);
 
                 String name = "";
                 try {

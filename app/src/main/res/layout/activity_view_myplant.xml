@@ -200,12 +200,11 @@
                     android:layout_marginRight="10dp" />
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    app:srcCompat="@drawable/sun"/>
+                    android:id="@+id/light_ImageView"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/light_three"/>
             </LinearLayout>
-
-
         </LinearLayout>
 
         <LinearLayout

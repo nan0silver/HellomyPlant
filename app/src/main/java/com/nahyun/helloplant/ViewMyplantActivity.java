@@ -70,6 +70,7 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
         String WaterDrop_string = intent_comefrom_addmyplant_page.getExtras().getString("WaterDrop");
         String WaterPeriod_String = intent_comefrom_addmyplant_page.getExtras().getString("WateringPeriod");
         String FertilizingPeriod_String = intent_comefrom_addmyplant_page.getExtras().getString("FertilizingPeriod");
+        String light_string = intent_comefrom_addmyplant_page.getExtras().getString("light");
 
         /*String PlantNickName_string = null;
         String WaterDrop_string = null;
@@ -98,6 +99,20 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
         }
         else {
             waterdrop_ImageView.setImageResource(R.drawable.water_drop_two);
+        }
+
+        ImageView light_ImageView = (ImageView)findViewById(R.id.light_ImageView);
+        if (light_string.charAt(0) == '낮') {
+            light_ImageView.setImageResource(R.drawable.light_two);
+        }
+        else if (light_string.charAt(0) == '중') {
+            light_ImageView.setImageResource(R.drawable.light_three);
+        }
+        else if (light_string.charAt(0) == '높') {
+            light_ImageView.setImageResource(R.drawable.light_two);
+        }
+        else {
+            light_ImageView.setImageResource(R.drawable.light_three);
         }
 
         TextView wateringperiod_TextView = (TextView)findViewById(R.id.view_wateringperiod_TextView);
