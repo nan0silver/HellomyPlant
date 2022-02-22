@@ -61,12 +61,6 @@ public class PlantInformationActivity extends BottomNavigationActivity {
                         startActivity(PI_intent_home);
                         overridePendingTransition(0,0);
                         break;
-                    case R.id.action_ranking:
-                        Intent PI_intent_ranking = new Intent(PlantInformationActivity.this, RankingListActivity.class);
-                        PI_intent_ranking.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(PI_intent_ranking);
-                        overridePendingTransition(0,0);
-                        break;
                     case R.id.action_talk:
                         Intent PI_intent_talk = new Intent(PlantInformationActivity.this, NoticeBoardActivity.class);
                         PI_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

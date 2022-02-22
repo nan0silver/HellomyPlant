@@ -15,12 +15,6 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/action_ranking"
-        android:enabled="true"
-        android:icon="@drawable/bottom_ranking"
-        android:title="랭킹"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/action_talk"
         android:enabled="true"
         android:icon="@drawable/bottom_talk"

@@ -48,9 +48,6 @@ public abstract class BottomNavigationActivity extends AppCompatActivity impleme
             } else if (itemId == R.id.action_home) {
                 startActivity(new Intent(BottomNavigationActivity.this, MyplantListActivity.class));
                 overridePendingTransition(0,0);
-            } else if (itemId == R.id.action_ranking) {
-                startActivity(new Intent(BottomNavigationActivity.this, RankingListActivity.class));
-                overridePendingTransition(0,0);
             } else if (itemId == R.id.action_talk) {
                 startActivity(new Intent(BottomNavigationActivity.this, NoticeBoardActivity.class));
                 overridePendingTransition(0,0);

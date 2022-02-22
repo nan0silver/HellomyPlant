@@ -51,12 +51,6 @@ public class NoticeBoardActivity extends AppCompatActivity {
                         startActivity(NB_intent_home);
                         overridePendingTransition(0,0);
                         break;
-                    case R.id.action_ranking:
-                        Intent NB_intent_ranking = new Intent(NoticeBoardActivity.this, RankingListActivity.class);
-                        NB_intent_ranking.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(NB_intent_ranking);
-                        overridePendingTransition(0,0);
-                        break;
                     case R.id.action_talk:
                         break;
                 }

@@ -61,12 +61,6 @@ public class MyplantListActivity extends BottomNavigationActivity {
                         break;
                     case R.id.action_home:
                         break;
-                    case R.id.action_ranking:
-                        Intent ML_intent_ranking = new Intent(MyplantListActivity.this, RankingListActivity.class);
-                        ML_intent_ranking.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(ML_intent_ranking);
-                        overridePendingTransition(0,0);
-                        break;
                     case R.id.action_talk:
                         Intent ML_intent_talk = new Intent(MyplantListActivity.this, NoticeBoardActivity.class);
                         ML_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

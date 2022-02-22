@@ -37,12 +37,6 @@ public class SaveInformationActivity extends AppCompatActivity {
                         startActivity(SI_intent_home);
                         overridePendingTransition(0,0);
                         break;
-                    case R.id.action_ranking:
-                        Intent SI_intent_ranking = new Intent(SaveInformationActivity.this, RankingListActivity.class);
-                        SI_intent_ranking.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(SI_intent_ranking);
-                        overridePendingTransition(0,0);
-                        break;
                     case R.id.action_talk:
                         Intent SI_intent_talk = new Intent(SaveInformationActivity.this, NoticeBoardActivity.class);
                         SI_intent_talk.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

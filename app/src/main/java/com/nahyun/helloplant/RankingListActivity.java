@@ -20,7 +20,7 @@ public class RankingListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ranking_list);
 
         BottomNavigationView navigation_add = (BottomNavigationView)findViewById(R.id.navigation);
-        navigation_add.setSelectedItemId(R.id.action_ranking);
+        //navigation_add.setSelectedItemId(R.id.action_ranking);
         navigation_add.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
@@ -36,8 +36,6 @@ public class RankingListActivity extends AppCompatActivity {
                         RL_intent_home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(RL_intent_home);
                         overridePendingTransition(0,0);
-                        break;
-                    case R.id.action_ranking:
                         break;
                     case R.id.action_talk:
                         Intent RL_intent_talk = new Intent(RankingListActivity.this, NoticeBoardActivity.class);

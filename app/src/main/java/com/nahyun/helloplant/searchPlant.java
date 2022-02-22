@@ -117,12 +117,6 @@ public class searchPlant extends BottomNavigationActivity {
                         startActivity(SP_intent_home);
                         overridePendingTransition(0,0);
                         break;
-                    case R.id.action_ranking:
-                        Intent SP_intent_ranking = new Intent(searchPlant.this, RankingListActivity.class);
-                        SP_intent_ranking.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(SP_intent_ranking);
-                        overridePendingTransition(0,0);
-                        break;
                     case R.id.action_talk:
                         Intent SP_intent_talk = new Intent(searchPlant.this, NoticeBoardActivity.class);
                         SP_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

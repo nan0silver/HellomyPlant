@@ -42,12 +42,6 @@ public class NoPlantinformationActivity extends AppCompatActivity {
                         startActivity(NP_intent_home);
                         overridePendingTransition(0,0);
                         break;
-                    case R.id.action_ranking:
-                        Intent NP_intent_ranking = new Intent(NoPlantinformationActivity.this, RankingListActivity.class);
-                        NP_intent_ranking.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(NP_intent_ranking);
-                        overridePendingTransition(0,0);
-                        break;
                     case R.id.action_talk:
                         Intent NP_intent_talk = new Intent(NoPlantinformationActivity.this, NoticeBoardActivity.class);
                         NP_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

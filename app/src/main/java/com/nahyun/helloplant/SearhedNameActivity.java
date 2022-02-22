@@ -37,12 +37,6 @@ public class SearhedNameActivity extends AppCompatActivity {
                         startActivity(SN_intent_home);
                         overridePendingTransition(0,0);
                         break;
-                    case R.id.action_ranking:
-                        Intent SN_intent_ranking = new Intent(SearhedNameActivity.this, RankingListActivity.class);
-                        SN_intent_ranking.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(SN_intent_ranking);
-                        overridePendingTransition(0,0);
-                        break;
                     case R.id.action_talk:
                         Intent SN_intent_talk = new Intent(SearhedNameActivity.this, NoticeBoardActivity.class);
                         SN_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -22,9 +22,6 @@
             android:name=".NoticeBoardActivity"
             android:taskAffinity="com.task.talk" />
         <activity
-            android:name=".RankingListActivity"
-            android:taskAffinity="com.task.ranking" />
-        <activity
             android:name=".MyplantListActivity"
             android:taskAffinity="com.task.home" />
         <activity android:name=".SignupActivity" />
