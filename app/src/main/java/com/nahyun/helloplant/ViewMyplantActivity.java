@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +20,21 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.nahyun.helloplant.MainActivity.email;
 
 public class ViewMyplantActivity extends BottomNavigationActivity {
 
@@ -149,7 +166,8 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
         findViewById(R.id.delete_viewmyplant_Button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Viewmyplant_delete(PlantId_string, email);
+                System.out.println("delete viewmyplant email : " + email);
             }
         });
     }
@@ -164,4 +182,54 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
         return R.id.action_camera;
     }
 
+    public void Viewmyplant_delete(String plantId, String email) {
+        SharedPreferences sharedPreferences = getSharedPreferences("login token", MODE_PRIVATE);
+        String token = sharedPreferences.getString("accessToken", "");
+        System.out.println(token);
+
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+            @Override
+            public okhttp3.@NotNull Response intercept(@NotNull Chain chain) throws IOException {
+                Request newRequest = chain.request().newBuilder()
+                        .addHeader("Authorization", "Bearer " + token).build();
+                return chain.proceed(newRequest);
+            }
+        }).build();
+
+        retrofit2.Retrofit retrofit = new retrofit2.Retrofit.Builder()
+                .client(client)
+                .baseUrl("http://18.116.203.236:1234/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitInterface service = retrofit.create(RetrofitInterface.class);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("plantId", plantId);
+        map.put("email", email);
+
+        System.out.println("plantId = " + plantId + " email = " + email);
+
+        Call<ResponseBody> call_delete = service.deleteFunc(map);
+        call_delete.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    System.out.println(String.valueOf(response.code()));
+
+                    Toast.makeText(ViewMyplantActivity.this, "삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Log.v("ViewMyplantActivity", "error = " + String.valueOf(response.code()));
+                    Toast.makeText(ViewMyplantActivity.this, "code : " + String.valueOf(response.code()) + "\n 내 식물 삭제를 실패했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.v("ViewMyplantActivity", "Fail");
+                Toast.makeText(ViewMyplantActivity.this, "응답에 실패했습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
