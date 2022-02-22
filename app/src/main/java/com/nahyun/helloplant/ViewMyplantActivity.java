@@ -71,6 +71,7 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
         String WaterPeriod_String = intent_comefrom_addmyplant_page.getExtras().getString("WateringPeriod");
         String FertilizingPeriod_String = intent_comefrom_addmyplant_page.getExtras().getString("FertilizingPeriod");
         String light_string = intent_comefrom_addmyplant_page.getExtras().getString("light");
+        String PlantId_string = intent_comefrom_addmyplant_page.getExtras().getString("PlantId");
 
         /*String PlantNickName_string = null;
         String WaterDrop_string = null;
@@ -140,6 +141,7 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
                 intent_modify_page.putExtra("WateringPeriod", WaterPeriod_String);
                 intent_modify_page.putExtra("FertilizingPeriod", FertilizingPeriod_String);
                 intent_modify_page.putExtra("light", light_string);
+                intent_modify_page.putExtra("PlantId", PlantId_string);
                 startActivity(intent_modify_page);
             }
         });
@@ -162,7 +164,4 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
         return R.id.action_camera;
     }
 
-    public void ViewMyplant_put() {
-
-    }
 }

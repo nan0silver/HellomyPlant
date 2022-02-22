@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,12 +18,27 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.nahyun.helloplant.MainActivity.email;
 
 public class ModifyMyplantActivity extends BottomNavigationActivity {
 
@@ -58,7 +75,6 @@ public class ModifyMyplantActivity extends BottomNavigationActivity {
             }
         });
 
-
         Intent intent_comefrom_viewmyplant_page = getIntent();
         JSONObject plantDetailData = new JSONObject();
         String jsonString =
@@ -82,42 +98,9 @@ public class ModifyMyplantActivity extends BottomNavigationActivity {
         String WaterPeriod_String = intent_comefrom_viewmyplant_page.getExtras().getString("WateringPeriod");
         String FertilizingPeriod_String = intent_comefrom_viewmyplant_page.getExtras().getString("FertilizingPeriod");
         String light_string = intent_comefrom_viewmyplant_page.getExtras().getString("light");
+        String PlantId_string = intent_comefrom_viewmyplant_page.getExtras().getString("PlantId");
 
         //==== watering spinner code =====//
-        //String wateringInfomation = "";
-
-        /*try {
-            wateringInfomation = (String)plantDetailData.get("watercycleWinter");
-            light = (String)plantDetailData.get("light");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
-        /*int wateringCycle = 0;
-        String waterdrop = "";
-
-        System.out.println(WaterPeriod_String);
-        System.out.println(light);
-
-        try {
-            if (WaterPeriod_String.charAt(0) == '항') {
-                wateringCycle = 0; //1
-                waterdrop = "4";
-            } else if (WaterPeriod_String.charAt(0) == '흙') {
-                wateringCycle = 6; //7 일주
-                waterdrop = "3";
-            } else if (WaterPeriod_String.charAt(0) == '토') {
-                wateringCycle = 13; //14 2주
-                waterdrop = "2";
-            } else {
-                wateringCycle = 29; //30 한달
-                waterdrop = "2";
-            }
-        }catch (StringIndexOutOfBoundsException e){
-            e.printStackTrace();
-            waterdrop = "2";
-            wateringCycle = 0;
-        }
-*/
         Spinner spinner_watering = findViewById(R.id.set_wateringperiod_Spinner);
 
         ArrayAdapter arrayAdapter_watering = ArrayAdapter.createFromResource(this, R.array.watering_array, android.R.layout.simple_spinner_dropdown_item);
@@ -211,7 +194,7 @@ public class ModifyMyplantActivity extends BottomNavigationActivity {
 
                 String image_string = Base64.encodeToString(byteArray_imageBitmap_addmyplant, Base64.DEFAULT);
                 //AddMyplant_post(name, wateringPeriod_string, fertilizingPeriod_string, PlantNickName_EditText.getText().toString(), image_string);
-
+                Modifymyplant_put(PlantId_string, wateringPeriod_string, fertilizingPeriod_string, PlantNickName_EditText.getText().toString());
                 startActivity(intent_goto_viewmyplant_page);
             }
         });
@@ -233,5 +216,82 @@ public class ModifyMyplantActivity extends BottomNavigationActivity {
     @Override
     int getNavigationMenuItemId() {
         return R.id.action_camera;
+    }
+
+    public void Modifymyplant_put(String plantId, String water_cycle, String fertilizer_cycle, String nickname) {
+
+        SharedPreferences sharedPreferences = getSharedPreferences("login token", MODE_PRIVATE);
+        String token = sharedPreferences.getString("accessToken", "");
+        System.out.println(token);
+
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+            @Override
+            public okhttp3.@NotNull Response intercept(@NotNull Chain chain) throws IOException {
+                Request newRequest = chain.request().newBuilder()
+                        .addHeader("Authorization", "Bearer " + token).build();
+                return chain.proceed(newRequest);
+            }
+        }).build();
+
+        retrofit2.Retrofit retrofit = new retrofit2.Retrofit.Builder()
+                .client(client)
+                .baseUrl("http://18.116.203.236:1234/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitInterface service = retrofit.create(RetrofitInterface.class);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("plantId", plantId);
+        map.put("water_cycle", water_cycle);
+        map.put("fertilizer_cycle", fertilizer_cycle);
+        map.put("nickname", nickname);
+
+        System.out.println("plantId = " + plantId + " water_cycle = " + water_cycle + " fertilizer_cycle = " + fertilizer_cycle
+                + " nickname = " + nickname );
+
+        Call<RetrofitPutData> call_put = service.putFunc(map);
+        call_put.enqueue(new Callback<RetrofitPutData>() {
+            @Override
+            public void onResponse(Call<RetrofitPutData> call, Response<RetrofitPutData> response) {
+                if(response.isSuccessful()) {
+
+                    response.body();
+                    String after_message = response.body().getMessage();
+                    String after_scientific_name = response.body().getMyPlant().getScientificName();
+                    String after_water_cycle = response.body().getMyPlant().getWaterCycle();
+                    String after_fertilizer_cycle = response.body().getMyPlant().getFertilizerCycle();
+                    String after_nickname = response.body().getMyPlant().getNickname();
+                    String after_image = response.body().getMyPlant().getImage();
+                    String after_id = response.body().getMyPlant().getId();
+                    String after_createdAt = response.body().getMyPlant().getCreatedAt();
+                    String after_updatedAt = response.body().getMyPlant().getUpdatedAt();
+
+                    Log.v("ModifyMyplantActivity", "scientific_name = " + after_scientific_name
+                            + "\nwater_cycle = " + after_water_cycle
+                            +"\nfertilizer_cycle = " + after_fertilizer_cycle
+                            +"\nnickname = " + after_nickname
+                            +"\nimage = " + after_image
+                            +"\nid = " + after_id
+                            +"\ncreatedAt = " + after_createdAt
+                            +"\nupdatedAt = " + after_updatedAt
+                            + "\ncode = " + String.valueOf(response.code())
+                            + "\nmessage = " + after_message);
+
+                    Toast.makeText(ModifyMyplantActivity.this, "수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Log.v("ModifyMyplantActivity", "error = " + String.valueOf(response.code()));
+                    Toast.makeText(ModifyMyplantActivity.this, "error : " + String.valueOf(response.code()) + "\n 내 식물 수정을 실패했습니다.", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<RetrofitPutData> call, Throwable t) {
+                Log.v("ModifyMyplantActivity", "Fail");
+                Toast.makeText(ModifyMyplantActivity.this, "응답에 실패했습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

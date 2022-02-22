@@ -1,7 +1,5 @@
 package com.nahyun.helloplant;
 
-import org.json.JSONObject;
-
 import java.util.Map;
 
 import retrofit2.Call;
@@ -29,7 +27,7 @@ public interface RetrofitInterface {
 
     @FormUrlEncoded
     @PUT("myplant")
-    Call<DataClass> putFunc(@Field("body") String body);
+    Call<RetrofitPutData> putFunc(@FieldMap Map<String, String> fields);
 
     //@DELETE("myplant")
     //Call<DataClass> deleteFunc()
