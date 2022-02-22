@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HelloPlant"
         android:usesCleartextTraffic="true">
-        <activity android:name=".NoPlantinformationActivity"></activity>
+        <activity android:name=".ModifyMyplantActivity"></activity>
+        <activity android:name=".NoPlantinformationActivity" />
         <activity android:name=".SaveInformationActivity" />
         <activity
             android:name=".NoticeBoardActivity"

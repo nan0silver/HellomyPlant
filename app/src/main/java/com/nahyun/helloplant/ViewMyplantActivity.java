@@ -128,13 +128,26 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
         plant_ImageView.setImageBitmap(get_image_viewmyplant);
 
 
-        findViewById(R.id.view_to_add_page_Button).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.modify_viewmyplant_Button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_modify_page = new Intent(ViewMyplantActivity.this, AddMyplantActivity.class);
+                Intent intent_modify_page = new Intent(ViewMyplantActivity.this, ModifyMyplantActivity.class);
                 intent_modify_page.putExtra("plantDetailData", jsonString);
                 intent_modify_page.putExtra("image_bitmap_to_addmyplant", byteArray_imageBitmap_viewmyplant);
+
+                intent_modify_page.putExtra("PlantNickName", PlantNickName_string);
+                intent_modify_page.putExtra("WaterDrop", WaterDrop_string);
+                intent_modify_page.putExtra("WateringPeriod", WaterPeriod_String);
+                intent_modify_page.putExtra("FertilizingPeriod", FertilizingPeriod_String);
+                intent_modify_page.putExtra("light", light_string);
                 startActivity(intent_modify_page);
+            }
+        });
+
+        findViewById(R.id.delete_viewmyplant_Button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }
@@ -147,5 +160,9 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
     @Override
     int getNavigationMenuItemId() {
         return R.id.action_camera;
+    }
+
+    public void ViewMyplant_put() {
+
     }
 }
