@@ -119,16 +119,16 @@ public class AddMyplantActivity extends BottomNavigationActivity {
 
         try {
             if (wateringInfomation.charAt(0) == '항') {
-                wateringCycle = 0;
+                wateringCycle = 0; //1
                 waterdrop = "4";
             } else if (wateringInfomation.charAt(0) == '흙') {
-                wateringCycle = 6;
+                wateringCycle = 6; //7 일주
                 waterdrop = "3";
             } else if (wateringInfomation.charAt(0) == '토') {
-                wateringCycle = 13;
+                wateringCycle = 13; //14 2주
                 waterdrop = "2";
             } else {
-                wateringCycle = 29;
+                wateringCycle = 29; //30 한달
                 waterdrop = "2";
             }
         }catch (StringIndexOutOfBoundsException e){

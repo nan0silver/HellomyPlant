@@ -20,7 +20,9 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,14 +87,47 @@ public class MyplantListActivity extends BottomNavigationActivity {
             @Override
             public void onItemClick(View v, int position) {
                 String p = Integer.toString(position);
-                Toast.makeText(MyplantListActivity.this, p, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MyplantListActivity.this, p, Toast.LENGTH_SHORT).show();
                 //여기서 Toast를 삭제하고 startActivity를 실행, activity 이름은 position기반
-                //Intent intent_goto_saveinformation = new Intent(NoticeBoardActivity.this, SaveInformationActivity.class);
-                //startActivity(intent_goto_saveinformation);
+
+                //Bitmap image, String name, String water, String fertilizer, String id
+                MyplantListData myplantListData_clicked = null;
+                myplantListData_clicked = mp_arrayList.get(Integer.parseInt(p));
+                String clicked_id =  myplantListData_clicked.getMyplant_list_id();
+                Bitmap clicked_image = myplantListData_clicked.getMyplant_list_image();
+                String clicked_nickname = myplantListData_clicked.getMyplant_list_name();
+                String clicked_water_cycle = myplantListData_clicked.getMyplant_list_water();
+                String clicked_fertilizer_cycle = myplantListData_clicked.getMyplant_list_fertilizer();
+                String clicked_light = "중중";
+
+                String clicked_water_drop = "";
+                int water_cycle = Integer.parseInt(clicked_water_cycle);
+                if (water_cycle >=0 && water_cycle < 7) clicked_water_drop = "4";
+                else if (water_cycle >=7 && water_cycle < 14) clicked_water_drop = "3";
+                else if (water_cycle >= 14) clicked_water_drop = "2";
+                else clicked_water_drop = "2";
+
+                Intent intent_goto_viewmyplant = new Intent(MyplantListActivity.this, ViewMyplantActivity.class);
+                intent_goto_viewmyplant.putExtra("PlantNickName", clicked_nickname);
+                intent_goto_viewmyplant.putExtra("WaterDrop", clicked_water_drop);
+                intent_goto_viewmyplant.putExtra("WateringPeriod", clicked_water_cycle);
+                intent_goto_viewmyplant.putExtra("FertilizingPeriod", clicked_fertilizer_cycle);
+                intent_goto_viewmyplant.putExtra("light", clicked_light);
+                intent_goto_viewmyplant.putExtra("PlantId", clicked_id);
+
+                ByteArrayOutputStream stream_clicked = new ByteArrayOutputStream();
+                clicked_image.compress(Bitmap.CompressFormat.JPEG, 100, stream_clicked);
+                byte[] byteArray_clicked = stream_clicked.toByteArray();
+
+                intent_goto_viewmyplant.putExtra("image_bitmap_to_viewmyplant", byteArray_clicked);
+
+                JSONObject plantDetailData = new JSONObject();
+                intent_goto_viewmyplant.putExtra("plantDetailData", plantDetailData.toString());
+
+                startActivity(intent_goto_viewmyplant);
             }
         });
         recyclerView.setAdapter(myplantListAdapter);
-
 
         //====myplant server connection code ======//
         SharedPreferences sharedPreferences = getSharedPreferences("login token", MODE_PRIVATE);
@@ -148,7 +183,6 @@ public class MyplantListActivity extends BottomNavigationActivity {
 
                         add_arraylist(mld1);
 
-
                         System.out.println("goooood!!! \nafter_id = " + after_id + " after_image = " + after_image + " after_name = " + after_name
                         + " after_water_cycle = " + after_water_cycle + " after_fertilizer_cycle = " + after_fertilizer_cycle);
                     }
@@ -171,7 +205,6 @@ public class MyplantListActivity extends BottomNavigationActivity {
                 Toast.makeText(MyplantListActivity.this, "응답에 실패했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         /*new Thread(new Runnable() {
             @Override
@@ -216,17 +249,14 @@ public class MyplantListActivity extends BottomNavigationActivity {
             e.printStackTrace();
         }*/
 
-
         //==== add list to recycler view =====//
         MyplantListData sample1 = null;
 
         Bitmap sample1_image = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.test_image);
         sample1 = new MyplantListData(sample1_image, "test", null, null, "123456");
 
-        mp_arrayList.add(sample1);
+        //mp_arrayList.add(sample1);
         System.out.println("mp_arrayList second : " + mp_arrayList.size());
-
-
 
     }
 
