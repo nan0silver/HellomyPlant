@@ -55,13 +55,13 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
                         break;
                     case R.id.action_home:
                         Intent VM_intent_home = new Intent(ViewMyplantActivity.this, MyplantListActivity.class);
-                        VM_intent_home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //VM_intent_home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(VM_intent_home);
                         overridePendingTransition(0,0);
                         break;
                     case R.id.action_talk:
                         Intent VM_intent_talk = new Intent(ViewMyplantActivity.this, NoticeBoardActivity.class);
-                        VM_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //VM_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(VM_intent_talk);
                         overridePendingTransition(0,0);
                         break;

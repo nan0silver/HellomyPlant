@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class NoPlantinformationActivity extends AppCompatActivity {
 
@@ -38,13 +40,13 @@ public class NoPlantinformationActivity extends AppCompatActivity {
                         break;
                     case R.id.action_home:
                         Intent NP_intent_home = new Intent(NoPlantinformationActivity.this, MyplantListActivity.class);
-                        NP_intent_home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //NP_intent_home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(NP_intent_home);
                         overridePendingTransition(0,0);
                         break;
                     case R.id.action_talk:
                         Intent NP_intent_talk = new Intent(NoPlantinformationActivity.this, NoticeBoardActivity.class);
-                        NP_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //NP_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(NP_intent_talk);
                         overridePendingTransition(0,0);
                         break;
@@ -65,12 +67,20 @@ public class NoPlantinformationActivity extends AppCompatActivity {
         get_image = BitmapFactory.decodeByteArray(byteArray_imageBitmap, 0, byteArray_imageBitmap.length);
         plant_ImageView.setImageBitmap(get_image);
 
+        JSONObject plantDetailData = new JSONObject();
+        try {
+            plantDetailData.put("name", scientific_name);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         Button addmyplantButton = (Button)findViewById(R.id.addmyplantButton);
         addmyplantButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent_goto_addmyplant = new Intent(NoPlantinformationActivity.this, AddMyplantActivity.class);
 
+                intent_goto_addmyplant.putExtra("plantDetailData", plantDetailData.toString());
                 intent_goto_addmyplant.putExtra("image_bitmap_to_addmyplant", byteArray_imageBitmap);
                 startActivity(intent_goto_addmyplant);
             }

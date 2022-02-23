@@ -57,7 +57,7 @@ public class MyplantListActivity extends BottomNavigationActivity {
                 switch (item.getItemId()) {
                     case R.id.action_camera:
                         Intent ML_intent_camera = new Intent(MyplantListActivity.this, searchPlant.class);
-                        ML_intent_camera.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //ML_intent_camera.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(ML_intent_camera);
                         overridePendingTransition(0,0);
                         break;
@@ -65,7 +65,7 @@ public class MyplantListActivity extends BottomNavigationActivity {
                         break;
                     case R.id.action_talk:
                         Intent ML_intent_talk = new Intent(MyplantListActivity.this, NoticeBoardActivity.class);
-                        ML_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //ML_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(ML_intent_talk);
                         overridePendingTransition(0,0);
                         break;

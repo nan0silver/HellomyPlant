@@ -57,13 +57,13 @@ public class PlantInformationActivity extends BottomNavigationActivity {
                         break;
                     case R.id.action_home:
                         Intent PI_intent_home = new Intent(PlantInformationActivity.this, MyplantListActivity.class);
-                        PI_intent_home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //PI_intent_home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(PI_intent_home);
                         overridePendingTransition(0,0);
                         break;
                     case R.id.action_talk:
                         Intent PI_intent_talk = new Intent(PlantInformationActivity.this, NoticeBoardActivity.class);
-                        PI_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //PI_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(PI_intent_talk);
                         overridePendingTransition(0,0);
                         break;

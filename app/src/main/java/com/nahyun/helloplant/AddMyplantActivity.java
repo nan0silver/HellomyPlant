@@ -68,13 +68,13 @@ public class AddMyplantActivity extends BottomNavigationActivity {
                         break;
                     case R.id.action_home:
                         Intent AM_intent_home = new Intent(AddMyplantActivity.this, MyplantListActivity.class);
-                        AM_intent_home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //AM_intent_home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(AM_intent_home);
                         overridePendingTransition(0,0);
                         break;
                     case R.id.action_talk:
                         Intent AM_intent_talk = new Intent(AddMyplantActivity.this, NoticeBoardActivity.class);
-                        AM_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //AM_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(AM_intent_talk);
                         overridePendingTransition(0,0);
                         break;
@@ -104,7 +104,7 @@ public class AddMyplantActivity extends BottomNavigationActivity {
 
         //==== watering spinner code =====//
         String wateringInfomation = "";
-        String light = "";
+        String light = "중중";
         try {
             wateringInfomation = (String)plantDetailData.get("watercycleWinter");
             light = (String)plantDetailData.get("light");
