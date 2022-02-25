@@ -8,15 +8,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NoticeBoardAdapter extends RecyclerView.Adapter<NoticeBoardAdapter.CustomViewHolder>{
 
-    private ArrayList<NoticeBoardData> noticeboard_list_arrayList;
+    private List<NoticeBoardData> noticeboard_list_arrayList = new ArrayList<>();
     private OnItemClickListener itemClickListener = null;
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -27,7 +29,7 @@ public class NoticeBoardAdapter extends RecyclerView.Adapter<NoticeBoardAdapter.
     }
 
     public NoticeBoardAdapter(ArrayList<NoticeBoardData> arrayList) {
-        this.noticeboard_list_arrayList = arrayList;
+        this.noticeboard_list_arrayList.addAll(arrayList);
     }
 
     @NonNull
@@ -52,7 +54,7 @@ public class NoticeBoardAdapter extends RecyclerView.Adapter<NoticeBoardAdapter.
         return (null != noticeboard_list_arrayList ? noticeboard_list_arrayList.size() : 0);
     }
 
-    public class CustomViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class CustomViewHolder extends RecyclerView.ViewHolder{
 
         protected ImageView noticeboard_list_ImageView;
         protected TextView noticeboard_list_TextView;
@@ -61,14 +63,33 @@ public class NoticeBoardAdapter extends RecyclerView.Adapter<NoticeBoardAdapter.
             super(itemView);
             this.noticeboard_list_ImageView = (ImageView) itemView.findViewById(R.id.noticeboard_list_ImageView);
             this.noticeboard_list_TextView = (TextView) itemView.findViewById(R.id.noticeboard_list_TextView);
-            itemView.setOnClickListener(this);
 
-        }
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAbsoluteAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (itemClickListener != null) itemClickListener.onItemClick(v, pos);
 
-        @Override
-        public void onClick(View v) {
-            if (itemClickListener != null) itemClickListener.onItemClick(v, getAbsoluteAdapterPosition());
+                        notifyItemChanged(pos);
+                    }
+                }
+            });
         }
+    }
+
+    public void updateNoticeBoardItems(List<NoticeBoardData> noticeBoardDatas) {
+        final NoticeBoardDiffCallback noticeBoardDiffCallback = new NoticeBoardDiffCallback(this.noticeboard_list_arrayList, noticeBoardDatas);
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(noticeBoardDiffCallback);
+
+        System.out.println("old : " + this.noticeboard_list_arrayList );
+        System.out.println("new : " + noticeBoardDatas);
+
+        this.noticeboard_list_arrayList.clear();
+        this.noticeboard_list_arrayList.addAll(noticeBoardDatas);
+        diffResult.dispatchUpdatesTo(this);
+
+        System.out.println("updateNoticeBoardItems");
     }
 
 }

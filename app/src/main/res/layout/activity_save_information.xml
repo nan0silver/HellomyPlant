@@ -50,6 +50,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/saveinformation_image"
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/test_image"
@@ -66,7 +67,7 @@
                 android:textSize="20dp"/>
 
             <TextView
-                android:id="@+id/saveinformation_plantname_TextView"
+                android:id="@+id/saveinformation_scientific_name_TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -98,7 +99,7 @@
                     android:textColor="@color/black"/>
 
                 <TextView
-                    android:id="@+id/saveinformation_scientificname_TextView"
+                    android:id="@+id/saveinformation_family_name_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="식물 과명"
@@ -122,30 +123,13 @@
                     android:textColor="@color/black"/>
 
                 <TextView
-                    android:id="@+id/saveinformation_watering_TextView"
+                    android:id="@+id/saveinformation_water_cycle_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="물주기 기간"
                     android:textStyle="bold"
                     android:textSize="20dp"
                     android:layout_gravity="center_vertical"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:background="@drawable/saveinformation_bottom_stroke"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:text="물의 양 : "
-                    android:textSize="20dp"
-                    android:textColor="@color/black"/>
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -235,10 +219,12 @@
                     android:textSize="20dp"
                     android:layout_gravity="center_vertical"/>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
+                android:background="@drawable/saveinformation_bottom_stroke"
                 android:orientation="horizontal">
 
                 <TextView
@@ -249,10 +235,82 @@
                     android:textColor="@color/black"/>
 
                 <TextView
-                    android:id="@+id/saveinformation_speed_TextView"
+                    android:id="@+id/saveinformation_growth_speed_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="생장 속도"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:background="@drawable/saveinformation_bottom_stroke"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:text="적정 온도 : "
+                    android:textSize="20dp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/saveinformation_proper_temperature_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="적정 온도"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:background="@drawable/saveinformation_bottom_stroke"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:text="유해충 : "
+                    android:textSize="20dp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/saveinformation_pest_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="유해충"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:text="관리 요구도 : "
+                    android:textSize="20dp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/saveinformation_manage_level_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="관리 요구도"
                     android:textStyle="bold"
                     android:textSize="20dp"
                     android:layout_gravity="center_vertical"/>

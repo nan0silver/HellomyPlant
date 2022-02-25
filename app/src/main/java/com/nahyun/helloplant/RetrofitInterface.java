@@ -38,4 +38,7 @@ public interface RetrofitInterface {
     @HTTP(method = "DELETE", path="myplant", hasBody = true)
     Call<ResponseBody> deleteFunc(@FieldMap Map<String, String> options);
 
+    @GET("infoplant/list")
+    Call<Retrofit_infoplant_GetData> get_infoplant_Func(@Query("page") String page);
+
 }
