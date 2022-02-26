@@ -23,6 +23,9 @@ public class MyPlant {
     @SerializedName("fertilizer_cycle")
     @Expose
     private String fertilizerCycle;
+    @SerializedName("light")
+    @Expose
+    private String light;
     @SerializedName("createdAt")
     @Expose
     private String createdAt;
@@ -79,6 +82,14 @@ public class MyPlant {
 
     public void setFertilizerCycle(String fertilizerCycle) {
         this.fertilizerCycle = fertilizerCycle;
+    }
+
+    public String getLight() {
+        return light;
+    }
+
+    public void setLight(String light) {
+        this.light = light;
     }
 
     public String getCreatedAt() {

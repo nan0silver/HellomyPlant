@@ -226,7 +226,7 @@ public class AddMyplantActivity extends BottomNavigationActivity {
                 }
 
                 String image_string = Base64.encodeToString(byteArray_imageBitmap_addmyplant, Base64.DEFAULT);
-                AddMyplant_post(name, wateringPeriod_string, fertilizingPeriod_string, PlantNickName.getText().toString(), image_string);
+                AddMyplant_post(name, wateringPeriod_string, fertilizingPeriod_string, PlantNickName.getText().toString(), image_string, finalLight);
 
                 startActivity(intent_goto_viewmyplant_page);
             }
@@ -252,7 +252,7 @@ public class AddMyplantActivity extends BottomNavigationActivity {
         return R.id.action_camera;
     }
 
-    public void AddMyplant_post(String scientific_name, String water_cycle, String fertilizer_cycle, String nickname, String image) {
+    public void AddMyplant_post(String scientific_name, String water_cycle, String fertilizer_cycle, String nickname, String image, String light) {
 
         SharedPreferences sharedPreferences = getSharedPreferences("login token", MODE_PRIVATE);
         String token = sharedPreferences.getString("accessToken", "");
@@ -281,9 +281,10 @@ public class AddMyplantActivity extends BottomNavigationActivity {
         map.put("fertilizer_cycle", fertilizer_cycle);
         map.put("nickname", nickname);
         map.put("image", image);
+        map.put("light", light);
 
         System.out.println("scientific_name = " + scientific_name + " water_cycle = " + water_cycle + " fertilizer_cycle = " + fertilizer_cycle
-        + " nickname = " + nickname + " image = " + image );
+        + " nickname = " + nickname + " image = " + image + " light = " + light);
 
 
         Call<RetrofitPostData> call_post = service.postFunc(email, map);
@@ -300,6 +301,7 @@ public class AddMyplantActivity extends BottomNavigationActivity {
                     String after_nickname = response.body().getNewPlant().getNickname();
                     String after_image = response.body().getNewPlant().getImage();
                     String after_id = response.body().getNewPlant().getId();
+                    String after_light = response.body().getNewPlant().getLight();
                     String after_createdAt = response.body().getNewPlant().getCreatedAt();
                     String after_updatedAt = response.body().getNewPlant().getUpdatedAt();
 
@@ -309,6 +311,7 @@ public class AddMyplantActivity extends BottomNavigationActivity {
                             +"\nnickname = " + after_nickname
                             +"\nimage = " + after_image
                             +"\nid = " + after_id
+                            +"\nlight = " + after_light
                             +"\ncreatedAt = " + after_createdAt
                             +"\nupdatedAt = " + after_updatedAt
                             + "\ncode = " + String.valueOf(response.code()));

@@ -170,6 +170,7 @@ public class MyplantListActivity extends BottomNavigationActivity {
                         String after_name = plant.getMyPlant().getNickname();
                         String after_water_cycle = plant.getMyPlant().getWaterCycle();
                         String after_fertilizer_cycle = plant.getMyPlant().getFertilizerCycle();
+                        String after_light = plant.getMyPlant().getLight();
 
                         Bitmap after_image_bitmap = null;
                         try {
@@ -179,7 +180,7 @@ public class MyplantListActivity extends BottomNavigationActivity {
                             e.printStackTrace();
                         }
 
-                        mld1 = new MyplantListData(after_image_bitmap, after_name, after_water_cycle, after_fertilizer_cycle, after_id);
+                        mld1 = new MyplantListData(after_image_bitmap, after_name, after_water_cycle, after_fertilizer_cycle, after_id, after_light);
 
                         add_arraylist(mld1);
 
@@ -253,7 +254,7 @@ public class MyplantListActivity extends BottomNavigationActivity {
         MyplantListData sample1 = null;
 
         Bitmap sample1_image = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.test_image);
-        sample1 = new MyplantListData(sample1_image, "test", null, null, "123456");
+        //sample1 = new MyplantListData(sample1_image, "test", null, null, "123456");
 
         //mp_arrayList.add(sample1);
         System.out.println("mp_arrayList second : " + mp_arrayList.size());

@@ -23,6 +23,9 @@ public class NewPlant {
     @SerializedName("_id")
     @Expose
     private String id;
+    @SerializedName("light")
+    @Expose
+    private String light;
     @SerializedName("createdAt")
     @Expose
     private String createdAt;
@@ -79,6 +82,14 @@ public class NewPlant {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getLight() {
+        return light;
+    }
+
+    public void setLight(String light) {
+        this.light = light;
     }
 
     public String getCreatedAt() {

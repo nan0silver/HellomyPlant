@@ -11,8 +11,9 @@ public class MyplantListData {
     private String myplant_list_water;
     private String myplant_list_fertilizer;
     private String myplant_list_id;
+    private String myplant_list_light;
 
-    public MyplantListData(Bitmap image, String name, String water, String fertilizer, String id) {
+    public MyplantListData(Bitmap image, String name, String water, String fertilizer, String id, String light) {
 
 
         this.myplant_list_image = image;
@@ -20,6 +21,7 @@ public class MyplantListData {
         this.myplant_list_water = water;
         this.myplant_list_fertilizer = fertilizer;
         this.myplant_list_id = id;
+        this.myplant_list_light = light;
     }
 
     public Bitmap getMyplant_list_image() {return myplant_list_image;}
@@ -45,6 +47,10 @@ public class MyplantListData {
     public String getMyplant_list_id() {return myplant_list_id;}
 
     public void setMyplant_list_id(String id) { this.myplant_list_id = id;}
+
+    public String getMyplant_list_light() {return myplant_list_light;}
+
+    public void setMyplant_list_light(String light) { this.myplant_list_id = light;}
 
 
 }
