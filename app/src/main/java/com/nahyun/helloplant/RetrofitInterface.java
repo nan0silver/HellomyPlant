@@ -41,4 +41,8 @@ public interface RetrofitInterface {
     @GET("infoplant/list")
     Call<Retrofit_infoplant_GetData> get_infoplant_Func(@Query("page") String page);
 
+    @FormUrlEncoded
+    @POST("infoplant")
+    Call<Retrofit_infoplant_PostData> post_infoplant_Func(@FieldMap Map<String, String> fields);
+
 }

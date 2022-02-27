@@ -42,6 +42,7 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
     private NoticeBoardAdapter noticeBoardAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    public String page = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,9 +93,40 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
         recyclerView.setAdapter(noticeBoardAdapter);
 
         //=====recyclerView page maker=====//
-        PagerSnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(recyclerView);
+        findViewById(R.id.noticeboard_page_1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page = "1";
+            }
+        });
 
+        findViewById(R.id.noticeboard_page_2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page = "2";
+            }
+        });
+
+        findViewById(R.id.noticeboard_page_3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page = "3";
+            }
+        });
+
+        findViewById(R.id.noticeboard_page_4).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page = "4";
+            }
+        });
+
+        findViewById(R.id.noticeboard_page_5).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page = "5";
+            }
+        });
 
 
         //====notice board server connection code ======//
@@ -119,7 +151,6 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
 
         RetrofitInterface service = retrofit.create(RetrofitInterface.class);
 
-        String page = "1";
 
         Call<Retrofit_infoplant_GetData> call_infoplant_get = service.get_infoplant_Func(page);
         System.out.println("infoplant page = " + page);
@@ -215,11 +246,11 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
         Bitmap sample1_image = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.test_image);
         sample1 = new NoticeBoardData(sample1_image, "test");
 
+        /*nb_arrayList.add(sample1);
         nb_arrayList.add(sample1);
         nb_arrayList.add(sample1);
         nb_arrayList.add(sample1);
-        nb_arrayList.add(sample1);
-        nb_arrayList.add(sample1);
+        nb_arrayList.add(sample1);*/
 
     }
 

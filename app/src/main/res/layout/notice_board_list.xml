@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="120dp"
-    android:layout_height="150dp"
+    android:layout_height="155dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/myplant_list_background">
 
     <ImageView
         android:id="@+id/noticeboard_list_ImageView"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="115dp"
         android:foregroundGravity="top"
+        android:scaleType = "fitXY"
         android:background="@drawable/test_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,7 +20,7 @@
     <TextView
         android:id="@+id/noticeboard_list_TextView"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:text="이름을 넣어주세요"
         android:textColor="@color/black"
         android:gravity="center"
