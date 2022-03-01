@@ -22,6 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,7 +87,21 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                 String p = Integer.toString(position);
                 //Toast.makeText(NoticeBoardActivity.this, p, Toast.LENGTH_SHORT).show();
                 //여기서 Toast를 삭제하고 startActivity를 실행, activity 이름은 position기반
+
+                //Bitmap image, String name
+                NoticeBoardData noticeBoardData_clicked = null;
+                noticeBoardData_clicked = nb_arrayList.get(Integer.parseInt(p));
+                Bitmap clicked_image = noticeBoardData_clicked.getNoticeboard_image();
+                String clicked_name = noticeBoardData_clicked.getNoticeboard_name();
+
+                ByteArrayOutputStream stream_clicked = new ByteArrayOutputStream();
+                clicked_image.compress(Bitmap.CompressFormat.JPEG, 100, stream_clicked);
+                byte[] byteArray_clicked = stream_clicked.toByteArray();
+
                 Intent intent_goto_saveinformation = new Intent(NoticeBoardActivity.this, SaveInformationActivity.class);
+                intent_goto_saveinformation.putExtra("image", byteArray_clicked);
+                intent_goto_saveinformation.putExtra("scientific_name", clicked_name);
+
                 startActivity(intent_goto_saveinformation);
             }
         });

@@ -54,6 +54,45 @@
         <item> 90 </item>
     </string-array>
 
+    <string-array name="saveinformation_water_cycle_array">
+        <item> 항상 흙이 물에 잠기게 유지 </item>
+        <item> 흙을 물에 잠기지는 않게 촉촉히 유지 </item>
+        <item> 토양 표면이 마르면 충분히 관수 </item>
+        <item> 화분 흙 대부분 마르면 충분히 관수 </item>
+    </string-array>
+
+    <string-array name="saveinformation_smell_array">
+        <item> 거의 없음 </item>
+        <item> 약함 </item>
+        <item> 중간 </item>
+        <item> 강함 </item>
+    </string-array>
+
+    <string-array name="saveinformation_growth_speed_array">
+        <item> 빠름 </item>
+        <item> 보통 </item>
+        <item> 느림 </item>
+    </string-array>
+
+    <string-array name="saveinformation_proper_temperature_array">
+        <item> 10~ 15°C </item>
+        <item> 16~ 20°C </item>
+        <item> 21~ 25°C </item>
+        <item> 26~ 30°C </item>
+    </string-array>
+
+    <string-array name="saveinformation_manage_level_array">
+        <item> 초보자 </item>
+        <item> 경험자 </item>
+        <item> 전문가 </item>
+    </string-array>
+
+    <string-array name="saveinformation_light_array">
+        <item> 낮은 광도(300~800 Lux) </item>
+        <item> 중간 광도(800~1500 Lux) </item>
+        <item> 높은 광도(1500~10000 Lux) </item>
+    </string-array>
+
 
 
 

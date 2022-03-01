@@ -45,31 +45,6 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_myplant);
 
-        BottomNavigationView navigation = (BottomNavigationView)findViewById(R.id.navigation);
-        navigation.setSelectedItemId(R.id.action_camera);
-        navigation.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_camera:
-                        break;
-                    case R.id.action_home:
-                        Intent VM_intent_home = new Intent(ViewMyplantActivity.this, MyplantListActivity.class);
-                        //VM_intent_home.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(VM_intent_home);
-                        overridePendingTransition(0,0);
-                        break;
-                    case R.id.action_talk:
-                        Intent VM_intent_talk = new Intent(ViewMyplantActivity.this, NoticeBoardActivity.class);
-                        //VM_intent_talk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(VM_intent_talk);
-                        overridePendingTransition(0,0);
-                        break;
-                }
-                return false;
-            }
-        });
-
         Intent intent_comefrom_addmyplant_page = getIntent();
 
         JSONObject plantDetailData = new JSONObject();
@@ -144,7 +119,6 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
         Bitmap get_image_viewmyplant;
         get_image_viewmyplant = BitmapFactory.decodeByteArray(byteArray_imageBitmap_viewmyplant, 0, byteArray_imageBitmap_viewmyplant.length);
         plant_ImageView.setImageBitmap(get_image_viewmyplant);
-
 
         findViewById(R.id.modify_viewmyplant_Button).setOnClickListener(new View.OnClickListener() {
             @Override
