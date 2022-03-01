@@ -115,7 +115,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="55dp"
                     android:padding="5dp"
                     android:background="@drawable/saveinformation_bottom_stroke"
                     android:orientation="horizontal">
@@ -212,7 +212,7 @@
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="55dp"
                     android:padding="5dp"
                     android:background="@drawable/saveinformation_bottom_stroke"
                     android:orientation="horizontal">
@@ -229,14 +229,13 @@
                         android:id="@+id/saveinformation_smell_Spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="10dp"/>
+                        android:layout_gravity="center_vertical" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="55dp"
                     android:padding="5dp"
                     android:background="@drawable/saveinformation_bottom_stroke"
                     android:orientation="horizontal">
@@ -253,14 +252,13 @@
                         android:id="@+id/saveinformation_growth_speed_Spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="10dp"/>
+                        android:layout_gravity="center_vertical" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="55dp"
                     android:padding="5dp"
                     android:background="@drawable/saveinformation_bottom_stroke"
                     android:orientation="horizontal">
@@ -278,14 +276,13 @@
                         android:id="@+id/saveinformation_proper_temperature_Spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="10dp"/>
+                        android:layout_gravity="center_vertical" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="55dp"
                     android:padding="5dp"
                     android:background="@drawable/saveinformation_bottom_stroke"
                     android:orientation="horizontal">
@@ -302,13 +299,12 @@
                         android:id="@+id/saveinformation_manage_level_Spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="10dp"/>
+                        android:layout_gravity="center_vertical" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="55dp"
                     android:padding="5dp"
                     android:orientation="horizontal">
 
@@ -324,8 +320,7 @@
                         android:id="@+id/saveinformation_light_Spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:padding="10dp"/>
+                        android:layout_gravity="center_vertical" />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

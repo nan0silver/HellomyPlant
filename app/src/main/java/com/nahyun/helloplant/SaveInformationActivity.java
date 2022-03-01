@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -53,6 +54,37 @@ public class SaveInformationActivity extends AppCompatActivity {
         TextView saveinformation_scientific_name_TextView = (TextView)findViewById(R.id.saveinformation_scientific_name_TextView);
         saveinformation_scientific_name_TextView.setText(scientific_name);
 
+        String before_family_name = intent_comefrom_noticeboard_page.getExtras().getString("family_name");
+        String before_water_cycle = intent_comefrom_noticeboard_page.getExtras().getString("water_cycle");
+        String before_height = intent_comefrom_noticeboard_page.getExtras().getString("height");
+        String before_place = intent_comefrom_noticeboard_page.getExtras().getString("place");
+        String before_smell = intent_comefrom_noticeboard_page.getExtras().getString("smell");
+        String before_growth_speed = intent_comefrom_noticeboard_page.getExtras().getString("growth_speed");
+        String before_proper_temperature = intent_comefrom_noticeboard_page.getExtras().getString("proper_temperature");
+        String before_pest = intent_comefrom_noticeboard_page.getExtras().getString("pest");
+        String before_manage_level = intent_comefrom_noticeboard_page.getExtras().getString("manage_level");
+        String before_light = intent_comefrom_noticeboard_page.getExtras().getString("light");
+
+        if (before_family_name != "") {
+            EditText family_name_edittext = (EditText) findViewById(R.id.saveinformation_family_name_EditText);
+            family_name_edittext.setText(before_family_name);
+        }
+
+        if (before_height != "") {
+            EditText height_edittext = (EditText) findViewById(R.id.saveinformation_height_EditText);
+            height_edittext.setText(before_height);
+        }
+
+        if (before_place != "") {
+            EditText place_edittext = (EditText) findViewById(R.id.saveinformation_place_EditText);
+            place_edittext.setText(before_place);
+        }
+
+        if (before_pest != "") {
+            EditText pest_edittext = (EditText) findViewById(R.id.saveinformation_pest_EditText);
+            pest_edittext.setText(before_pest);
+        }
+
         //bytearray to String (image)
         String image_string = android.util.Base64.encodeToString(byteArray_imageBitmap, Base64.DEFAULT);
 
@@ -66,6 +98,10 @@ public class SaveInformationActivity extends AppCompatActivity {
 
         saveinformation_water_cycle_Spinner.setAdapter(arrayAdapter_water_cycle);
 
+        if (before_water_cycle != "") {
+            int spinner_position_water_cycle = arrayAdapter_water_cycle.getPosition(before_water_cycle);
+            saveinformation_water_cycle_Spinner.setSelection(spinner_position_water_cycle);
+        }
         saveinformation_water_cycle_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -86,6 +122,10 @@ public class SaveInformationActivity extends AppCompatActivity {
 
         saveinformation_smell_Spinner.setAdapter(arrayAdapter_smell);
 
+        if (before_smell != "") {
+            int spinner_position_smell = arrayAdapter_smell.getPosition(before_smell);
+            saveinformation_smell_Spinner.setSelection(spinner_position_smell);
+        }
         saveinformation_smell_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -106,6 +146,10 @@ public class SaveInformationActivity extends AppCompatActivity {
 
         saveinformation_growth_speed_Spinner.setAdapter(arrayAdapter_growth_speed);
 
+        if (before_growth_speed != "") {
+            int spinner_position_growth_speed = arrayAdapter_growth_speed.getPosition(before_growth_speed);
+            saveinformation_growth_speed_Spinner.setSelection(spinner_position_growth_speed);
+        }
         saveinformation_growth_speed_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -126,6 +170,10 @@ public class SaveInformationActivity extends AppCompatActivity {
 
         saveinformation_proper_temperature_Spinner.setAdapter(arrayAdapter_proper_temperature);
 
+        if (before_proper_temperature != "") {
+            int spinner_position_proper_temperature = arrayAdapter_proper_temperature.getPosition(before_proper_temperature);
+            saveinformation_proper_temperature_Spinner.setSelection(spinner_position_proper_temperature);
+        }
         saveinformation_proper_temperature_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -146,6 +194,10 @@ public class SaveInformationActivity extends AppCompatActivity {
 
         saveinformation_manage_level_Spinner.setAdapter(arrayAdapter_manage_level);
 
+        if (before_manage_level != "") {
+            int spinner_position_manage_level = arrayAdapter_manage_level.getPosition(before_manage_level);
+            saveinformation_manage_level_Spinner.setSelection(spinner_position_manage_level);
+        }
         saveinformation_manage_level_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -166,6 +218,10 @@ public class SaveInformationActivity extends AppCompatActivity {
 
         saveinformation_light_Spinner.setAdapter(arrayAdapter_light);
 
+        if (before_light != "") {
+            int spinner_position_light = arrayAdapter_light.getPosition(before_light);
+            saveinformation_light_Spinner.setSelection(spinner_position_light);
+        }
         saveinformation_light_Spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -287,20 +343,28 @@ public class SaveInformationActivity extends AppCompatActivity {
                 if (response.code() == 200) { //edit infoplant success
                     response.body();
                     String message = response.body().getMessage();
+                    System.out.println(message);
+                    Toast.makeText(SaveInformationActivity.this, "식물 정보를 수정했습니다.", Toast.LENGTH_SHORT).show();
                 }
                 else if(response.code() == 201 ) { //add plant success
                     response.body();
                     String message = response.body().getMessage();
+                    System.out.println(message);
+                    Toast.makeText(SaveInformationActivity.this, "식물 정보가 완성되었습니다.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     response.body();
                     String message = response.body().getMessage();
+                    System.out.println(message);
+                    Log.v("SaveInformationActivity", "error = " + String.valueOf(response.code()));
+                    Toast.makeText(SaveInformationActivity.this, "식물 정보 저장에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Retrofit_infoplant_PutData> call, Throwable t) {
-
+                Log.v("SaveInformationActivity", "Fail");
+                Toast.makeText(SaveInformationActivity.this, "응답에 실패했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
 

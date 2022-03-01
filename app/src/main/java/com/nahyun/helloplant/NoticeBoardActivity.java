@@ -94,6 +94,37 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                 Bitmap clicked_image = noticeBoardData_clicked.getNoticeboard_image();
                 String clicked_name = noticeBoardData_clicked.getNoticeboard_name();
 
+                String clicked_family_name = "";
+                if (!noticeBoardData_clicked.getNoticeboard_family_name().equals("")) { clicked_family_name = noticeBoardData_clicked.getNoticeboard_family_name(); }
+
+                String clicked_water_cycle = "";
+                if (!noticeBoardData_clicked.getNoticeboard_water_cycle().equals("")) { clicked_water_cycle = noticeBoardData_clicked.getNoticeboard_water_cycle(); }
+
+                String clicked_height = "";
+                if (!noticeBoardData_clicked.getNoticeboard_height().equals("")) { clicked_height = noticeBoardData_clicked.getNoticeboard_height(); }
+
+                String clicked_place = "";
+                if (!noticeBoardData_clicked.getNoticeboard_place().equals("")) { clicked_place = noticeBoardData_clicked.getNoticeboard_place(); }
+
+                String clicked_smell = "";
+                if (!noticeBoardData_clicked.getNoticeboard_smell().equals("")) { clicked_smell = noticeBoardData_clicked.getNoticeboard_smell(); }
+
+                String clicked_growth_speed = "";
+                if (!noticeBoardData_clicked.getNoticeboard_growth_speed().equals("")) { clicked_growth_speed = noticeBoardData_clicked.getNoticeboard_growth_speed(); }
+
+                String clicked_proper_temperature = "";
+                if (!noticeBoardData_clicked.getNoticeboard_proper_temperature().equals("")) { clicked_proper_temperature = noticeBoardData_clicked.getNoticeboard_proper_temperature(); }
+
+                String clicked_pest = "";
+                if (!noticeBoardData_clicked.getNoticeboard_pest().equals("")) { clicked_pest = noticeBoardData_clicked.getNoticeboard_pest(); }
+
+                String clicked_manage_level = "";
+                if (!noticeBoardData_clicked.getNoticeboard_manage_level().equals("")) { clicked_manage_level = noticeBoardData_clicked.getNoticeboard_manage_level(); }
+
+                String clicked_light = "";
+                if (!noticeBoardData_clicked.getNoticeboard_light().equals("")) { clicked_light = noticeBoardData_clicked.getNoticeboard_light(); }
+
+
                 ByteArrayOutputStream stream_clicked = new ByteArrayOutputStream();
                 clicked_image.compress(Bitmap.CompressFormat.JPEG, 100, stream_clicked);
                 byte[] byteArray_clicked = stream_clicked.toByteArray();
@@ -101,6 +132,17 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                 Intent intent_goto_saveinformation = new Intent(NoticeBoardActivity.this, SaveInformationActivity.class);
                 intent_goto_saveinformation.putExtra("image", byteArray_clicked);
                 intent_goto_saveinformation.putExtra("scientific_name", clicked_name);
+                intent_goto_saveinformation.putExtra("family_name", clicked_family_name);
+                intent_goto_saveinformation.putExtra("water_cycle", clicked_water_cycle);
+                intent_goto_saveinformation.putExtra("height", clicked_height);
+                intent_goto_saveinformation.putExtra("place", clicked_place);
+                intent_goto_saveinformation.putExtra("smell", clicked_smell);
+                intent_goto_saveinformation.putExtra("growth_speed", clicked_growth_speed);
+                intent_goto_saveinformation.putExtra("proper_temperature", clicked_proper_temperature);
+                intent_goto_saveinformation.putExtra("pest", clicked_pest);
+                intent_goto_saveinformation.putExtra("manage_level", clicked_manage_level);
+                intent_goto_saveinformation.putExtra("light", clicked_light);
+
 
                 startActivity(intent_goto_saveinformation);
             }
@@ -215,8 +257,8 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                         String after_manage_level = ""; //9
                         if (!after_necessary.contains("manage_level")) {after_manage_level = plant.getManageLevel();}
 
-                        String aftr_light = "";         //10
-                        if (!after_necessary.contains("light")) {aftr_light = plant.getLight();}
+                        String after_light = "";         //10
+                        if (!after_necessary.contains("light")) {after_light = plant.getLight();}
 
 
                         Bitmap after_image_bitmap = null;
@@ -227,7 +269,8 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                             e.printStackTrace();
                         }
 
-                        nbd = new NoticeBoardData(after_image_bitmap, after_scientific_name);
+                        nbd = new NoticeBoardData(after_image_bitmap, after_scientific_name, after_family_name, after_water_cycle, after_height, after_place, after_smell, after_growth_speed,
+                                after_proper_temperature, after_pest, after_manage_level, after_light);
 
                         add_arraylist(nbd);
 
@@ -259,7 +302,7 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
         NoticeBoardData sample1 = null;
 
         Bitmap sample1_image = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.test_image);
-        sample1 = new NoticeBoardData(sample1_image, "test");
+        //sample1 = new NoticeBoardData(sample1_image, "test");
 
         /*nb_arrayList.add(sample1);
         nb_arrayList.add(sample1);
