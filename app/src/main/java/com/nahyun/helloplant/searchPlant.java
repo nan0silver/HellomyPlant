@@ -348,14 +348,6 @@ public class searchPlant extends BottomNavigationActivity {
             }
         });
 
-        findViewById(R.id.searched_plant_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent_goto_searchedname_page = new Intent(searchPlant.this, SearhedNameActivity.class);
-                startActivity(intent_goto_searchedname_page);
-            }
-        });
-
         ImageButton rotate_image_Button = (ImageButton)findViewById(R.id.searching_plant_rotate_Button);
         rotate_image_Button.setOnClickListener(new View.OnClickListener() {
             @Override
