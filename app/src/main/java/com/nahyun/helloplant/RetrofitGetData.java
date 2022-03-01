@@ -7,15 +7,15 @@ import java.util.List;
 
 public class RetrofitGetData {
 
-    @SerializedName("plants")
+    @SerializedName("myPlantList")
     @Expose
-    private List<Plant> plants = null;
+    private List<MyPlant> myPlantList = null;
 
-    public List<Plant> getPlants() {
-        return plants;
+    public List<MyPlant> getMyPlantList() {
+        return myPlantList;
     }
 
-    public void setPlants(List<Plant> plants) {
-        this.plants = plants;
+    public void setMyPlantList(List<MyPlant> myPlantList) {
+        this.myPlantList = myPlantList;
     }
 }

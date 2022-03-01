@@ -159,18 +159,18 @@ public class MyplantListActivity extends BottomNavigationActivity {
             public void onResponse(Call<RetrofitGetData> call, Response<RetrofitGetData> response) {
                 if (response.isSuccessful()) {
                     response.body();
-                    List<Plant> plantList = response.body().getPlants();
+                    List<MyPlant> plantList = response.body().getMyPlantList();
                     int list_count = plantList.size();
                     System.out.println("myplantlist count of plant = " +list_count);
 
-                    for (Plant plant: plantList ) {
+                    for (MyPlant plant: plantList ) {
                         MyplantListData mld1 = null;
-                        String after_id = plant.getMyPlant().getId();
-                        String after_image = plant.getMyPlant().getImage();
-                        String after_name = plant.getMyPlant().getNickname();
-                        String after_water_cycle = plant.getMyPlant().getWaterCycle();
-                        String after_fertilizer_cycle = plant.getMyPlant().getFertilizerCycle();
-                        String after_light = plant.getMyPlant().getLight();
+                        String after_id = plant.getId();
+                        String after_image = plant.getImage();
+                        String after_name = plant.getNickname();
+                        String after_water_cycle = plant.getWaterCycle();
+                        String after_fertilizer_cycle = plant.getFertilizerCycle();
+                        String after_light = plant.getLight();
 
                         Bitmap after_image_bitmap = null;
                         try {

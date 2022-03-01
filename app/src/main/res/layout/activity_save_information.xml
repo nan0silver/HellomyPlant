@@ -104,7 +104,7 @@
                         android:textColor="@color/black"/>
 
                     <EditText
-                        android:id="@+id/saveinformation_family_name_TextView"
+                        android:id="@+id/saveinformation_family_name_EditText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="식물 과명"
@@ -152,7 +152,7 @@
                         android:textColor="@color/black"/>
 
                     <EditText
-                        android:id="@+id/saveinformation_height_TextView"
+                        android:id="@+id/saveinformation_height_EditText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="성장 높이"
@@ -177,7 +177,7 @@
                         android:textColor="@color/black"/>
 
                     <EditText
-                        android:id="@+id/saveinformation_place_TextView"
+                        android:id="@+id/saveinformation_place_EditText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="적정 배치 장소"
@@ -202,13 +202,13 @@
                         android:textColor="@color/black"/>
 
                     <EditText
-                        android:id="@+id/saveinformation_pest_TextView"
+                        android:id="@+id/saveinformation_pest_EditText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:hint="유해충"
-                        android:textStyle="bold"
                         android:textSize="17dp"
-                        android:layout_gravity="center_vertical"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"

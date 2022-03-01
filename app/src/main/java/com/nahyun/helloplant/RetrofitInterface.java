@@ -45,4 +45,8 @@ public interface RetrofitInterface {
     @POST("infoplant")
     Call<Retrofit_infoplant_PostData> post_infoplant_Func(@FieldMap Map<String, String> fields);
 
+    @FormUrlEncoded
+    @PUT("infoplant")
+    Call<Retrofit_infoplant_PutData> put_infoplant_Func(@FieldMap Map<String, String> fields);
+
 }
