@@ -16,6 +16,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -43,7 +44,8 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
     private NoticeBoardAdapter noticeBoardAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
-    public String page = "1";
+    public String current_page = "1";
+    public String max_page = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,42 +152,60 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
         recyclerView.setAdapter(noticeBoardAdapter);
 
         //=====recyclerView page maker=====//
-        findViewById(R.id.noticeboard_page_1).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.noticeboard_before_page_Button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                page = "1";
+                if (current_page.equals("1")) {
+                    Toast.makeText(NoticeBoardActivity.this, "현재 첫 페이지 입니다.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    current_page = Integer.toString(Integer.parseInt(current_page)-1);
+                    System.out.println("Before Button is clicked, current page is : " + current_page );
+                    NoticeBoard_get();
+                }
+
             }
         });
 
-        findViewById(R.id.noticeboard_page_2).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.noticeboard_next_page_Button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                page = "2";
-            }
-        });
+                if (current_page.equals(max_page)) {
+                    Toast.makeText(NoticeBoardActivity.this, "현재 마지막 페이지입니다.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    current_page = Integer.toString(Integer.parseInt(current_page)+1);
+                    System.out.println("Next Button is clicked, current page is : " + current_page );
+                    NoticeBoard_get();
+                }
 
-        findViewById(R.id.noticeboard_page_3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                page = "3";
-            }
-        });
-
-        findViewById(R.id.noticeboard_page_4).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                page = "4";
-            }
-        });
-
-        findViewById(R.id.noticeboard_page_5).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                page = "5";
             }
         });
 
 
+        NoticeBoard_get();
+
+        TextView noticeboard_total_page_TextView = (TextView)findViewById(R.id.noticeboard_total_page_TextView);
+        noticeboard_total_page_TextView.setText(max_page);
+
+        TextView noticeboard_current_page_TextView = (TextView)findViewById(R.id.noticeboard_current_page_TextView);
+        noticeboard_current_page_TextView.setText(current_page);
+
+
+    }
+
+    @Override
+    int getContentViewId() {
+        return R.layout.activity_notice_board;
+    }
+
+    @Override
+    int getNavigationMenuItemId() {
+        return R.id.action_talk;
+    }
+
+    public void NoticeBoard_get() {
         //====notice board server connection code ======//
         SharedPreferences sharedPreferences = getSharedPreferences("login token", MODE_PRIVATE);
         String token = sharedPreferences.getString("accessToken", "");
@@ -209,8 +229,8 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
         RetrofitInterface service = retrofit.create(RetrofitInterface.class);
 
 
-        Call<Retrofit_infoplant_GetData> call_infoplant_get = service.get_infoplant_Func(page);
-        System.out.println("infoplant page = " + page);
+        Call<Retrofit_infoplant_GetData> call_infoplant_get = service.get_infoplant_Func(current_page);
+        System.out.println("infoplant page = " + current_page);
 
         call_infoplant_get.enqueue(new Callback<Retrofit_infoplant_GetData>() {
             @Override
@@ -218,6 +238,9 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                 if (response.isSuccessful()) {
                     response.body();
                     String message = response.body().getMessage();
+                    String after_current_page = response.body().getPage().toString();
+                    max_page = response.body().getMaxPage().toString();
+                    System.out.println("NoticeBoardActivity response message : " + message);
 
                     List<InfoPlant> plantList = response.body().getInfoPlantList();
                     int list_count = plantList.size();
@@ -260,7 +283,6 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                         String after_light = "";         //10
                         if (!after_necessary.contains("light")) {after_light = plant.getLight();}
 
-
                         Bitmap after_image_bitmap = null;
                         try {
                             byte[] byte_array_image = Base64.decode(after_image, Base64.DEFAULT);
@@ -275,9 +297,11 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                         add_arraylist(nbd);
 
                         System.out.println("goooood!!! \nafter_id = " + after_id
-                                + " after_image = " + after_image
-                                + " after_scientific_name = " + after_scientific_name
-                                + " after_necessary = " + after_necessary);
+                                + " \nafter_image = " + after_image
+                                + " \nafter_scientific_name = " + after_scientific_name
+                                + " \nafter_necessary = " + after_necessary
+                                + " \ncurrent page = " + after_current_page
+                                + " \nmax page = " + max_page);
                     }
 
                     Log.v("NoticeBoardActivity", "code = " + String.valueOf(response.code()));
@@ -299,27 +323,6 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
             }
         });
 
-        NoticeBoardData sample1 = null;
-
-        Bitmap sample1_image = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.test_image);
-        //sample1 = new NoticeBoardData(sample1_image, "test");
-
-        /*nb_arrayList.add(sample1);
-        nb_arrayList.add(sample1);
-        nb_arrayList.add(sample1);
-        nb_arrayList.add(sample1);
-        nb_arrayList.add(sample1);*/
-
-    }
-
-    @Override
-    int getContentViewId() {
-        return R.layout.activity_notice_board;
-    }
-
-    @Override
-    int getNavigationMenuItemId() {
-        return R.id.action_talk;
     }
 
     public static void add_arraylist(NoticeBoardData noticeBoardData) {

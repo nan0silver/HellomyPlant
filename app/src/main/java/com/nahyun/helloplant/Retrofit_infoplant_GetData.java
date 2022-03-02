@@ -13,6 +13,12 @@ public class Retrofit_infoplant_GetData {
     @SerializedName("infoPlantList")
     @Expose
     private List<InfoPlant> infoPlantList = null;
+    @SerializedName("page")
+    @Expose
+    private Integer page;
+    @SerializedName("maxPage")
+    @Expose
+    private Integer maxPage;
 
     public String getMessage() {
         return message;
@@ -28,5 +34,21 @@ public class Retrofit_infoplant_GetData {
 
     public void setInfoPlantList(List<InfoPlant> infoPlantList) {
         this.infoPlantList = infoPlantList;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getMaxPage() {
+        return maxPage;
+    }
+
+    public void setMaxPage(Integer maxPage) {
+        this.maxPage = maxPage;
     }
 }
