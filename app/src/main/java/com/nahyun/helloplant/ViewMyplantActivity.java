@@ -192,6 +192,9 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
                     System.out.println(String.valueOf(response.code()));
 
                     Toast.makeText(ViewMyplantActivity.this, "삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
+                    Intent intent_after_success_delete = new Intent(ViewMyplantActivity.this, MyplantListActivity.class);
+                    startActivity(intent_after_success_delete);
                 }
                 else {
                     Log.v("ViewMyplantActivity", "error = " + String.valueOf(response.code()));
