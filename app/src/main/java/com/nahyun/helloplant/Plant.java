@@ -14,6 +14,9 @@ public class Plant {
     @SerializedName("family_name")
     @Expose
     private String familyName;
+    @SerializedName("korean_name")
+    @Expose
+    private String koreanName;
     @SerializedName("water_cycle")
     @Expose
     private String waterCycle;
@@ -73,6 +76,14 @@ public class Plant {
 
     public void setFamilyName(String familyName) {
         this.familyName = familyName;
+    }
+
+    public String getKoreanName() {
+        return koreanName;
+    }
+
+    public void setKoreanName(String koreanName) {
+        this.koreanName = koreanName;
     }
 
     public String getWaterCycle() {

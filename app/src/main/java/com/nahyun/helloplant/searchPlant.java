@@ -194,7 +194,6 @@ public class searchPlant extends BottomNavigationActivity {
             }
         });
 
-
         findViewById(R.id.searchImageButton).setOnClickListener(new View.OnClickListener() {
 
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -262,83 +261,13 @@ public class searchPlant extends BottomNavigationActivity {
                     Toast.makeText(getApplicationContext(),"네트워크에 에러가 있습니다. 확인해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else if(!scientific_name.equals("not plant")){
-                    // 여기부터
-                    try {
-                        //요기를 고쳐야 함!
-                        idAndName = new NongSaroGardenListTask().execute(scientific_name).get();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    for(int i = 0; i<idAndName.length; i++){
-                        System.out.println(idAndName[i]);
-                    }
-                    //여기까지 삭제
-                    //searchPlant_get(scientific_name);
+
+                    searchPlant_get(scientific_name);
                 }
                 else {
                     Toast.makeText(getApplicationContext(),"식물이 아닙니다. 정확한 식물 사진을 넣어주세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                JSONObject plantDetailData = new JSONObject();
-
-                if(idAndName[0].equals("noData")){
-                    //정보가 없을 때는 NoPlantInformation page로 scientific_name, image만 보내고 식물 정보 없다고 toast
-                    //400이 왔을 때임
-                    Intent intent_goto_noinfo_page = new Intent(searchPlant.this, NoPlantinformationActivity.class);
-                    intent_goto_noinfo_page.putExtra("ScientificName", scientific_name);
-
-                    byte[] byteArray_result = ImageViewToByteArray();
-                    intent_goto_noinfo_page.putExtra("PlantImage",  byteArray_result);
-
-                    startActivity(intent_goto_noinfo_page);
-
-                    Toast.makeText(getApplicationContext(), "식물 정보가 없습니다.", Toast.LENGTH_SHORT).show();
-                    return;
-                }else if(idAndName[0].equals("listerror")){
-                    //이거는 response에 fail했을 때
-                    Toast.makeText(getApplicationContext(), "네트워크에 에러가 있습니다.", Toast.LENGTH_SHORT).show();
-                    return;
-                }else{
-                    //이 때는 성공했을 때
-                    //JSONObject plantDetailData에 결과가 들어있음
-                    //거기 scientific_name도 넣어줘야 함함
-                   try {
-                        plantDetailData = new NongSaroGardenDetailTask().execute(idAndName[0]).get();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    try {
-                        plantDetailData.put("name", idAndName[1]);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                //show loading page
-                //customProgressDialog.show();
-
-                //----change page to Plant information page----//
-
-                Intent intent_goto_plantinformation_page = new Intent(searchPlant.this, PlantInformationActivity.class);
-
-                intent_goto_plantinformation_page.putExtra("plantDetailData", plantDetailData.toString());
-
-                byte[] byteArray_result = ImageViewToByteArray();
-                intent_goto_plantinformation_page.putExtra("image_bitmap", byteArray_result);
-
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        startActivity(intent_goto_plantinformation_page);
-                    }
-                }, 3000);
-
-                return;
             }
         });
 
@@ -375,7 +304,7 @@ public class searchPlant extends BottomNavigationActivity {
         return byteArray_result;
     }
 
-    /*public void searchPlant_get(String scientific_name) {
+    public void searchPlant_get(String scientific_name) {
         SharedPreferences sharedPreferences = getSharedPreferences("login token", MODE_PRIVATE);
         String token = sharedPreferences.getString("accessToken", "");
         System.out.println("searchPlant token = " + token);
@@ -408,6 +337,7 @@ public class searchPlant extends BottomNavigationActivity {
                     String after_id = response.body().getPlant().getId();
                     String after_scientific_name = response.body().getPlant().getScientificName();
                     String after_family_name = response.body().getPlant().getFamilyName();
+                    String after_korean_name = response.body().getPlant().getKoreanName();
                     String after_water_cycle = response.body().getPlant().getWaterCycle();
                     String after_height = response.body().getPlant().getHeight();
                     String after_place = response.body().getPlant().getPlace();
@@ -423,8 +353,9 @@ public class searchPlant extends BottomNavigationActivity {
                     JSONObject plantDetailData = new JSONObject();
 
                     try {
-                        plantDetailData.put("name", after_scientific_name);
+                        plantDetailData.put("name", after_korean_name);
                         plantDetailData.put("familyName", after_family_name);
+                        plantDetailData.put("scientificName", after_scientific_name);
                         plantDetailData.put("height", after_height);
                         plantDetailData.put("place", after_place);
                         plantDetailData.put("smell", after_smell);
@@ -448,6 +379,7 @@ public class searchPlant extends BottomNavigationActivity {
                     Intent intent_goto_plantinformation_page = new Intent(searchPlant.this, PlantInformationActivity.class);
 
                     intent_goto_plantinformation_page.putExtra("plantDetailData", plantDetailData.toString());
+                    System.out.println("searchPlant plantDetailData : " + plantDetailData);
 
                     byte[] byteArray_result = ImageViewToByteArray();
                     intent_goto_plantinformation_page.putExtra("image_bitmap", byteArray_result);
@@ -478,7 +410,7 @@ public class searchPlant extends BottomNavigationActivity {
             }
         });
 
-    }*/
+    }
 
     @Override
     int getContentViewId() {
@@ -503,7 +435,6 @@ public class searchPlant extends BottomNavigationActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageBytes = baos.toByteArray();
         String imageString = Base64.getEncoder().encodeToString(imageBytes);
-
 
         return imageString;
     }
