@@ -7,6 +7,7 @@ public class NoticeBoardData {
     private Bitmap noticeboard_image;
     private String noticeboard_name;
     private String noticeboard_family_name;
+    private String noticeboard_korean_name;
     private String noticeboard_water_cycle;
     private String noticeboard_height;
     private String noticeboard_place;
@@ -17,12 +18,13 @@ public class NoticeBoardData {
     private String noticeboard_manage_level;
     private String noticeboard_light;
 
-    public NoticeBoardData(Bitmap image, String name, String family_name, String water_cycle,
+    public NoticeBoardData(Bitmap image, String name, String family_name, String korean_name, String water_cycle,
                            String height, String place, String smell, String growth_speed,
                            String proper_temperature, String pest, String manage_level, String light) {
         this.noticeboard_image = image;
         this.noticeboard_name = name;
         this.noticeboard_family_name = family_name;
+        this.noticeboard_korean_name = korean_name;
         this.noticeboard_water_cycle = water_cycle;
         this.noticeboard_height = height;
         this.noticeboard_place = place;
@@ -56,6 +58,14 @@ public class NoticeBoardData {
 
     public void setNoticeboard_family_name(String family_name) {
         this.noticeboard_family_name = family_name;
+    }
+
+    public String getNoticeboard_korean_name() {
+        return noticeboard_korean_name;
+    }
+
+    public void setNoticeboard_korean_name(String korean_name) {
+        this.noticeboard_korean_name = korean_name;
     }
 
     public String getNoticeboard_water_cycle() {

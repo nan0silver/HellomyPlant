@@ -23,6 +23,10 @@ public class InfoPlant {
     @Expose
     private String familyName;
 
+    @SerializedName("korean_name")
+    @Expose
+    private String koreanName;
+
     @SerializedName("water_cycle")
     @Expose
     private String waterCycle;
@@ -89,6 +93,14 @@ public class InfoPlant {
 
     public void setScientificName(String scientificName) {
         this.scientificName = scientificName;
+    }
+
+    public String getKoreanName() {
+        return koreanName;
+    }
+
+    public void setKoreanName(String koreanName) {
+        this.koreanName = koreanName;
     }
 
     public String getFamilyName() {

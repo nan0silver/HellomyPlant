@@ -1,11 +1,13 @@
 package com.nahyun.helloplant;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -184,6 +186,23 @@ public class NoPlantinformationActivity extends AppCompatActivity {
                             + "\ncode = " + String.valueOf(response.code()));
 
                     Toast.makeText(NoPlantinformationActivity.this, "정보 요청에 성공했습니다.", Toast.LENGTH_SHORT).show();
+
+                }
+                else if (response.code() == 403) {
+                    //String message = response.body().getMessage();
+                    Log.v("NoPlantinforationActivity", "error code = 403");
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(NoPlantinformationActivity.this);
+                    builder.setTitle("정보가 이미 요청된 식물입니다.");
+                    builder.setMessage("정보가 완성되었을 때 원하실 경우 버튼을 눌러주시면 이메일로 알려드리겠습니다.");
+                    builder.setPositiveButton("원합니다", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(NoPlantinformationActivity.this, "이메일 원함", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder.setNegativeButton("원하지 않습니다", null);
+                    builder.create().show();
                 }
                 else {
                     Log.v("NoPlantinformationActivity", "error = " + String.valueOf(response.code()));

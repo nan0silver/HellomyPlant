@@ -20,7 +20,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="398dp"
-        android:layout_height="550dp"
+        android:layout_height="600dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -215,7 +215,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="16dp"
             app:layout_constraintVertical_weight="1.3"
-            app:layout_constraintBottom_toTopOf="@+id/view_bottom_TextView"
+            app:layout_constraintBottom_toTopOf="@+id/goto_viewmyplant_Button"
             app:layout_constraintTop_toBottomOf="@id/view_myplant_LinearLayout"
             app:layout_constraintStart_toStartOf="@id/view_myplant_LinearLayout"
             app:layout_constraintEnd_toEndOf="@id/view_myplant_LinearLayout"
@@ -243,14 +243,21 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/view_bottom_TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center_horizontal"
-            android:text="뒤로 간 후 홈 버튼을 눌러 \nmyplant 리스트로 가면 확인하실 수 있습니다."
+        <ImageButton
+            android:id="@+id/goto_viewmyplant_Button"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="18dp"
+            android:text="내 식물 리스트로 가기"
+            android:textStyle="bold"
             android:textColor="@color/black"
+            android:scaleType="fitCenter"
+            android:src="@drawable/bottom_home"
+            android:background="@drawable/round_modify_button"
             app:layout_constraintStart_toStartOf="@+id/view_myplant_buttons_LinearLayout"
             app:layout_constraintEnd_toEndOf="@+id/view_myplant_buttons_LinearLayout"
             app:layout_constraintTop_toBottomOf="@+id/view_myplant_buttons_LinearLayout"

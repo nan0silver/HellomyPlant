@@ -100,6 +100,9 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                 String clicked_family_name = "";
                 if (!noticeBoardData_clicked.getNoticeboard_family_name().equals("")) { clicked_family_name = noticeBoardData_clicked.getNoticeboard_family_name(); }
 
+                String clicked_korean_name = "";
+                if (!noticeBoardData_clicked.getNoticeboard_korean_name().equals("")) { clicked_korean_name = noticeBoardData_clicked.getNoticeboard_korean_name(); }
+
                 String clicked_water_cycle = "";
                 if (!noticeBoardData_clicked.getNoticeboard_water_cycle().equals("")) { clicked_water_cycle = noticeBoardData_clicked.getNoticeboard_water_cycle(); }
 
@@ -136,6 +139,7 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                 intent_goto_saveinformation.putExtra("image", byteArray_clicked);
                 intent_goto_saveinformation.putExtra("scientific_name", clicked_name);
                 intent_goto_saveinformation.putExtra("family_name", clicked_family_name);
+                intent_goto_saveinformation.putExtra("korean_name", clicked_korean_name);
                 intent_goto_saveinformation.putExtra("water_cycle", clicked_water_cycle);
                 intent_goto_saveinformation.putExtra("height", clicked_height);
                 intent_goto_saveinformation.putExtra("place", clicked_place);
@@ -259,6 +263,9 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                         String after_family_name = ""; //1
                         if (!after_necessary.contains("family_name")) {after_family_name = plant.getFamilyName();}
 
+                        String after_korean_name = ""; //1
+                        if (!after_necessary.contains("korean_name")) {after_korean_name = plant.getKoreanName();}
+
                         String after_water_cycle = ""; //2
                         if (!after_necessary.contains("water_cycle")) {after_water_cycle = plant.getWaterCycle();}
 
@@ -294,13 +301,12 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                             e.printStackTrace();
                         }
 
-                        nbd = new NoticeBoardData(after_image_bitmap, after_scientific_name, after_family_name, after_water_cycle, after_height, after_place, after_smell, after_growth_speed,
+                        nbd = new NoticeBoardData(after_image_bitmap, after_scientific_name, after_family_name, after_korean_name, after_water_cycle, after_height, after_place, after_smell, after_growth_speed,
                                 after_proper_temperature, after_pest, after_manage_level, after_light);
 
                         add_arraylist(nbd);
 
                         System.out.println("goooood!!! \nafter_id = " + after_id
-                                + " \nafter_image = " + after_image
                                 + " \nafter_scientific_name = " + after_scientific_name
                                 + " \nafter_necessary = " + after_necessary
                                 + " \ncurrent page = " + after_current_page
@@ -308,14 +314,13 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                     }
 
                     Log.v("NoticeBoardActivity", "code = " + String.valueOf(response.code()));
-                    //Toast.makeText(NoticeBoardActivity.this, "code = " + String.valueOf(response.code()) + "\nmyplant list를 불러오는데 성공하였습니다.", Toast.LENGTH_SHORT).show();
 
                     noticeBoardAdapter.updateNoticeBoardItems(nb_arrayList);
                     System.out.println("update " + nb_arrayList);
                 }
                 else {
                     Log.v("MyplantListActivity", "error = " + String.valueOf(response.code()));
-                    Toast.makeText(NoticeBoardActivity.this, "error : " + String.valueOf(response.code()) + "\n 내 식물 등록에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NoticeBoardActivity.this, "내 식물 등록에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override

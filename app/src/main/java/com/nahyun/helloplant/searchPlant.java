@@ -3,12 +3,10 @@ package com.nahyun.helloplant;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -19,13 +17,11 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
@@ -36,8 +32,6 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -52,13 +46,11 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
-import java.security.Permission;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -103,7 +95,8 @@ public class searchPlant extends BottomNavigationActivity {
     private String imageFilePath;
     private Uri photoUri;
     private File temp_gallery_File;
-    private int mDegree, resize_width = 300;;
+    private int mDegree, resize_width = 300;
+    private ProgressDialog progressDialog;
 
     private MediaScanner mMediaScanner;
 
@@ -199,6 +192,14 @@ public class searchPlant extends BottomNavigationActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
+
+                progressDialog = new ProgressDialog(searchPlant.this);
+                progressDialog.setMax(100);
+                progressDialog.setMessage("정보를 불러오고 있는 중입니다.");
+                progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Horizontal);
+
+                progressDialog.show();
+
 //                String apiKey = "nQljT3UMscsIaE5YapywR1oTs96TrCzw2V9fdzqegI6j5mvxAw";
                 String apiKey = "g5AkSeLBbiQjfWUK45AhmNu6e07gvLlCxXCzov0ZeEzOYq1uOK";
 
@@ -256,7 +257,6 @@ public class searchPlant extends BottomNavigationActivity {
                     e.printStackTrace();
                 }
 
-                String[] idAndName = new String[2]; //delete
                 if(scientific_name.equals("network error")){
                     Toast.makeText(getApplicationContext(),"네트워크에 에러가 있습니다. 확인해주세요", Toast.LENGTH_SHORT).show();
                 }
@@ -332,6 +332,7 @@ public class searchPlant extends BottomNavigationActivity {
         call_plant_get.enqueue(new Callback<Retrofit_plant_GetData>() {
             @Override
             public void onResponse(Call<Retrofit_plant_GetData> call, Response<Retrofit_plant_GetData> response) {
+                progressDialog.dismiss();
                 if (response.isSuccessful()) {
                     response.body();
                     String after_id = response.body().getPlant().getId();
@@ -399,12 +400,13 @@ public class searchPlant extends BottomNavigationActivity {
                     startActivity(intent_goto_noinfo_page);
 
                     System.out.println("searchPlant page response code : " + response.code());
-                    Toast.makeText(getApplicationContext(), "식물 정보가 없습니다.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "식물 정보가 없습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Retrofit_plant_GetData> call, Throwable t) {
+                progressDialog.dismiss();
                 Log.v("searchPlantActivity", "Fail");
                 Toast.makeText(getApplicationContext(), "네트워크에 에러가 있습니다.", Toast.LENGTH_SHORT).show();
             }

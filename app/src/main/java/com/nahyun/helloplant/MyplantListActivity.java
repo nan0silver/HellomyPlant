@@ -206,7 +206,7 @@ public class MyplantListActivity extends BottomNavigationActivity {
                 }
                 else {
                     Log.v("MyplantListActivity", "error = " + String.valueOf(response.code()));
-                    Toast.makeText(MyplantListActivity.this, "error : " + String.valueOf(response.code()) + "\n 내 식물 등록에 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyplantListActivity.this,  "\n 내 식물 등록에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 

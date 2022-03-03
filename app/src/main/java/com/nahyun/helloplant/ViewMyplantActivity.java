@@ -144,6 +144,14 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
                 System.out.println("delete viewmyplant email : " + email);
             }
         });
+
+        findViewById(R.id.goto_viewmyplant_Button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_goto_myplantlist_from_viewmyplant = new Intent(ViewMyplantActivity.this, MyplantListActivity.class);
+                startActivity(intent_goto_myplantlist_from_viewmyplant);
+            }
+        });
     }
 
     @Override

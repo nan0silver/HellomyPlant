@@ -115,6 +115,31 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:background="@drawable/saveinformation_bottom_stroke"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="170dp"
+                        android:layout_height="wrap_content"
+                        android:text="한국 이름 : "
+                        android:textSize="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/black"/>
+
+                    <EditText
+                        android:id="@+id/saveinformation_korean_name_EditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="한국 이름"
+                        android:textStyle="bold"
+                        android:textSize="17dp"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:padding="5dp"
                     android:background="@drawable/saveinformation_bottom_stroke"

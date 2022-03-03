@@ -1,7 +1,9 @@
 package com.nahyun.helloplant;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -244,6 +246,11 @@ public class SaveInformationActivity extends AppCompatActivity {
                 if (saveinformation_family_name_EditText.getText().toString().length() == 0) { family_name = "선택 안함"; } //if null
                 else { family_name = saveinformation_family_name_EditText.getText().toString(); }
 
+                String korean_name = "";
+                EditText saveinformation_korean_name_EditText = (EditText)findViewById(R.id.saveinformation_korean_name_EditText);
+                if (saveinformation_korean_name_EditText.getText().toString().length() == 0) { korean_name = "선택 안함"; } //if null
+                else { korean_name = saveinformation_korean_name_EditText.getText().toString(); }
+
                 String water_cycle = "";
                 water_cycle = saveinformation_water_cycle_Spinner.getSelectedItem().toString();
 
@@ -279,6 +286,7 @@ public class SaveInformationActivity extends AppCompatActivity {
 
                 Log.v("SaveInformationActivity", "scientific name : " +scientific_name
                 + "\nfamily name : " + family_name
+                + "\nkorean name :" + korean_name
                 + "\nwater cycle : " + water_cycle
                 + "\nheight : " + height
                 + "\nplace : " + place
@@ -290,13 +298,13 @@ public class SaveInformationActivity extends AppCompatActivity {
                 + "\nlight : " + light);
 
 
-                SaveInformation_put(image_string, scientific_name, family_name, water_cycle, height, place, smell, growth_speed,
+                SaveInformation_put(image_string, scientific_name, family_name, korean_name, water_cycle, height, place, smell, growth_speed,
                         proper_temperature, pest, manage_level, light);
             }
         });
     }
 
-    public void SaveInformation_put(String image,String scientific_name, String family_name, String water_cycle, String height, String place,
+    public void SaveInformation_put(String image,String scientific_name, String family_name, String korean_name, String water_cycle, String height, String place,
                                     String smell, String growth_speed, String proper_temperature, String pest, String manage_level,
                                     String light) {
 
@@ -326,6 +334,7 @@ public class SaveInformationActivity extends AppCompatActivity {
         map.put("scientific_name", scientific_name);
         System.out.println("scientific_name : " + scientific_name);
         if (!family_name.equals("선택 안함")) {map.put("family_name", family_name); System.out.println("family_name : " + family_name);}
+        if (!korean_name.equals("선택 안함")) {map.put("korean_name", korean_name); System.out.println("korean_name : " + korean_name);}
         if (!water_cycle.equals("선택 안함")) {map.put("water_cycle", water_cycle); System.out.println("water_cycle : " + water_cycle);}
         if (!height.equals("선택 안함")) {map.put("height", height); System.out.println("height : " + height);}
         if (!place.equals("선택 안함")) {map.put("place", place); System.out.println("place : " + place);}
@@ -344,7 +353,20 @@ public class SaveInformationActivity extends AppCompatActivity {
                     response.body();
                     String message = response.body().getMessage();
                     System.out.println(message);
-                    Toast.makeText(SaveInformationActivity.this, "식물 정보를 수정했습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SaveInformationActivity.this, "식물 정보를 저장했습니다.", Toast.LENGTH_SHORT).show();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SaveInformationActivity.this);
+                    builder.setTitle("식물 정보를 저장했습니다.");
+                    builder.setMessage("정보를 제공해주셔서 감사합니다!");
+                    builder.setPositiveButton("닫기", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent_goto_noticeboard = new Intent(SaveInformationActivity.this, NoticeBoardActivity.class);
+                            startActivity(intent_goto_noticeboard);
+                        }
+                    });
+                    builder.create().show();
+
                 }
                 else if(response.code() == 201 ) { //add plant success
                     response.body();
