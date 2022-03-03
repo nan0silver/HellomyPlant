@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -145,7 +146,6 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                 intent_goto_saveinformation.putExtra("manage_level", clicked_manage_level);
                 intent_goto_saveinformation.putExtra("light", clicked_light);
 
-
                 startActivity(intent_goto_saveinformation);
             }
         });
@@ -164,7 +164,6 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                     System.out.println("Before Button is clicked, current page is : " + current_page );
                     NoticeBoard_get();
                 }
-
             }
         });
 
@@ -179,10 +178,8 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                     System.out.println("Next Button is clicked, current page is : " + current_page );
                     NoticeBoard_get();
                 }
-
             }
         });
-
 
         NoticeBoard_get();
 
@@ -191,8 +188,6 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
 
         TextView noticeboard_current_page_TextView = (TextView)findViewById(R.id.noticeboard_current_page_TextView);
         noticeboard_current_page_TextView.setText(current_page);
-
-
     }
 
     @Override
@@ -228,13 +223,21 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
 
         RetrofitInterface service = retrofit.create(RetrofitInterface.class);
 
-
         Call<Retrofit_infoplant_GetData> call_infoplant_get = service.get_infoplant_Func(current_page);
         System.out.println("infoplant page = " + current_page);
+
+        final ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(NoticeBoardActivity.this);
+        progressDialog.setMax(100);
+        progressDialog.setMessage("잠시만 기다려주세요..!");
+        progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Horizontal);
+
+        progressDialog.show();
 
         call_infoplant_get.enqueue(new Callback<Retrofit_infoplant_GetData>() {
             @Override
             public void onResponse(Call<Retrofit_infoplant_GetData> call, Response<Retrofit_infoplant_GetData> response) {
+                progressDialog.dismiss();
                 if (response.isSuccessful()) {
                     response.body();
                     String message = response.body().getMessage();
@@ -305,7 +308,7 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                     }
 
                     Log.v("NoticeBoardActivity", "code = " + String.valueOf(response.code()));
-                    Toast.makeText(NoticeBoardActivity.this, "code = " + String.valueOf(response.code()) + "\nmyplant list를 불러오는데 성공하였습니다.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(NoticeBoardActivity.this, "code = " + String.valueOf(response.code()) + "\nmyplant list를 불러오는데 성공하였습니다.", Toast.LENGTH_SHORT).show();
 
                     noticeBoardAdapter.updateNoticeBoardItems(nb_arrayList);
                     System.out.println("update " + nb_arrayList);
@@ -315,21 +318,18 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                     Toast.makeText(NoticeBoardActivity.this, "error : " + String.valueOf(response.code()) + "\n 내 식물 등록에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<Retrofit_infoplant_GetData> call, Throwable t) {
+                progressDialog.dismiss();
                 Log.v("MyplantListActivity", "Fail");
                 Toast.makeText(NoticeBoardActivity.this, "응답에 실패했습니다.", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     public static void add_arraylist(NoticeBoardData noticeBoardData) {
-
         nb_arrayList.add(noticeBoardData);
         System.out.println("nb_arrayList subfunc : " + nb_arrayList.size());
         System.out.println("NoticeBoardData = " + noticeBoardData);
-
     }
 }

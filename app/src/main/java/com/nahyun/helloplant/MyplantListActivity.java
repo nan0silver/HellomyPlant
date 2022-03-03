@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -154,9 +155,18 @@ public class MyplantListActivity extends BottomNavigationActivity {
         Call<RetrofitGetData> call_get = service.getFunc(email);
         System.out.println("myplantlist email = " + email);
 
+        final ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(MyplantListActivity.this);
+        progressDialog.setMax(100);
+        progressDialog.setMessage("잠시만 기다려주세요..!");
+        progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Horizontal);
+
+        progressDialog.show();
+
         call_get.enqueue(new Callback<RetrofitGetData>() {
             @Override
             public void onResponse(Call<RetrofitGetData> call, Response<RetrofitGetData> response) {
+                progressDialog.dismiss();
                 if (response.isSuccessful()) {
                     response.body();
                     List<MyPlant> plantList = response.body().getMyPlantList();
@@ -189,7 +199,7 @@ public class MyplantListActivity extends BottomNavigationActivity {
                     }
 
                     Log.v("MyplantListActivity", "code = " + String.valueOf(response.code()));
-                    Toast.makeText(MyplantListActivity.this, "code = " + String.valueOf(response.code()) + "\nmyplant list를 불러오는데 성공하였습니다.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MyplantListActivity.this, "code = " + String.valueOf(response.code()) + "\nmyplant list를 불러오는데 성공하였습니다.", Toast.LENGTH_SHORT).show();
 
                     myplantListAdapter.updateMyplantListItems(mp_arrayList);
                     System.out.println("update " + mp_arrayList);
@@ -202,6 +212,7 @@ public class MyplantListActivity extends BottomNavigationActivity {
 
             @Override
             public void onFailure(Call<RetrofitGetData> call, Throwable t) {
+                progressDialog.dismiss();
                 Log.v("MyplantListActivity", "Fail");
                 Toast.makeText(MyplantListActivity.this, "응답에 실패했습니다.", Toast.LENGTH_SHORT).show();
             }

@@ -49,4 +49,7 @@ public interface RetrofitInterface {
     @PUT("infoplant")
     Call<Retrofit_infoplant_PutData> put_infoplant_Func(@FieldMap Map<String, String> fields);
 
+    @GET("plant")
+    Call<Retrofit_plant_GetData> get_plant_Func(@Query("scientific_name") String scientific_name);
+
 }
