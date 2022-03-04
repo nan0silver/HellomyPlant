@@ -3,6 +3,8 @@ package com.nahyun.helloplant;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -30,6 +32,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.AbstractMap;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -227,6 +230,14 @@ public class AddMyplantActivity extends BottomNavigationActivity {
 
                 String image_string = Base64.encodeToString(byteArray_imageBitmap_addmyplant, Base64.DEFAULT);
                 AddMyplant_post(name, wateringPeriod_string, fertilizingPeriod_string, PlantNickName.getText().toString(), image_string, finalLight);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.DATE, Integer.parseInt(wateringPeriod_string));
+                Intent calendar_intent = new Intent(AddMyplantActivity.this, AlarmReceiver.class);
+                PendingIntent calendar_pending_intent = PendingIntent.getBroadcast(AddMyplantActivity.this, 001, calendar_intent, 0);
+
+                AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, calendar_pending_intent);
 
                 startActivity(intent_goto_viewmyplant_page);
             }

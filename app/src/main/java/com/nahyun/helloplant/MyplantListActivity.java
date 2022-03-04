@@ -181,6 +181,8 @@ public class MyplantListActivity extends BottomNavigationActivity {
                         String after_water_cycle = plant.getWaterCycle();
                         String after_fertilizer_cycle = plant.getFertilizerCycle();
                         String after_light = plant.getLight();
+                        String after_createdAt = plant.getCreatedAt();
+                        String after_updatedAt = plant.getUpdatedAt();
 
                         Bitmap after_image_bitmap = null;
                         try {
@@ -190,12 +192,13 @@ public class MyplantListActivity extends BottomNavigationActivity {
                             e.printStackTrace();
                         }
 
-                        mld1 = new MyplantListData(after_image_bitmap, after_name, after_water_cycle, after_fertilizer_cycle, after_id, after_light);
+                        mld1 = new MyplantListData(after_image_bitmap, after_name, after_water_cycle, after_fertilizer_cycle, after_id, after_light, after_createdAt, after_updatedAt);
 
                         add_arraylist(mld1);
 
-                        System.out.println("goooood!!! \nafter_id = " + after_id + " after_image = " + after_image + " after_name = " + after_name
-                        + " after_water_cycle = " + after_water_cycle + " after_fertilizer_cycle = " + after_fertilizer_cycle);
+                        System.out.println("goooood!!! \nafter_id = " + after_id + " \nafter_image = " + after_image + " \nafter_name = " + after_name
+                        + " \nafter_water_cycle = " + after_water_cycle + " \nafter_fertilizer_cycle = " + after_fertilizer_cycle
+                        + " \nafter_createdAt = " + after_createdAt + "\nafter_updatedAt = " + after_updatedAt);
                     }
 
                     Log.v("MyplantListActivity", "code = " + String.valueOf(response.code()));

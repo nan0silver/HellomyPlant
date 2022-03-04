@@ -12,9 +12,10 @@ public class MyplantListData {
     private String myplant_list_fertilizer;
     private String myplant_list_id;
     private String myplant_list_light;
+    private String myplant_list_createdAt;
+    private String myplant_list_updatedAt;
 
-    public MyplantListData(Bitmap image, String name, String water, String fertilizer, String id, String light) {
-
+    public MyplantListData(Bitmap image, String name, String water, String fertilizer, String id, String light, String createdAt, String updatedAt) {
 
         this.myplant_list_image = image;
         this.myplant_list_name = name;
@@ -22,6 +23,8 @@ public class MyplantListData {
         this.myplant_list_fertilizer = fertilizer;
         this.myplant_list_id = id;
         this.myplant_list_light = light;
+        this.myplant_list_createdAt = createdAt;
+        this.myplant_list_updatedAt = updatedAt;
     }
 
     public Bitmap getMyplant_list_image() {return myplant_list_image;}
@@ -51,6 +54,14 @@ public class MyplantListData {
     public String getMyplant_list_light() {return myplant_list_light;}
 
     public void setMyplant_list_light(String light) { this.myplant_list_id = light;}
+
+    public String getMyplant_list_createdAt() {return myplant_list_createdAt;}
+
+    public void setMyplant_list_createdAt(String createdAt) { this.myplant_list_createdAt = createdAt;}
+
+    public String getMyplant_list_updatedAt() {return myplant_list_updatedAt;}
+
+    public void setMyplant_list_updatedAt(String updatedAt) { this.myplant_list_updatedAt = updatedAt;}
 
 
 }

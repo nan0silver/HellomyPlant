@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,8 +56,31 @@ public class MyplantListAdapter extends RecyclerView.Adapter<MyplantListAdapter.
 
         holder.myplant_list_image.setImageBitmap(myplant_list_arrayList.get(position).getMyplant_list_image());
         holder.myplant_list_name.setText(myplant_list_arrayList.get(position).getMyplant_list_name());
-        holder.myplant_list_water = myplant_list_arrayList.get(position).getMyplant_list_water();
-        holder.myplant_list_fertilizer = myplant_list_arrayList.get(position).getMyplant_list_fertilizer();
+        holder.myplant_list_water_cycle = myplant_list_arrayList.get(position).getMyplant_list_water();
+        holder.myplant_list_fertilizer_cycle = myplant_list_arrayList.get(position).getMyplant_list_fertilizer();
+        holder.myplant_createdAt = myplant_list_arrayList.get(position).getMyplant_list_createdAt();
+        holder.myplant_updatedAt = myplant_list_arrayList.get(position).getMyplant_list_updatedAt();
+
+        String created_day = holder.myplant_createdAt.substring(8, 10);
+        String updated_day = holder.myplant_updatedAt.substring(8, 10);
+        System.out.println("MyplantList created_day : " + created_day);
+        System.out.println("MyplantList updated_day : " + updated_day);
+
+        LocalDate now_date = LocalDate.now();
+        int now_day = now_date.getDayOfMonth();
+        System.out.println("MyplantList now_day : " + now_day);
+
+        int last_day = now_day - Integer.parseInt(created_day);
+        System.out.println("MyplantList last_day : " + last_day);
+        System.out.println("MyplantList water_cycle_day" + holder.myplant_list_water_cycle);
+        System.out.println("MyplantList fertilizer_cycle_day" + holder.myplant_list_fertilizer_cycle);
+
+        int water_cycle_integer = Integer.parseInt(holder.myplant_list_water_cycle);
+        int fertilizer_cycle_integer = Integer.parseInt(holder.myplant_list_fertilizer_cycle);
+
+        int water_width = 350 * (water_cycle_integer-last_day) / water_cycle_integer;
+        int fertilizer_width = 350 * (fertilizer_cycle_integer-last_day) /fertilizer_cycle_integer;
+
 
         //width max 350
 
@@ -64,16 +88,15 @@ public class MyplantListAdapter extends RecyclerView.Adapter<MyplantListAdapter.
         Canvas canvas = new Canvas(water_bitmap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.rgb(149, 215, 132));
-        canvas.drawRect(0, 0, 350, 100, paint);
+        canvas.drawRect(0, 0, water_width, 100, paint);
         holder.myplant_list_water_imageview.setImageBitmap(water_bitmap);
 
         Bitmap fertilizer_bitmap = Bitmap.createBitmap(350, 100, Bitmap.Config.ARGB_8888);
         Canvas canvas2 = new Canvas(fertilizer_bitmap);
         Paint paint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint2.setColor(Color.rgb(149, 215, 132));
-        canvas2.drawRect(0, 0, 350, 100, paint2);
+        canvas2.drawRect(0, 0, fertilizer_width, 100, paint2);
         holder.myplant_list_fertilizer_imageview.setImageBitmap(fertilizer_bitmap);
-
     }
 
     @Override
@@ -85,8 +108,10 @@ public class MyplantListAdapter extends RecyclerView.Adapter<MyplantListAdapter.
         protected TextView myplant_list_name;
         protected ImageView myplant_list_water_imageview;
         protected ImageView myplant_list_fertilizer_imageview;
-        protected String myplant_list_water;
-        protected String myplant_list_fertilizer;
+        protected String myplant_list_water_cycle;
+        protected String myplant_list_fertilizer_cycle;
+        protected String myplant_createdAt;
+        protected String myplant_updatedAt;
 
         public CustomViewHolder_myplant_list(@NonNull @NotNull View itemView) {
             super(itemView);
