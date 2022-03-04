@@ -248,21 +248,26 @@ public class searchPlant extends BottomNavigationActivity {
                 System.out.println(data);
 
                 String scientific_name = "";
+                String probability = "";
+                String[] NetworkTask_result = new String[2];
 
                 try {
-                    scientific_name = new NetworkTask().execute(data).get();
+                    NetworkTask_result = new NetworkTask().execute(data).get();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
+                scientific_name = NetworkTask_result[0];
+                probability = NetworkTask_result[1];
+
                 if(scientific_name.equals("network error")){
                     Toast.makeText(getApplicationContext(),"네트워크에 에러가 있습니다. 확인해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else if(!scientific_name.equals("not plant")){
 
-                    searchPlant_get(scientific_name);
+                    searchPlant_get(scientific_name, probability);
                 }
                 else {
                     Toast.makeText(getApplicationContext(),"식물이 아닙니다. 정확한 식물 사진을 넣어주세요.", Toast.LENGTH_SHORT).show();
@@ -304,7 +309,7 @@ public class searchPlant extends BottomNavigationActivity {
         return byteArray_result;
     }
 
-    public void searchPlant_get(String scientific_name) {
+    public void searchPlant_get(String scientific_name, String probability) {
         SharedPreferences sharedPreferences = getSharedPreferences("login token", MODE_PRIVATE);
         String token = sharedPreferences.getString("accessToken", "");
         System.out.println("searchPlant token = " + token);
@@ -372,6 +377,7 @@ public class searchPlant extends BottomNavigationActivity {
                         plantDetailData.put("after_response_id", after_id);
                         plantDetailData.put("after_response_createdAt", after_createdAt);
                         plantDetailData.put("after_response_updatedAt", after_updatedAt);
+                        plantDetailData.put("probability", probability);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -638,11 +644,11 @@ public class searchPlant extends BottomNavigationActivity {
     };
 }
 
-class NetworkTask extends AsyncTask<JSONObject, Void, String> {
+class NetworkTask extends AsyncTask<JSONObject, Void, String[]> {
     private Exception exception;
 
     private String scientific_name = "not plant";
-    protected String doInBackground(JSONObject... data) {
+    protected String[] doInBackground(JSONObject... data) {
         try{
             URL url = new URL("https://api.plant.id/v2/identify");
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -700,7 +706,11 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
             System.out.println(probability);
             is.close();
             con.disconnect();
-            return scientific_name;
+
+            String[] result = new String[2];
+            result[0] = scientific_name;
+            result[1] = probabilityString;
+            return result;
         } catch (ProtocolException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
@@ -710,7 +720,10 @@ class NetworkTask extends AsyncTask<JSONObject, Void, String> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return "network error";
+        String[] error_result = new String[2];
+        error_result[0] = "network error";
+        error_result[1] = "network error";
+        return error_result;
     }
     protected void onPostExecute(String scientific_name){
 

@@ -26,6 +26,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -201,6 +202,17 @@ public class PlantInformationActivity extends BottomNavigationActivity {
             // 별 2
             star_ImageView.setImageResource(R.drawable.star_two);
         }
+
+        TextView plant_information_probability_TextView = (TextView)findViewById(R.id.plant_information_probability_TextView);
+        String probability = "";
+        try {
+            probability = (String)plantDetailData.get("probability");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String show_probability = probability.substring(2, 4) + "%";
+        plant_information_probability_TextView.setText(show_probability);
 
         findViewById(R.id.addmyplantButton).setOnClickListener(new View.OnClickListener() {
             @Override
