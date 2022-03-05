@@ -8,6 +8,7 @@ public class MyplantListData {
 
     private Bitmap myplant_list_image;
     private String myplant_list_name;
+    private String myplant_list_scientific_name;
     private String myplant_list_water;
     private String myplant_list_fertilizer;
     private String myplant_list_id;
@@ -15,10 +16,11 @@ public class MyplantListData {
     private String myplant_list_createdAt;
     private String myplant_list_updatedAt;
 
-    public MyplantListData(Bitmap image, String name, String water, String fertilizer, String id, String light, String createdAt, String updatedAt) {
+    public MyplantListData(Bitmap image, String name, String scientific_name, String water, String fertilizer, String id, String light, String createdAt, String updatedAt) {
 
         this.myplant_list_image = image;
         this.myplant_list_name = name;
+        this.myplant_list_scientific_name = scientific_name;
         this.myplant_list_water = water;
         this.myplant_list_fertilizer = fertilizer;
         this.myplant_list_id = id;
@@ -37,6 +39,14 @@ public class MyplantListData {
 
     public void setMyplant_list_name(String name) {
         this.myplant_list_name = name;
+    }
+
+    public String getMyplant_list_scientific_name() {
+        return myplant_list_scientific_name;
+    }
+
+    public void setMyplant_list_scientific_name(String scientific_name) {
+            this.myplant_list_scientific_name = scientific_name;
     }
 
     public String getMyplant_list_water() {return myplant_list_water;}

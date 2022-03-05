@@ -157,6 +157,7 @@ public class NoPlantinformationActivity extends AppCompatActivity {
         Map<String, String> map = new HashMap<>();
         map.put("image", image);
         map.put("scientific_name", scientific_name);
+        map.put("email", email);
 
         System.out.println("image" + image + "scientific_name = " + scientific_name);
 

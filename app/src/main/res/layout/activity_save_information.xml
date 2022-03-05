@@ -23,7 +23,6 @@
         android:layout_height="wrap_content"
         android:text="사진 속 식물의 정보를 아신다면 정보를 기입해주세요!"
         android:textColor="@color/black"
-        android:background="#D3ED9D"
         android:padding="5dp"
         android:textSize="15dp"
         android:layout_marginTop="10dp"
@@ -53,18 +52,9 @@
                 android:id="@+id/saveinformation_image"
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
+                android:scaleType="centerCrop"
                 android:src="@drawable/test_image"
-                android:padding="10dp"
                 android:background="@drawable/saveinformation_list_main_background"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="이름 :"
-                android:textColor="@color/black"
-                android:padding="10dp"
-                android:textSize="20dp"/>
 
             <TextView
                 android:id="@+id/saveinformation_scientific_name_TextView"
@@ -73,6 +63,7 @@
                 android:layout_gravity="center"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:layout_marginLeft="8dp"
                 android:hint="식물 이름"
                 android:textSize="20dp"/>
         </LinearLayout>

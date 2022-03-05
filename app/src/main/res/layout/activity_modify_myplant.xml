@@ -28,8 +28,9 @@
 
         <ImageView
             android:id="@+id/searching_plant_ImageView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
@@ -70,6 +71,7 @@
                 android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:maxLength="8"
+                android:backgroundTint="@color/light_gray"
                 android:hint="입력" />
 
         </LinearLayout>
@@ -154,11 +156,14 @@
                 android:padding="10dp"/>
             <android.widget.Button
                 android:id="@+id/set_wateringperiod_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60dp"
+                android:layout_height="35dp"
+                android:textStyle="bold"
                 android:text="다시"
+                android:textSize="16dp"
                 android:textColor="@color/black"
-                android:background="@drawable/round_modify_button"/>
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/round_button"/>
 
         </LinearLayout>
 
@@ -203,29 +208,49 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:text="@string/modifymyplant_text"
-            android:textSize="12dp"
+            android:textSize="15dp"
             android:layout_marginTop="15dp"
             app:layout_constraintTop_toBottomOf="@id/set_fertilizingperiod_layout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/modify_myplant_button"
+            app:layout_constraintBottom_toTopOf="@id/modify_bottom_buttons_Layout"
             app:layout_constraintVertical_weight="0.8"/>
 
-        <android.widget.Button
-            android:id="@+id/modify_myplant_button"
-            android:layout_width="100dp"
+        <LinearLayout
+            android:id="@+id/modify_bottom_buttons_Layout"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="수정하기"
-            android:textSize="16dp"
-            android:textColor="@color/black"
-            android:textStyle="bold"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/strong_round_modify_button"
+            android:gravity="center"
             app:layout_constraintStart_toStartOf="@id/add_myplant_TextView"
             app:layout_constraintEnd_toEndOf="@id/add_myplant_TextView"
             app:layout_constraintTop_toBottomOf="@id/add_myplant_TextView"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_weight="0.8"/>
+            app:layout_constraintVertical_weight="0.8"
+            android:orientation="horizontal">
+
+            <android.widget.Button
+                android:id="@+id/modify_myplant_button"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:text="수정"
+                android:textSize="18dp"
+                android:layout_marginRight="8dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:background="@drawable/strong_round_button" />
+
+            <ImageButton
+                android:id="@+id/modify_delete_Button"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/delete"
+                android:scaleType="fitCenter"
+                android:backgroundTint="@color/white"
+                android:layout_gravity="right"/>
+
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

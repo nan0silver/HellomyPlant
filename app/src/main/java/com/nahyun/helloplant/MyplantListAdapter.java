@@ -93,22 +93,22 @@ public class MyplantListAdapter extends RecyclerView.Adapter<MyplantListAdapter.
         Canvas canvas = new Canvas(water_bitmap);
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.rgb(149, 215, 132));
-        canvas.drawRect(0, 0, water_width, 100, paint);
+        canvas.drawRect(0, 0, water_width, 80, paint);
 
         Paint paint_gray = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint_gray.setColor(Color.rgb(230, 230, 230));
-        canvas.drawRect(water_width, 0, 350, 100, paint_gray);
+        canvas.drawRect(water_width, 0, 350, 80, paint_gray);
         holder.myplant_list_water_imageview.setImageBitmap(water_bitmap);
 
         Bitmap fertilizer_bitmap = Bitmap.createBitmap(350, 100, Bitmap.Config.ARGB_8888);
         Canvas canvas2 = new Canvas(fertilizer_bitmap);
         Paint paint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint2.setColor(Color.rgb(149, 215, 132));
-        canvas2.drawRect(0, 0, fertilizer_width, 100, paint2);
+        canvas2.drawRect(0, 0, fertilizer_width, 80, paint2);
 
         Paint paint_gray2 = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint_gray2.setColor(Color.rgb(230, 230, 230));
-        canvas2.drawRect(fertilizer_width, 0, 350, 100, paint_gray2);
+        canvas2.drawRect(fertilizer_width, 0, 350, 80, paint_gray2);
         holder.myplant_list_fertilizer_imageview.setImageBitmap(fertilizer_bitmap);
     }
 

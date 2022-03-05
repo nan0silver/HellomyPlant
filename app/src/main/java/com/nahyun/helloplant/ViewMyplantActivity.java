@@ -59,25 +59,12 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
         }
 
         String PlantNickName_string = intent_comefrom_addmyplant_page.getExtras().getString("PlantNickName");
+        String ScientificName_string = intent_comefrom_addmyplant_page.getExtras().getString("ScientificName");
         String WaterDrop_string = intent_comefrom_addmyplant_page.getExtras().getString("WaterDrop");
         String WaterPeriod_String = intent_comefrom_addmyplant_page.getExtras().getString("WateringPeriod");
         String FertilizingPeriod_String = intent_comefrom_addmyplant_page.getExtras().getString("FertilizingPeriod");
         String light_string = intent_comefrom_addmyplant_page.getExtras().getString("light");
         String PlantId_string = intent_comefrom_addmyplant_page.getExtras().getString("PlantId");
-
-        /*String PlantNickName_string = null;
-        String WaterDrop_string = null;
-        String WaterPeriod_String = null;
-        String FertilizingPeriod_String = null;
-
-        try {
-            PlantNickName_string = plantDetailData.getString("plantNickname");
-            WaterDrop_string = plantDetailData.getString("waterDrop");
-            WaterPeriod_String = plantDetailData.getString("wateringPeriod");
-            FertilizingPeriod_String = plantDetailData.getString("fertilizingPeriod");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
 
 
         PlantNickName = (TextView)findViewById(R.id.myplant_nickname_TextView);

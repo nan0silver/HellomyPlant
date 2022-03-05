@@ -20,23 +20,22 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="398dp"
-        android:layout_height="600dp"
-        android:layout_marginTop="16dp"
-
+        android:layout_height="580dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topLogo">
 
         <ImageView
             android:id="@+id/searching_plant_ImageView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:scaleType = "fitCenter"
+            android:layout_marginTop="0dp"
             app:layout_constraintBottom_toTopOf="@+id/searching_plant_name_layout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintVertical_weight="4"
             app:srcCompat="@drawable/test_image" />
 
@@ -44,7 +43,6 @@
             android:id="@+id/searching_plant_name_layout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toTopOf="@+id/difficulty_star_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,8 +112,8 @@
             android:id="@+id/probability_layout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:gravity="center_horizontal"
-            app:layout_constraintBottom_toTopOf="@id/addmyplantButton"
+            android:layout_marginLeft="130dp"
+            app:layout_constraintBottom_toTopOf="@id/plant_information_RecyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/difficulty_star_layout"
@@ -134,44 +132,44 @@
                 android:layout_height="match_parent"
                 android:textStyle="bold"
                 android:text="0%"
-                android:padding="3dp"/>
+                android:padding="2dp"/>
 
 
         </LinearLayout>
-
-        <Button
-            android:id="@+id/addmyplantButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="내 식물로 추가하기"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            app:backgroundTint="#95D784"
-            app:layout_constraintBottom_toBottomOf="@id/plant_information_RecyclerView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/probability_layout"
-            app:layout_constraintVertical_chainStyle="packed"
-            app:layout_constraintVertical_weight="1" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/plant_information_RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            android:background="#D7F5F9"
+            android:layout_marginTop="8dp"
+            android:background="#E3E5E5"
             android:scrollbarFadeDuration="0"
             android:scrollbarSize="5dp"
             android:scrollbarThumbVertical="@android:color/darker_gray"
             android:scrollbars="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/addmyplantButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/addmyplantButton"
+            app:layout_constraintTop_toBottomOf="@+id/probability_layout"
             app:layout_constraintVertical_chainStyle="packed"
             app:layout_constraintVertical_weight="5" />
+
+        <android.widget.Button
+            android:id="@+id/addmyplantButton"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="내 식물로 추가"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="18dp"
+            android:background="@drawable/round_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/plant_information_RecyclerView"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintVertical_weight="0.8" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

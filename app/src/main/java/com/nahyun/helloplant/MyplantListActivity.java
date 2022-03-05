@@ -97,6 +97,7 @@ public class MyplantListActivity extends BottomNavigationActivity {
                 String clicked_id =  myplantListData_clicked.getMyplant_list_id();
                 Bitmap clicked_image = myplantListData_clicked.getMyplant_list_image();
                 String clicked_nickname = myplantListData_clicked.getMyplant_list_name();
+                String clicked_scientific_name = myplantListData_clicked.getMyplant_list_scientific_name();
                 String clicked_water_cycle = myplantListData_clicked.getMyplant_list_water();
                 String clicked_fertilizer_cycle = myplantListData_clicked.getMyplant_list_fertilizer();
                 String clicked_light = "중중";
@@ -110,6 +111,7 @@ public class MyplantListActivity extends BottomNavigationActivity {
 
                 Intent intent_goto_viewmyplant = new Intent(MyplantListActivity.this, ViewMyplantActivity.class);
                 intent_goto_viewmyplant.putExtra("PlantNickName", clicked_nickname);
+                intent_goto_viewmyplant.putExtra("ScientificName", clicked_scientific_name);
                 intent_goto_viewmyplant.putExtra("WaterDrop", clicked_water_drop);
                 intent_goto_viewmyplant.putExtra("WateringPeriod", clicked_water_cycle);
                 intent_goto_viewmyplant.putExtra("FertilizingPeriod", clicked_fertilizer_cycle);
@@ -178,6 +180,7 @@ public class MyplantListActivity extends BottomNavigationActivity {
                         String after_id = plant.getId();
                         String after_image = plant.getImage();
                         String after_name = plant.getNickname();
+                        String after_scientific_name = plant.getScientificName();
                         String after_water_cycle = plant.getWaterCycle();
                         String after_fertilizer_cycle = plant.getFertilizerCycle();
                         String after_light = plant.getLight();
@@ -192,11 +195,12 @@ public class MyplantListActivity extends BottomNavigationActivity {
                             e.printStackTrace();
                         }
 
-                        mld1 = new MyplantListData(after_image_bitmap, after_name, after_water_cycle, after_fertilizer_cycle, after_id, after_light, after_createdAt, after_updatedAt);
+                        mld1 = new MyplantListData(after_image_bitmap, after_name, after_scientific_name, after_water_cycle, after_fertilizer_cycle, after_id, after_light, after_createdAt, after_updatedAt);
 
                         add_arraylist(mld1);
 
                         System.out.println("goooood!!! \nafter_id = " + after_id + " \nafter_image = " + after_image + " \nafter_name = " + after_name
+                                + " \nafter_scientific_name = " + after_scientific_name
                         + " \nafter_water_cycle = " + after_water_cycle + " \nafter_fertilizer_cycle = " + after_fertilizer_cycle
                         + " \nafter_createdAt = " + after_createdAt + "\nafter_updatedAt = " + after_updatedAt);
                     }

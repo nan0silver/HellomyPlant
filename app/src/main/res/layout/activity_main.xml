@@ -37,7 +37,8 @@
         <EditText
             android:id="@+id/login_email_EditText"
             android:layout_width="200dp"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:textSize="17dp"/>
 
     </LinearLayout>
 
@@ -57,10 +58,12 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:text="비밀번호 : " />
+
         <EditText
             android:id="@+id/login_passwd_EditText"
             android:inputType="textPassword"
             android:layout_width="200dp"
+            android:textSize="17dp"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>
@@ -71,6 +74,7 @@
         android:layout_height="wrap_content"
         android:text="로그인"
         android:textColor="@color/black"
+        android:textSize="18dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,6 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#ffffff"
+        android:textSize="18dp"
         android:text="회원가입"
         android:textColor="#000000"
         android:layout_marginBottom="100dp"

@@ -206,6 +206,13 @@ public class ModifyMyplantActivity extends BottomNavigationActivity {
                 spinner_watering.setSelection(Integer.parseInt(WaterPeriod_String)-1);
             }
         });
+
+        findViewById(R.id.modify_delete_Button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override

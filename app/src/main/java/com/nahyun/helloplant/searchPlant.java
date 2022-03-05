@@ -267,6 +267,7 @@ public class searchPlant extends BottomNavigationActivity {
                 probability = NetworkTask_result[1];
 
                 if(scientific_name.equals("network error")){
+                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(),"네트워크에 에러가 있습니다. 확인해주세요", Toast.LENGTH_SHORT).show();
                 }
                 else if(!scientific_name.equals("not plant")){
@@ -274,6 +275,7 @@ public class searchPlant extends BottomNavigationActivity {
                     searchPlant_get(scientific_name, probability);
                 }
                 else {
+                    progressDialog.dismiss();
                     Toast.makeText(getApplicationContext(),"식물이 아닙니다. 정확한 식물 사진을 넣어주세요.", Toast.LENGTH_SHORT).show();
                     return;
                 }
