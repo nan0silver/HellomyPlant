@@ -165,7 +165,12 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                 }
                 else {
                     current_page = Integer.toString(Integer.parseInt(current_page)-1);
+
+                    TextView noticeboard_current_page_TextView = (TextView)findViewById(R.id.noticeboard_current_page_TextView);
+                    noticeboard_current_page_TextView.setText(current_page);
+
                     System.out.println("Before Button is clicked, current page is : " + current_page );
+                    nb_arrayList = new ArrayList<>();
                     NoticeBoard_get();
                 }
             }
@@ -179,7 +184,12 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                 }
                 else {
                     current_page = Integer.toString(Integer.parseInt(current_page)+1);
+
+                    TextView noticeboard_current_page_TextView = (TextView)findViewById(R.id.noticeboard_current_page_TextView);
+                    noticeboard_current_page_TextView.setText(current_page);
+
                     System.out.println("Next Button is clicked, current page is : " + current_page );
+                    nb_arrayList = new ArrayList<>();
                     NoticeBoard_get();
                 }
             }
@@ -305,6 +315,9 @@ public class NoticeBoardActivity extends BottomNavigationActivity {
                                 after_proper_temperature, after_pest, after_manage_level, after_light);
 
                         add_arraylist(nbd);
+
+                        TextView noticeboard_total_page_TextView = (TextView)findViewById(R.id.noticeboard_total_page_TextView);
+                        noticeboard_total_page_TextView.setText(max_page);
 
                         System.out.println("goooood!!! \nafter_id = " + after_id
                                 + " \nafter_scientific_name = " + after_scientific_name
