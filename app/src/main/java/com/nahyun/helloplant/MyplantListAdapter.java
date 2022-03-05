@@ -78,9 +78,14 @@ public class MyplantListAdapter extends RecyclerView.Adapter<MyplantListAdapter.
         int water_cycle_integer = Integer.parseInt(holder.myplant_list_water_cycle);
         int fertilizer_cycle_integer = Integer.parseInt(holder.myplant_list_fertilizer_cycle);
 
+        if (last_day > water_cycle_integer) { last_day %= water_cycle_integer;}
+        if (last_day > fertilizer_cycle_integer) { last_day %= fertilizer_cycle_integer; }
+
         int water_width = 350 * (water_cycle_integer-last_day) / water_cycle_integer;
         int fertilizer_width = 350 * (fertilizer_cycle_integer-last_day) /fertilizer_cycle_integer;
 
+        holder.myplant_list_water_lastday_TextView.setText(Integer.toString(water_cycle_integer-last_day) + " 일");
+        holder.myplant_list_fertilizer_lastday_TextView.setText(Integer.toString(fertilizer_cycle_integer-last_day) + " 일");
 
         //width max 350
 
@@ -89,6 +94,10 @@ public class MyplantListAdapter extends RecyclerView.Adapter<MyplantListAdapter.
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.rgb(149, 215, 132));
         canvas.drawRect(0, 0, water_width, 100, paint);
+
+        Paint paint_gray = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint_gray.setColor(Color.rgb(230, 230, 230));
+        canvas.drawRect(water_width, 0, 350, 100, paint_gray);
         holder.myplant_list_water_imageview.setImageBitmap(water_bitmap);
 
         Bitmap fertilizer_bitmap = Bitmap.createBitmap(350, 100, Bitmap.Config.ARGB_8888);
@@ -96,6 +105,10 @@ public class MyplantListAdapter extends RecyclerView.Adapter<MyplantListAdapter.
         Paint paint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint2.setColor(Color.rgb(149, 215, 132));
         canvas2.drawRect(0, 0, fertilizer_width, 100, paint2);
+
+        Paint paint_gray2 = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint_gray2.setColor(Color.rgb(230, 230, 230));
+        canvas2.drawRect(fertilizer_width, 0, 350, 100, paint_gray2);
         holder.myplant_list_fertilizer_imageview.setImageBitmap(fertilizer_bitmap);
     }
 
@@ -113,12 +126,17 @@ public class MyplantListAdapter extends RecyclerView.Adapter<MyplantListAdapter.
         protected String myplant_createdAt;
         protected String myplant_updatedAt;
 
+        protected TextView myplant_list_water_lastday_TextView;
+        protected TextView myplant_list_fertilizer_lastday_TextView;
+
         public CustomViewHolder_myplant_list(@NonNull @NotNull View itemView) {
             super(itemView);
             this.myplant_list_image = (ImageView) itemView.findViewById(R.id.myplant_list_image);
             this.myplant_list_name = (TextView) itemView.findViewById(R.id.myplant_list_name);
             this.myplant_list_water_imageview = (ImageView) itemView.findViewById(R.id.myplant_list_water_imageView);
             this.myplant_list_fertilizer_imageview = (ImageView) itemView.findViewById(R.id.myplant_list_fertilizer_imageView);
+            this.myplant_list_water_lastday_TextView = (TextView) itemView.findViewById(R.id.myplant_list_water_lastday_TextView);
+            this.myplant_list_fertilizer_lastday_TextView = (TextView) itemView.findViewById(R.id.myplant_list_fertilizer_lastday_TextView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

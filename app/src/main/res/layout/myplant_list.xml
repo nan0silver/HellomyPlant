@@ -43,43 +43,99 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="35dp"
-                android:layout_height="wrap_content"
-                android:text="물"
-                android:textColor="@color/black"
-                android:textSize="18dp"
-                android:layout_gravity="center_vertical"/>
+                <TextView
+                    android:layout_width="33dp"
+                    android:layout_height="wrap_content"
+                    android:text="물"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:layout_gravity="top"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginRight="3dp"
-                android:layout_gravity="center_vertical"
-                android:id="@+id/myplant_list_water_imageView"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/myplant_list_water_imageView"/>
+            </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="14dp">
+
+                <TextView
+                    android:layout_marginLeft="48dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="10dp"
+                    android:textColor="#696969"
+                    android:text="남은 일수 : "/>
+
+                <TextView
+                    android:id="@+id/myplant_list_water_lastday_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="10dp"
+                    android:textColor="#696969"
+                    android:text="0 일"/>
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="35dp"
-                android:layout_height="wrap_content"
-                android:text="비료"
-                android:textColor="@color/black"
-                android:textSize="18dp"
-                android:layout_gravity="center_vertical"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_gravity="center_vertical"
-                android:id="@+id/myplant_list_fertilizer_imageView"/>
+                <TextView
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:text="비료"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:layout_gravity="center_vertical"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/myplant_list_fertilizer_imageView"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="14dp">
+
+                <TextView
+                    android:layout_marginLeft="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="10dp"
+                    android:textColor="#696969"
+                    android:text="남은 일수 : "/>
+
+                <TextView
+                    android:id="@+id/myplant_list_fertilizer_lastday_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="#696969"
+                    android:textSize="10dp"
+                    android:text="0 일"/>
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

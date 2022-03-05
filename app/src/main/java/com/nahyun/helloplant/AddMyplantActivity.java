@@ -232,7 +232,10 @@ public class AddMyplantActivity extends BottomNavigationActivity {
                 AddMyplant_post(name, wateringPeriod_string, fertilizingPeriod_string, PlantNickName.getText().toString(), image_string, finalLight);
 
                 Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.DATE, Integer.parseInt(wateringPeriod_string));
+                Calendar currentDate = Calendar.getInstance();
+                //calendar.add(Calendar.DATE, Integer.parseInt(wateringPeriod_string));
+                calendar.set(2022, 3, 5, 16, 00);
+                Log.d("AddMyplantActivity", "HOUR : " + currentDate.get(Calendar.HOUR_OF_DAY));
                 Intent calendar_intent = new Intent(AddMyplantActivity.this, AlarmReceiver.class);
                 PendingIntent calendar_pending_intent = PendingIntent.getBroadcast(AddMyplantActivity.this, 001, calendar_intent, 0);
 

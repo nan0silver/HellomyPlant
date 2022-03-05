@@ -48,6 +48,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -104,6 +105,9 @@ public class searchPlant extends BottomNavigationActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_plant);
+
+        Calendar currentDate = Calendar.getInstance();
+        Log.d("AddMyplantActivity", "HOUR : " + currentDate.get(Calendar.HOUR_OF_DAY));
 
         BottomNavigationView navigation = (BottomNavigationView)findViewById(R.id.navigation);
         navigation.setSelectedItemId(R.id.action_camera);
