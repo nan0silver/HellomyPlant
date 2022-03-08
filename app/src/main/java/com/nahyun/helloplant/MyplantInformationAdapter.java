@@ -16,10 +16,10 @@ import java.util.List;
 
 public class MyplantInformationAdapter extends RecyclerView.Adapter<MyplantInformationAdapter.CustomViewHolder>{
 
-    private List<MyplantInformationData> arrayList = new ArrayList<>();
+    private ArrayList<MyplantInformationData> arrayList;
 
     public MyplantInformationAdapter(ArrayList<MyplantInformationData> arrayList) {
-        this.arrayList.addAll(arrayList);
+        this.arrayList = arrayList;
     }
 
     @NonNull
@@ -55,7 +55,7 @@ public class MyplantInformationAdapter extends RecyclerView.Adapter<MyplantInfor
         }
     }
 
-    public void updateMyplantInformationItems(List<MyplantInformationData> myplants) {
+    /*public void updateMyplantInformationItems(List<MyplantInformationData> myplants) {
         final MyplantInformationDiffCallback myplantInformationDiffCallback = new MyplantInformationDiffCallback(this.arrayList, myplants);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(myplantInformationDiffCallback);
 
@@ -68,5 +68,5 @@ public class MyplantInformationAdapter extends RecyclerView.Adapter<MyplantInfor
 
         System.out.println("update Myplant information Items");
 
-    }
+    }*/
 }

@@ -134,15 +134,10 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
             public void onClick(View v) {
                 //Viewmyplant_delete(PlantId_string, email);
                 //image, nickname, manage_level, 정보들
-                Intent intent_myplant_information_page = new Intent(ViewMyplantActivity.this, MyplantInformationActivity.class);
-                intent_myplant_information_page.putExtra("image_bitmap_byteArray", byteArray_imageBitmap_viewmyplant);
-                intent_myplant_information_page.putExtra("PlantNickName", PlantNickName_string);
-                intent_myplant_information_page.putExtra("PlantScientificName", finalScientificName_string);
 
+                ViewMyplant_get(finalScientificName_string);
                 System.out.println("Go to Myplant information page \nPlant nickname : " + PlantNickName_string + "\nPlant scientific name : "
                 + finalScientificName_string);
-
-                startActivity(intent_myplant_information_page);
 
             }
         });
@@ -168,7 +163,7 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
 
     public byte[] ImageViewToByteArray() {
 
-        ImageView selected_Image_View = (ImageView)findViewById(R.id.cameraImageview);
+        ImageView selected_Image_View = (ImageView)findViewById(R.id.searching_plant_ImageView);
         BitmapDrawable selected_image_drawable = (BitmapDrawable)selected_Image_View.getDrawable();
         int height = selected_image_drawable.getBitmap().getHeight();
         int width = selected_image_drawable.getBitmap().getWidth();
@@ -184,7 +179,7 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
         return byteArray_result;
     }
 
-    public void searchPlant_get(String scientific_name) {
+    public void ViewMyplant_get(String scientific_name) {
         SharedPreferences sharedPreferences = getSharedPreferences("login token", MODE_PRIVATE);
         String token = sharedPreferences.getString("accessToken", "");
         System.out.println("searchPlant token = " + token);
@@ -233,7 +228,7 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
                     JSONObject plantDetailData = new JSONObject();
 
                     try {
-                        plantDetailData.put("name", after_korean_name);
+                        plantDetailData.put("koreanName", after_korean_name);
                         plantDetailData.put("familyName", after_family_name);
                         plantDetailData.put("scientificName", after_scientific_name);
                         plantDetailData.put("height", after_height);
@@ -256,30 +251,21 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
                         e.printStackTrace();
                     }
 
-                    Intent intent_goto_plantinformation_page = new Intent(ViewMyplantActivity.this, PlantInformationActivity.class);
+                    Intent intent_goto_myplant_information_page = new Intent(ViewMyplantActivity.this, MyplantInformationActivity.class);
 
-                    intent_goto_plantinformation_page.putExtra("plantDetailData", plantDetailData.toString());
-                    System.out.println("searchPlant plantDetailData : " + plantDetailData);
+                    intent_goto_myplant_information_page.putExtra("plantDetailData", plantDetailData.toString());
+                    System.out.println("View myplant get plantDetailData : " + plantDetailData);
 
                     byte[] byteArray_result = ImageViewToByteArray();
-                    intent_goto_plantinformation_page.putExtra("image_bitmap", byteArray_result);
+                    intent_goto_myplant_information_page.putExtra("image_bitmap", byteArray_result);
 
                     //Toast.makeText(ViewMyplantActivity.this, "식물 정보 요청에 성공했습니다.", Toast.LENGTH_SHORT).show();
 
-                    startActivity(intent_goto_plantinformation_page);
+                    startActivity(intent_goto_myplant_information_page);
 
                 }
                 else { //if response is 400+a
-                    Intent intent_goto_noinfo_page = new Intent(ViewMyplantActivity.this, NoPlantinformationActivity.class);
-                    intent_goto_noinfo_page.putExtra("ScientificName", scientific_name);
-
-                    byte[] byteArray_result = ImageViewToByteArray();
-                    intent_goto_noinfo_page.putExtra("PlantImage",  byteArray_result);
-
-                    startActivity(intent_goto_noinfo_page);
-
-                    System.out.println("searchPlant page response code : " + response.code());
-                    //Toast.makeText(getApplicationContext(), "식물 정보가 없습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "식물 정보가 없습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 
