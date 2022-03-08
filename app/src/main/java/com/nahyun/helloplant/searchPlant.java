@@ -365,7 +365,7 @@ public class searchPlant extends BottomNavigationActivity {
                     JSONObject plantDetailData = new JSONObject();
 
                     try {
-                        plantDetailData.put("name", after_korean_name);
+                        plantDetailData.put("koreanName", after_korean_name);
                         plantDetailData.put("familyName", after_family_name);
                         plantDetailData.put("scientificName", after_scientific_name);
                         plantDetailData.put("height", after_height);

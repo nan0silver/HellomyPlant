@@ -86,7 +86,6 @@ public class AddMyplantActivity extends BottomNavigationActivity {
             }
         });
 
-
         Intent intent_comefrom_plantinfomation_page = getIntent();
         JSONObject plantDetailData = new JSONObject();
         String jsonString =
@@ -98,6 +97,8 @@ public class AddMyplantActivity extends BottomNavigationActivity {
                 e.printStackTrace();
             }
         }
+
+        System.out.println("AddMyplant plantDetailData : " + plantDetailData.toString());
 
         ImageView plant_ImageView = (ImageView)findViewById(R.id.searching_plant_ImageView);
         byte[] byteArray_imageBitmap_addmyplant = getIntent().getByteArrayExtra("image_bitmap_to_addmyplant");
@@ -221,15 +222,19 @@ public class AddMyplantActivity extends BottomNavigationActivity {
                 intent_goto_viewmyplant_page.putExtra("image_bitmap_to_viewmyplant", byteArray_imageBitmap_addmyplant);
                 intent_goto_viewmyplant_page.putExtra("light", finalLight);
 
-                String name = "";
+                String koreanName = "";
+                String scientificName = "";
                 try {
-                    name = finalPlantDetailData.get("name").toString();
+                    koreanName = finalPlantDetailData.get("koreanName").toString();
+                    scientificName = finalPlantDetailData.get("scientificName").toString();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
+                intent_goto_viewmyplant_page.putExtra("ScientificName", scientificName);
+
                 String image_string = Base64.encodeToString(byteArray_imageBitmap_addmyplant, Base64.DEFAULT);
-                AddMyplant_post(name, wateringPeriod_string, fertilizingPeriod_string, PlantNickName.getText().toString(), image_string, finalLight);
+                AddMyplant_post(scientificName, wateringPeriod_string, fertilizingPeriod_string, PlantNickName.getText().toString(), image_string, finalLight);
 
                 Calendar calendar = Calendar.getInstance();
                 Calendar currentDate = Calendar.getInstance();
@@ -290,15 +295,15 @@ public class AddMyplantActivity extends BottomNavigationActivity {
         RetrofitInterface service = retrofit.create(RetrofitInterface.class);
 
         Map <String, String> map = new HashMap<>();
-        map.put("scientific_name", scientific_name);
+        map.put("scientific_name", scientific_name); //for store scientific_name
         map.put("water_cycle", water_cycle);
         map.put("fertilizer_cycle", fertilizer_cycle);
         map.put("nickname", nickname);
         map.put("image", image);
         map.put("light", light);
 
-        System.out.println("scientific_name = " + scientific_name + " water_cycle = " + water_cycle + " fertilizer_cycle = " + fertilizer_cycle
-        + " nickname = " + nickname + " image = " + image + " light = " + light);
+        System.out.println("scientific_name = " + scientific_name + " \nwater_cycle = " + water_cycle + " \nfertilizer_cycle = " + fertilizer_cycle
+        + " \nnickname = " + nickname + " \nlight = " + light);
 
 
         Call<RetrofitPostData> call_post = service.postFunc(email, map);
@@ -323,7 +328,6 @@ public class AddMyplantActivity extends BottomNavigationActivity {
                             + "\nwater_cycle = " + after_water_cycle
                             +"\nfertilizer_cycle = " + after_fertilizer_cycle
                             +"\nnickname = " + after_nickname
-                            +"\nimage = " + after_image
                             +"\nid = " + after_id
                             +"\nlight = " + after_light
                             +"\ncreatedAt = " + after_createdAt

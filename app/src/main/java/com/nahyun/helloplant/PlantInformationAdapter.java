@@ -38,8 +38,6 @@ public class PlantInformationAdapter extends RecyclerView.Adapter<PlantInformati
         holder.plant_information_attribute.setText(arrayList.get(position).getPlant_information_attribute());
         holder.plant_information_value.setText(arrayList.get(position).getPlant_information_value());
 
-
-
     }
 
     @Override

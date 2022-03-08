@@ -33,6 +33,7 @@ import java.util.Map;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -193,7 +194,6 @@ public class ModifyMyplantActivity extends BottomNavigationActivity {
                 }
 
                 String image_string = Base64.encodeToString(byteArray_imageBitmap_addmyplant, Base64.DEFAULT);
-                //AddMyplant_post(name, wateringPeriod_string, fertilizingPeriod_string, PlantNickName_EditText.getText().toString(), image_string);
                 Modifymyplant_put(PlantId_string, wateringPeriod_string, fertilizingPeriod_string, PlantNickName_EditText.getText().toString());
                 startActivity(intent_goto_viewmyplant_page);
             }
@@ -210,7 +210,8 @@ public class ModifyMyplantActivity extends BottomNavigationActivity {
         findViewById(R.id.modify_delete_Button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Modifymyplant_delete(PlantId_string, email);
+                System.out.println("delete Modify myplant email : " + email);
             }
         });
     }
@@ -297,6 +298,60 @@ public class ModifyMyplantActivity extends BottomNavigationActivity {
             @Override
             public void onFailure(Call<RetrofitPutData> call, Throwable t) {
                 Log.v("ModifyMyplantActivity", "Fail");
+                Toast.makeText(ModifyMyplantActivity.this, "응답에 실패했습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void Modifymyplant_delete(String plantId, String email) {
+        SharedPreferences sharedPreferences = getSharedPreferences("login token", MODE_PRIVATE);
+        String token = sharedPreferences.getString("accessToken", "");
+        System.out.println(token);
+
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
+            @Override
+            public okhttp3.@NotNull Response intercept(@NotNull Chain chain) throws IOException {
+                Request newRequest = chain.request().newBuilder()
+                        .addHeader("Authorization", "Bearer " + token).build();
+                return chain.proceed(newRequest);
+            }
+        }).build();
+
+        retrofit2.Retrofit retrofit = new retrofit2.Retrofit.Builder()
+                .client(client)
+                .baseUrl("http://18.116.203.236:1234/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RetrofitInterface service = retrofit.create(RetrofitInterface.class);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("plantId", plantId);
+        map.put("email", email);
+
+        System.out.println("plantId = " + plantId + " email = " + email);
+
+        Call<ResponseBody> call_delete = service.deleteFunc(map);
+        call_delete.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    System.out.println(String.valueOf(response.code()));
+
+                    Toast.makeText(ModifyMyplantActivity.this, "삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
+                    Intent intent_after_success_delete = new Intent(ModifyMyplantActivity.this, MyplantListActivity.class);
+                    startActivity(intent_after_success_delete);
+                }
+                else {
+                    Log.v("ViewMyplantActivity", "error = " + String.valueOf(response.code()));
+                    Toast.makeText(ModifyMyplantActivity.this, "code : " + String.valueOf(response.code()) + "\n 내 식물 삭제를 실패했습니다.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.v("ViewMyplantActivity", "Fail");
                 Toast.makeText(ModifyMyplantActivity.this, "응답에 실패했습니다.", Toast.LENGTH_SHORT).show();
             }
         });

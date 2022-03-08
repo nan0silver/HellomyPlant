@@ -199,14 +199,13 @@ public class MyplantListActivity extends BottomNavigationActivity {
 
                         add_arraylist(mld1);
 
-                        System.out.println("goooood!!! \nafter_id = " + after_id + " \nafter_image = " + after_image + " \nafter_name = " + after_name
+                        System.out.println("goooood!!! \nafter_id = " + after_id + " \nafter_name = " + after_name
                                 + " \nafter_scientific_name = " + after_scientific_name
                         + " \nafter_water_cycle = " + after_water_cycle + " \nafter_fertilizer_cycle = " + after_fertilizer_cycle
                         + " \nafter_createdAt = " + after_createdAt + "\nafter_updatedAt = " + after_updatedAt);
                     }
 
                     Log.v("MyplantListActivity", "code = " + String.valueOf(response.code()));
-                    //Toast.makeText(MyplantListActivity.this, "code = " + String.valueOf(response.code()) + "\nmyplant list를 불러오는데 성공하였습니다.", Toast.LENGTH_SHORT).show();
 
                     myplantListAdapter.updateMyplantListItems(mp_arrayList);
                     System.out.println("update " + mp_arrayList);

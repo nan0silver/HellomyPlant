@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +41,7 @@ import static com.nahyun.helloplant.MainActivity.email;
 public class ViewMyplantActivity extends BottomNavigationActivity {
 
     TextView PlantNickName;
+    private int resize_width = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,8 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
             }
         }
 
+        System.out.println("View myplant plantDetailData : " + plantDetailData.toString());
+
         String PlantNickName_string = intent_comefrom_addmyplant_page.getExtras().getString("PlantNickName");
         String ScientificName_string = intent_comefrom_addmyplant_page.getExtras().getString("ScientificName");
         String WaterDrop_string = intent_comefrom_addmyplant_page.getExtras().getString("WaterDrop");
@@ -65,7 +70,6 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
         String FertilizingPeriod_String = intent_comefrom_addmyplant_page.getExtras().getString("FertilizingPeriod");
         String light_string = intent_comefrom_addmyplant_page.getExtras().getString("light");
         String PlantId_string = intent_comefrom_addmyplant_page.getExtras().getString("PlantId");
-
 
         PlantNickName = (TextView)findViewById(R.id.myplant_nickname_TextView);
         PlantNickName.setText(PlantNickName_string);
@@ -124,11 +128,22 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
             }
         });
 
-        findViewById(R.id.delete_viewmyplant_Button).setOnClickListener(new View.OnClickListener() {
+        String finalScientificName_string = ScientificName_string;
+        findViewById(R.id.get_viewmyplant_Button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Viewmyplant_delete(PlantId_string, email);
-                System.out.println("delete viewmyplant email : " + email);
+                //Viewmyplant_delete(PlantId_string, email);
+                //image, nickname, manage_level, 정보들
+                Intent intent_myplant_information_page = new Intent(ViewMyplantActivity.this, MyplantInformationActivity.class);
+                intent_myplant_information_page.putExtra("image_bitmap_byteArray", byteArray_imageBitmap_viewmyplant);
+                intent_myplant_information_page.putExtra("PlantNickName", PlantNickName_string);
+                intent_myplant_information_page.putExtra("PlantScientificName", finalScientificName_string);
+
+                System.out.println("Go to Myplant information page \nPlant nickname : " + PlantNickName_string + "\nPlant scientific name : "
+                + finalScientificName_string);
+
+                startActivity(intent_myplant_information_page);
+
             }
         });
 
@@ -151,10 +166,28 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
         return R.id.action_camera;
     }
 
-    public void Viewmyplant_delete(String plantId, String email) {
+    public byte[] ImageViewToByteArray() {
+
+        ImageView selected_Image_View = (ImageView)findViewById(R.id.cameraImageview);
+        BitmapDrawable selected_image_drawable = (BitmapDrawable)selected_Image_View.getDrawable();
+        int height = selected_image_drawable.getBitmap().getHeight();
+        int width = selected_image_drawable.getBitmap().getWidth();
+        System.out.println("height = " + height + " width = " + width);
+        resize_width = 400*width/height;
+        System.out.println("resize_width = " + resize_width);
+        if (resize_width <= 0) resize_width = 300;
+        Bitmap selected_image_bitmap = Bitmap.createScaledBitmap(selected_image_drawable.getBitmap(), resize_width , 400, true);
+        ByteArrayOutputStream stream_change = new ByteArrayOutputStream();
+        selected_image_bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream_change);
+        byte[] byteArray_result = stream_change.toByteArray();
+
+        return byteArray_result;
+    }
+
+    public void searchPlant_get(String scientific_name) {
         SharedPreferences sharedPreferences = getSharedPreferences("login token", MODE_PRIVATE);
         String token = sharedPreferences.getString("accessToken", "");
-        System.out.println(token);
+        System.out.println("searchPlant token = " + token);
 
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
             @Override
@@ -173,35 +206,89 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
 
         RetrofitInterface service = retrofit.create(RetrofitInterface.class);
 
-        Map<String, String> map = new HashMap<>();
-        map.put("plantId", plantId);
-        map.put("email", email);
+        Call<Retrofit_plant_GetData> call_plant_get = service.get_plant_Func(scientific_name);
+        System.out.println("searchPlant scientific name = " + scientific_name);
 
-        System.out.println("plantId = " + plantId + " email = " + email);
-
-        Call<ResponseBody> call_delete = service.deleteFunc(map);
-        call_delete.enqueue(new Callback<ResponseBody>() {
+        call_plant_get.enqueue(new Callback<Retrofit_plant_GetData>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<Retrofit_plant_GetData> call, Response<Retrofit_plant_GetData> response) {
                 if (response.isSuccessful()) {
-                    System.out.println(String.valueOf(response.code()));
+                    response.body();
+                    String after_id = response.body().getPlant().getId();
+                    String after_scientific_name = response.body().getPlant().getScientificName();
+                    String after_family_name = response.body().getPlant().getFamilyName();
+                    String after_korean_name = response.body().getPlant().getKoreanName();
+                    String after_water_cycle = response.body().getPlant().getWaterCycle();
+                    String after_height = response.body().getPlant().getHeight();
+                    String after_place = response.body().getPlant().getPlace();
+                    String after_smell = response.body().getPlant().getSmell();
+                    String after_growth_speed = response.body().getPlant().getGrowthSpeed();
+                    String after_proper_temperature = response.body().getPlant().getProperTemperature();
+                    String after_pest = response.body().getPlant().getPest();
+                    String after_manage_level = response.body().getPlant().getManageLevel();
+                    String after_light = response.body().getPlant().getLight();
+                    String after_createdAt = response.body().getPlant().getCreatedAt();
+                    String after_updatedAt = response.body().getPlant().getUpdatedAt();
 
-                    Toast.makeText(ViewMyplantActivity.this, "삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                    JSONObject plantDetailData = new JSONObject();
 
-                    Intent intent_after_success_delete = new Intent(ViewMyplantActivity.this, MyplantListActivity.class);
-                    startActivity(intent_after_success_delete);
+                    try {
+                        plantDetailData.put("name", after_korean_name);
+                        plantDetailData.put("familyName", after_family_name);
+                        plantDetailData.put("scientificName", after_scientific_name);
+                        plantDetailData.put("height", after_height);
+                        plantDetailData.put("place", after_place);
+                        plantDetailData.put("smell", after_smell);
+                        plantDetailData.put("growthSpeed", after_growth_speed);
+                        plantDetailData.put("properTemperature", after_proper_temperature);
+                        plantDetailData.put("pest", after_pest);
+                        plantDetailData.put("watercycleSpring", after_water_cycle);
+                        plantDetailData.put("watercycleSummer", after_water_cycle);
+                        plantDetailData.put("watercycleFall", after_water_cycle);
+                        plantDetailData.put("watercycleWinter", after_water_cycle);
+                        plantDetailData.put("manageLevel", after_manage_level);
+                        plantDetailData.put("light", after_light);
+                        plantDetailData.put("after_response_id", after_id);
+                        plantDetailData.put("after_response_createdAt", after_createdAt);
+                        plantDetailData.put("after_response_updatedAt", after_updatedAt);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    Intent intent_goto_plantinformation_page = new Intent(ViewMyplantActivity.this, PlantInformationActivity.class);
+
+                    intent_goto_plantinformation_page.putExtra("plantDetailData", plantDetailData.toString());
+                    System.out.println("searchPlant plantDetailData : " + plantDetailData);
+
+                    byte[] byteArray_result = ImageViewToByteArray();
+                    intent_goto_plantinformation_page.putExtra("image_bitmap", byteArray_result);
+
+                    //Toast.makeText(ViewMyplantActivity.this, "식물 정보 요청에 성공했습니다.", Toast.LENGTH_SHORT).show();
+
+                    startActivity(intent_goto_plantinformation_page);
+
                 }
-                else {
-                    Log.v("ViewMyplantActivity", "error = " + String.valueOf(response.code()));
-                    Toast.makeText(ViewMyplantActivity.this, "code : " + String.valueOf(response.code()) + "\n 내 식물 삭제를 실패했습니다.", Toast.LENGTH_SHORT).show();
+                else { //if response is 400+a
+                    Intent intent_goto_noinfo_page = new Intent(ViewMyplantActivity.this, NoPlantinformationActivity.class);
+                    intent_goto_noinfo_page.putExtra("ScientificName", scientific_name);
+
+                    byte[] byteArray_result = ImageViewToByteArray();
+                    intent_goto_noinfo_page.putExtra("PlantImage",  byteArray_result);
+
+                    startActivity(intent_goto_noinfo_page);
+
+                    System.out.println("searchPlant page response code : " + response.code());
+                    //Toast.makeText(getApplicationContext(), "식물 정보가 없습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.v("ViewMyplantActivity", "Fail");
-                Toast.makeText(ViewMyplantActivity.this, "응답에 실패했습니다.", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<Retrofit_plant_GetData> call, Throwable t) {
+                Log.v("searchPlantActivity", "Fail");
+                Toast.makeText(getApplicationContext(), "네트워크에 에러가 있습니다.", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 }

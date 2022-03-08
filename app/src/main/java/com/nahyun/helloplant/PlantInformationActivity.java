@@ -92,7 +92,7 @@ public class PlantInformationActivity extends BottomNavigationActivity {
             e.printStackTrace();
         }
         try {
-            plant_name_TextView.setText((String)plantDetailData.get("name"));
+            plant_name_TextView.setText((String)plantDetailData.get("koreanName"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -126,8 +126,6 @@ public class PlantInformationActivity extends BottomNavigationActivity {
         }
         int wateringCycle = 0;
         String wateringdrop = "";
-
-        System.out.println(wateringInfomation);
 
         try {
             if (wateringInfomation.charAt(0) == '항') {

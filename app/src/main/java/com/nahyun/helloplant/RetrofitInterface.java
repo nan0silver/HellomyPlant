@@ -26,8 +26,7 @@ public interface RetrofitInterface {
 
     @FormUrlEncoded
     @POST("myplant")
-    Call<RetrofitPostData> postFunc(/*@Header("Authorization") String token,*/
-                              @Query("email") String email,
+    Call<RetrofitPostData> postFunc(@Query("email") String email,
                               @FieldMap Map<String, String> fields);
 
     @FormUrlEncoded
@@ -51,5 +50,8 @@ public interface RetrofitInterface {
 
     @GET("plant")
     Call<Retrofit_plant_GetData> get_plant_Func(@Query("scientific_name") String scientific_name);
+
+    @GET("plant")
+    Call<Retrofit_plant_GetData> get_plant_myplantinfo_Func(@Query("scientific_name") String scientific_name);
 
 }
