@@ -29,6 +29,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:gravity="center"
         android:text="식물 닉네임"
         android:textSize="20dp"
         android:textColor="@color/black"

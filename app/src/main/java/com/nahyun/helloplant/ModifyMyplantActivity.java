@@ -107,9 +107,9 @@ public class ModifyMyplantActivity extends BottomNavigationActivity {
         ArrayAdapter arrayAdapter_watering = ArrayAdapter.createFromResource(this, R.array.watering_array, android.R.layout.simple_spinner_dropdown_item);
         arrayAdapter_watering.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        int waterperiod_int = Integer.parseInt(WaterPeriod_String)-1;
         spinner_watering.setAdapter(arrayAdapter_watering);
-
-        spinner_watering.setSelection(Integer.parseInt(WaterPeriod_String)-1);
+        spinner_watering.setSelection(waterperiod_int);
 
         TextView searched_wateringperiod_TextView = (TextView)findViewById(R.id.searched_wateringperiod_TextView);
         searched_wateringperiod_TextView.setText(WaterPeriod_String);
