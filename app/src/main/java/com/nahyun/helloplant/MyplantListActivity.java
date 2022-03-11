@@ -2,10 +2,17 @@ package com.nahyun.helloplant;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -16,6 +23,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -25,7 +33,12 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import okhttp3.Interceptor;
@@ -38,12 +51,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.nahyun.helloplant.MainActivity.email;
 
-public class MyplantListActivity extends BottomNavigationActivity {
+public class MyplantListActivity extends BottomNavigationActivity implements TimePickerDialog.OnTimeSetListener {
 
     public static ArrayList<MyplantListData> mp_arrayList;
     private MyplantListAdapter myplantListAdapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+
+    private AlarmManager alarmManager;
+    private GregorianCalendar gregorianCalendar;
+    private NotificationManager notificationManager;
+    NotificationCompat.Builder notification_builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -267,15 +285,22 @@ public class MyplantListActivity extends BottomNavigationActivity {
             e.printStackTrace();
         }*/
 
-        //==== add list to recycler view =====//
-        MyplantListData sample1 = null;
-
-        Bitmap sample1_image = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.test_image);
-        //sample1 = new MyplantListData(sample1_image, "test", null, null, "123456");
-
-        //mp_arrayList.add(sample1);
         System.out.println("mp_arrayList second : " + mp_arrayList.size());
 
+
+        //------alarm setting------//
+        notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        gregorianCalendar = new GregorianCalendar();
+        Log.v("MyplantListActivity", gregorianCalendar.getTime().toString());
+
+        findViewById(R.id.myplant_alarm_setting_Button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "time picker myplant list");
+            }
+        });
     }
 
     @Override
@@ -295,5 +320,29 @@ public class MyplantListActivity extends BottomNavigationActivity {
         System.out.println("mp_arrayList third : " + mp_arrayList.size());
         System.out.println("myplantListData = " + myplantListData);
 
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+
+        setAlarm(calendar);
+    }
+
+    private void setAlarm(Calendar setting_calendar) {
+
+
+        Intent receiverIntent = new Intent(MyplantListActivity.this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(MyplantListActivity.this, 0, receiverIntent, 0);
+
+        if (setting_calendar.before(Calendar.getInstance())) {
+            setting_calendar.add(Calendar.DATE, 1);
+        }
+
+        alarmManager.set(AlarmManager.RTC, setting_calendar.getTimeInMillis(), pendingIntent);
+        Toast.makeText(MyplantListActivity.this, "알람 설정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
     }
 }

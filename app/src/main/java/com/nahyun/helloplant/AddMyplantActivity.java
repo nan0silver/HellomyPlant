@@ -2,9 +2,12 @@ package com.nahyun.helloplant;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -31,9 +34,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +60,7 @@ import static com.nahyun.helloplant.MainActivity.email;
 public class AddMyplantActivity extends BottomNavigationActivity {
 
     EditText PlantNickName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -236,16 +243,18 @@ public class AddMyplantActivity extends BottomNavigationActivity {
                 String image_string = Base64.encodeToString(byteArray_imageBitmap_addmyplant, Base64.DEFAULT);
                 AddMyplant_post(scientificName, wateringPeriod_string, fertilizingPeriod_string, PlantNickName.getText().toString(), image_string, finalLight);
 
-                Calendar calendar = Calendar.getInstance();
+                /*Calendar calendar = Calendar.getInstance();
                 Calendar currentDate = Calendar.getInstance();
                 //calendar.add(Calendar.DATE, Integer.parseInt(wateringPeriod_string));
-                calendar.set(2022, 3, 5, 16, 00);
-                Log.d("AddMyplantActivity", "HOUR : " + currentDate.get(Calendar.HOUR_OF_DAY));
+                //calendar.set(2022, 3, 5, 16, 00);
+                calendar.add(Calendar.MINUTE, 2);
+                Log.d("AddMyplantActivity", "HOUR : " + currentDate.get(Calendar.HOUR_OF_DAY) + "\nMINUTE : " + currentDate.get(Calendar.MINUTE));
                 Intent calendar_intent = new Intent(AddMyplantActivity.this, AlarmReceiver.class);
                 PendingIntent calendar_pending_intent = PendingIntent.getBroadcast(AddMyplantActivity.this, 001, calendar_intent, 0);
 
                 AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, calendar_pending_intent);
+                 */
 
                 startActivity(intent_goto_viewmyplant_page);
             }
@@ -260,6 +269,8 @@ public class AddMyplantActivity extends BottomNavigationActivity {
         });
 
     }
+
+
 
     @Override
     int getContentViewId() {

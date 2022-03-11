@@ -76,6 +76,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="end"
                 android:src="@drawable/copy"
+                android:backgroundTint="@color/white"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
                 android:layout_weight="0"/>

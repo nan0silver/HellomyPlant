@@ -218,8 +218,6 @@ public class MyplantInformationActivity extends AppCompatActivity {
                     + "\nafter_water_cycle : " + after_water_cycle
                     + "\nafter_light :" + after_light);
 
-
-
                     int wateringCycle = 0;
                     String wateringdrop = "";
                     if (after_water_cycle.charAt(0) == '항') {

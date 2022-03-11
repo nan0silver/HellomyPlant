@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MyplantListActivity">
 
+
     <ImageView
         android:id="@+id/topLogo"
         android:layout_width="278dp"
@@ -15,27 +16,61 @@
         android:src="@drawable/top_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
+    <LinearLayout
         android:id="@+id/myplant_TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="my plant"
-        android:textColor="@color/black"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf="@id/myplant_list_RecyclerView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topLogo"/>
+        app:layout_constraintTop_toBottomOf="@id/topLogo"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="my plant"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.6" />
+
+        <ImageButton
+            android:id="@+id/myplant_alarm_setting_Button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/bell"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:backgroundTint="@color/white"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="0.05" />
+
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/myplant_list_RecyclerView"
         android:layout_width="398dp"
         android:layout_height="530dp"
-        android:layout_marginTop="30dp"
         android:scrollbarFadeDuration="0"
+        android:layout_marginTop="10dp"
         android:scrollbarSize="5dp"
         android:scrollbarThumbVertical="@android:color/darker_gray"
         android:scrollbars="vertical"

@@ -20,9 +20,11 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".MyplantInformationActivity"></activity>
 
-        <receiver android:name=".AlarmReceiver">
+        <receiver android:name=".AlarmReceiver"
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
-                <action android:name="com.test.alarmtestous.ALARM_START" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
