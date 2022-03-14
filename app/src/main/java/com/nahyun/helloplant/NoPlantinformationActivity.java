@@ -92,7 +92,7 @@ public class NoPlantinformationActivity extends AppCompatActivity {
 
         JSONObject plantDetailData = new JSONObject();
         try {
-            plantDetailData.put("name", scientific_name);
+            plantDetailData.put("scientificName", scientific_name);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -159,7 +159,7 @@ public class NoPlantinformationActivity extends AppCompatActivity {
         map.put("scientific_name", scientific_name);
         map.put("email", email);
 
-        System.out.println("image" + image + "scientific_name = " + scientific_name);
+        System.out.println( "scientific_name = " + scientific_name);
 
 
         Call<Retrofit_infoplant_PostData> call_infoplant_post = service.post_infoplant_Func(map);
@@ -178,7 +178,7 @@ public class NoPlantinformationActivity extends AppCompatActivity {
                     String after_createdAt = response.body().getInfoPlant().getCreatedAt();
                     String after_updatedAt = response.body().getInfoPlant().getUpdatedAt();
 
-                    Log.v("AddMyplantActivity", "message = " + after_message
+                    Log.v("NoPlantInformationActivity", "message = " + after_message
                             + "\nscientific_name = " + after_scientific_name
                             + "\nimage = " + after_image
                             + "\nnecessary = " + after_necessary
@@ -191,7 +191,7 @@ public class NoPlantinformationActivity extends AppCompatActivity {
                 }
                 else if (response.code() == 403) {
                     //String message = response.body().getMessage();
-                    Log.v("NoPlantinforationActivity", "error code = 403");
+                    Log.v("NoPlantinformationActivity", "error code = 403");
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(NoPlantinformationActivity.this);
                     builder.setTitle("정보가 이미 요청된 식물입니다.");

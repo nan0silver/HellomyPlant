@@ -376,8 +376,8 @@ public class SaveInformationActivity extends AppCompatActivity {
                 }
                 else {
                     response.body();
-                    String message = response.body().getMessage();
-                    System.out.println(message);
+                    //String message = response.body().getMessage();
+                    //System.out.println(message);
                     Log.v("SaveInformationActivity", "error = " + String.valueOf(response.code()));
                     Toast.makeText(SaveInformationActivity.this, "식물 정보 저장에 실패했습니다.", Toast.LENGTH_SHORT).show();
                 }

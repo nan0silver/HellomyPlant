@@ -74,6 +74,7 @@
                 android:id="@+id/searching_plant_name_copy_Button"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:backgroundTint="@color/white"
                 android:layout_gravity="end"
                 android:src="@drawable/copy"
                 android:adjustViewBounds="true"
