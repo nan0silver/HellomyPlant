@@ -195,14 +195,8 @@ public class NoPlantinformationActivity extends AppCompatActivity {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(NoPlantinformationActivity.this);
                     builder.setTitle("정보가 이미 요청된 식물입니다.");
-                    builder.setMessage("정보가 완성되었을 때 원하실 경우 버튼을 눌러주시면 이메일로 알려드리겠습니다.");
-                    builder.setPositiveButton("원합니다", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(NoPlantinformationActivity.this, "이메일 원함", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    builder.setNegativeButton("원하지 않습니다", null);
+                    builder.setMessage("이 식물에 대해 아시는 정보가 있다면 식물 정보 게시판에서 정보를 입력해주시면 다른 사용자들과 정보를 공유할 수 있습니다.");
+                    builder.setPositiveButton("확인", null);
                     builder.create().show();
                 }
                 else {

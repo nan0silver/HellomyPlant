@@ -397,7 +397,7 @@ public class searchPlant extends BottomNavigationActivity {
                     byte[] byteArray_result = ImageViewToByteArray();
                     intent_goto_plantinformation_page.putExtra("image_bitmap", byteArray_result);
 
-                    Toast.makeText(searchPlant.this, "식물 정보 요청에 성공했습니다.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(searchPlant.this, "식물 정보 요청에 성공했습니다.", Toast.LENGTH_SHORT).show();
 
                     startActivity(intent_goto_plantinformation_page);
 

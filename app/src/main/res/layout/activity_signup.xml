@@ -83,6 +83,7 @@
 
         <EditText
             android:id="@+id/signup_passwd_EditText"
+            android:inputType="textPassword"
             android:layout_width="200dp"
             android:layout_height="wrap_content"/>
 
@@ -106,6 +107,7 @@
 
         <EditText
             android:id="@+id/signup_passwd_confirm_EditText"
+            android:inputType="textPassword"
             android:layout_width="200dp"
             android:layout_height="wrap_content"/>
 

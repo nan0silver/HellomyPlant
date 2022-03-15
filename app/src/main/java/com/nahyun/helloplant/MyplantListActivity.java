@@ -226,6 +226,10 @@ public class MyplantListActivity extends BottomNavigationActivity implements Tim
                     Log.v("MyplantListActivity", "code = " + String.valueOf(response.code()));
 
                     myplantListAdapter.updateMyplantListItems(mp_arrayList);
+
+                    if (mp_arrayList.isEmpty()) {
+                        Toast.makeText(MyplantListActivity.this, "내 식물이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
+                    }
                     System.out.println("update " + mp_arrayList);
                 }
                 else {
