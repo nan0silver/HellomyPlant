@@ -353,7 +353,7 @@ public class SaveInformationActivity extends AppCompatActivity {
                     response.body();
                     String message = response.body().getMessage();
                     System.out.println(message);
-                    Toast.makeText(SaveInformationActivity.this, "식물 정보를 저장했습니다.", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(SaveInformationActivity.this, "식물 정보를 저장했습니다.", Toast.LENGTH_SHORT).show();
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(SaveInformationActivity.this);
                     builder.setTitle("식물 정보를 저장했습니다.");

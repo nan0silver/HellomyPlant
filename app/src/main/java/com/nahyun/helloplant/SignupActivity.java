@@ -123,8 +123,10 @@ public class SignupActivity extends AppCompatActivity {
                     String get_response = response.toString();
                     JSONObject json_response = new JSONObject(get_response);
 
-                    message = (String) json_response.get("message");
-                    message += "\n 로그인화면으로 이동해 로그인을 해주세요.";
+                    /*message = (String) json_response.get("message");
+                    message += "\n 로그인화면으로 이동해 로그인을 해주세요.";*/
+
+                    message = "회원가입이 완료되었습니다. \n로그인 화면으로 이동해 로그인해주세요.";
                     Handler handler = new Handler(Looper.getMainLooper());
                     handler.postDelayed(new Runnable() {
                         @Override

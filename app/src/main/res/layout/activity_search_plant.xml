@@ -113,7 +113,7 @@
             android:clickable="false"
             android:textSize="14dp"
             android:textColor="@color/black"
-            android:text="검색하기"/>
+            android:text="검색 시작"/>
     </FrameLayout>
 
     <include
