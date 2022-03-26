@@ -246,49 +246,6 @@ public class MyplantListActivity extends BottomNavigationActivity implements Tim
             }
         });
 
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    List<Plant> plantList = call_get.execute().body().getPlants();
-
-                    int list_count = plantList.size();
-                    System.out.println("myplantlist count of plant = " +list_count);
-
-                    for (Plant plant: plantList ) {
-                        MyplantListData mld1 = null;
-                        String after_id = plant.getMyPlant().getId();
-                        String after_image = plant.getMyPlant().getImage();
-                        String after_name = plant.getMyPlant().getNickname();
-                        String after_water_cycle = plant.getMyPlant().getWaterCycle();
-                        String after_fertilizer_cycle = plant.getMyPlant().getFertilizerCycle();
-
-                        Bitmap after_image_bitmap = null;
-                        try {
-                        byte[] byte_array_image = Base64.decode(after_image, Base64.DEFAULT);
-                        after_image_bitmap = BitmapFactory.decodeByteArray(byte_array_image, 0, byte_array_image.length);}
-                        catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        mld1 = new MyplantListData(after_image_bitmap, after_name, after_water_cycle, after_fertilizer_cycle, after_id);
-
-                        add_arraylist(mld1);
-
-                        System.out.println("goooood!!! \nafter_id = " + after_id + " after_image = " + after_image + " after_name = " + after_name
-                                + " after_water_cycle = " + after_water_cycle + " after_fertilizer_cycle = " + after_fertilizer_cycle);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-
         System.out.println("mp_arrayList second : " + mp_arrayList.size());
 
 

@@ -44,10 +44,6 @@
         <activity
             android:name=".AddMyplantActivity"
             android:taskAffinity="com.task.home" />
-        <activity android:name=".LoadingPageActivity" />
-        <activity
-            android:name=".SearhedNameActivity"
-            android:taskAffinity="com.task.home" />
         <activity
             android:name=".PlantInformationActivity"
             android:taskAffinity="com.task.home" />
