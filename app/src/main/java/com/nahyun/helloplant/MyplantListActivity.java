@@ -12,12 +12,15 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -62,6 +65,8 @@ public class MyplantListActivity extends BottomNavigationActivity implements Tim
     private GregorianCalendar gregorianCalendar;
     private NotificationManager notificationManager;
     NotificationCompat.Builder notification_builder;
+    private PackageManager packageManager;
+    private ComponentName componentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -253,6 +258,9 @@ public class MyplantListActivity extends BottomNavigationActivity implements Tim
         notificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         gregorianCalendar = new GregorianCalendar();
+        packageManager = this.getPackageManager();
+        componentName = new ComponentName(this, DeviceBootReceiver.class);
+
         Log.v("MyplantListActivity", gregorianCalendar.getTime().toString());
 
         findViewById(R.id.myplant_alarm_setting_Button).setOnClickListener(new View.OnClickListener() {
@@ -290,6 +298,11 @@ public class MyplantListActivity extends BottomNavigationActivity implements Tim
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("daily alarm", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong("nextNotifyTime", (long)calendar.getTimeInMillis());
+        editor.apply();
+
         setAlarm(calendar);
     }
 
@@ -303,7 +316,16 @@ public class MyplantListActivity extends BottomNavigationActivity implements Tim
             setting_calendar.add(Calendar.DATE, 1);
         }
 
-        alarmManager.set(AlarmManager.RTC, setting_calendar.getTimeInMillis(), pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, setting_calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY, pendingIntent);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, setting_calendar.getTimeInMillis(), pendingIntent);
+        }
+
+        try {
+            packageManager.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         Toast.makeText(MyplantListActivity.this, "알람 설정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
     }
 }

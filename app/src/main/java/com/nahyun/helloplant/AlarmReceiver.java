@@ -8,11 +8,17 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -55,6 +61,21 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         builder.setContentIntent(pendingIntent);
 
+
+        if (manager != null) {
+            manager.notify(1, builder.build());
+            Calendar nextNotifyTime = Calendar.getInstance();
+            nextNotifyTime.add(Calendar.DATE, 1);
+
+            SharedPreferences.Editor editor = context.getSharedPreferences("daily alarm", Context.MODE_PRIVATE).edit();
+            editor.putLong("nextNotifyTime", nextNotifyTime.getTimeInMillis());
+            editor.apply();
+
+            Date currentAlarmTime = nextNotifyTime.getTime();
+            String date_string = new SimpleDateFormat("yyyy년 MM월 dd일 EE요일 a hh시 mm분", Locale.getDefault()).format(currentAlarmTime);
+            Toast.makeText(context.getApplicationContext(), "다음 알림은 " + date_string + " 입니다.", Toast.LENGTH_SHORT).show();
+
+        }
         Notification notification = builder.build();
         manager.notify(1,notification);
 
