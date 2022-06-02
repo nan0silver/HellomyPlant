@@ -56,7 +56,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    public String login_url = "http://18.116.203.236:1234/user/login";
+    public String login_url = "http://3.12.148.142/user/login";
 
     public EditText login_email, login_passwd;
     public Button login_Button, signup_Button;

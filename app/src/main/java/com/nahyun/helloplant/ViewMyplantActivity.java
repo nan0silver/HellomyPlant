@@ -195,7 +195,7 @@ public class ViewMyplantActivity extends BottomNavigationActivity {
 
         retrofit2.Retrofit retrofit = new retrofit2.Retrofit.Builder()
                 .client(client)
-                .baseUrl("http://18.116.203.236:1234/")
+                .baseUrl("http://3.12.148.142/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

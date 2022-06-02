@@ -87,7 +87,7 @@ public class SignupActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
             try {
-                URL signup_url = new URL("http://18.116.203.236:1234/user/signup");
+                URL signup_url = new URL("http://3.12.148.142/user/signup");
 
                 HttpURLConnection conn = (HttpURLConnection) signup_url.openConnection();
 
